@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { motion } from 'motion/react'
+import { ChevronDown, Copy, Palette, Plug, Puzzle, ScrollText } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { TYPE_LABEL } from '../lib/catalog'
 import type { InstallStep, Item, ItemStatus, ItemType } from '../lib/catalog'
@@ -59,41 +61,11 @@ export async function copy(text: string, what = 'Copied') {
 
 // ---- small pieces -----------------------------------------------------------------
 
+const TYPE_ICON = { theme: Palette, skill: ScrollText, connector: Plug, plugin: Puzzle } as const
+
 export function TypeIcon({ type, size = 16 }: { type: ItemType; size?: number }) {
-  const common = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true }
-  switch (type) {
-    case 'theme':
-      return (
-        <svg {...common}>
-          <circle cx="12" cy="12" r="9" />
-          <circle cx="8.5" cy="10" r="1.3" fill="currentColor" />
-          <circle cx="12" cy="7.5" r="1.3" fill="currentColor" />
-          <circle cx="15.5" cy="10" r="1.3" fill="currentColor" />
-          <path d="M12 21c-1.5 0-2-1-2-2s1-1.5 1-3-1.5-2-3-2" />
-        </svg>
-      )
-    case 'skill':
-      return (
-        <svg {...common}>
-          <path d="M5 4h10l4 4v12H5z" />
-          <path d="M9 12h6M9 16h4" />
-        </svg>
-      )
-    case 'connector':
-      return (
-        <svg {...common}>
-          <path d="M8 3v4M16 3v4" />
-          <path d="M6 7h12v3a6 6 0 0 1-12 0z" />
-          <path d="M12 16v5" />
-        </svg>
-      )
-    case 'plugin':
-      return (
-        <svg {...common}>
-          <path d="M4 8h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4H4z" />
-        </svg>
-      )
-  }
+  const Icon = TYPE_ICON[type]
+  return <Icon size={size} strokeWidth={1.8} aria-hidden />
 }
 
 export function TypePill({ type }: { type: ItemType }) {
@@ -176,7 +148,7 @@ export function InstallButton({ item, compact }: { item: Item; compact?: boolean
     <div className="install" ref={ref} onClick={e => e.stopPropagation()}>
       <button className={`btn ${placeholder ? 'btn-ghost' : 'btn-primary'} ${compact ? 'btn-sm' : ''}`} onClick={onClick} aria-expanded={open}>
         {placeholder ? 'Preview install' : single ? 'Install' : `Install · ${item.install.length} steps`}
-        {!single || placeholder ? <span aria-hidden> ▾</span> : <CopyGlyph />}
+        {!single || placeholder ? <ChevronDown size={14} strokeWidth={2} aria-hidden /> : <CopyGlyph />}
       </button>
       {open && (
         <div className={`popover ${place.left ? 'pop-left' : ''} ${place.below ? 'pop-below' : ''}`} role="dialog" aria-label={`Install ${item.name}`}>
@@ -191,12 +163,7 @@ export function InstallButton({ item, compact }: { item: Item; compact?: boolean
 }
 
 function CopyGlyph() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden style={{ marginLeft: 6 }}>
-      <rect x="9" y="9" width="11" height="11" rx="2" />
-      <path d="M5 15V5a2 2 0 0 1 2-2h8" />
-    </svg>
-  )
+  return <Copy size={13} strokeWidth={2} aria-hidden style={{ marginLeft: 6 }} />
 }
 
 export function Modal({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {
@@ -215,12 +182,15 @@ export function Modal({ title, children, onClose }: { title: string; children: R
   )
 }
 
+// A pill slides between options (motion's shared layout), as in Aceternity's tabs.
 export function Segmented<T extends string>({ value, options, onChange, label }: { value: T; options: { value: T; label: ReactNode }[]; onChange: (v: T) => void; label: string }) {
+  const id = useId()
   return (
     <div className="segmented" role="tablist" aria-label={label}>
       {options.map(o => (
         <button key={o.value} role="tab" aria-selected={o.value === value} className={o.value === value ? 'on' : ''} onClick={() => onChange(o.value)}>
-          {o.label}
+          {o.value === value && <motion.span layoutId={`seg-${id}`} className="seg-pill" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />}
+          <span className="inline-flex items-center gap-1.5">{o.label}</span>
         </button>
       ))}
     </div>

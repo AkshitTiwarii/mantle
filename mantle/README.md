@@ -63,11 +63,24 @@ You can also load `chrome-extension/` from this repository directly. The popup t
 | `/mantle` | Opens the studio pane: presets, per-surface tabs, **Apply everywhere** |
 | `/mantle apply` | Applies the current settings to every surface that is switched on |
 | `/mantle <preset>` | Switches the preset and applies it, e.g. `/mantle synthwave` |
+| `/mantle wallpaper <url \| file \| off>` | Downloads an image and puts it behind your terminal and claude.ai (`off` removes it) |
 | `/mantle live off` | Stops the live reactions (`live on` turns them back on) |
 
 The first time you apply, Claude Code switches its theme to **Mantle (live)**. If it can't switch automatically, pick that theme in `/theme`. The ten presets also appear in `/theme` as standalone themes.
 
 In Windows Terminal, open **Claude · Mantle** from the new-tab menu. Open a new window if it doesn't show up yet.
+
+## Mantle Atlas (knowledge base skill)
+
+Installing Mantle also installs **Mantle Atlas**, a skill that knows the Claude ecosystem: every skill on skills.sh, every connector in the official MCP Registry, the official plugin marketplaces, every Claude Code feature and every way to customize how Claude looks. Ask Claude things like "is there a skill for PDF forms?", "connect Claude to Jira", or "how do I make Claude run tests after every edit?" and it answers with what fits, when to use it, and the exact install command.
+
+Other agents (Cursor, Codex, Copilot...) can install Atlas on its own:
+
+```bash
+npx skills add AkshitTiwarii/mantle --skill mantle-atlas
+```
+
+Refresh its index from the live sources any time: `node skills/mantle-atlas/scripts/refresh.mjs`.
 
 ## How it works
 

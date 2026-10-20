@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "web/src/styles.css"
+        ],
+        "createdAt": "2026-10-20T21:04:30.465Z",
+        "reason": "Claude: .term-state.shimmer reproduces Claude Code's real spinner shimmer inside the theme preview mock; it is product fidelity, not decoration"
+      }
+    ]
+  }
+}

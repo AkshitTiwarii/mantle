@@ -249,6 +249,10 @@ export function webVars(p, { accent } = {}) {
     '--cds-role-accent-fill-hover': lighten(a, 0.12),
     '--cds-bg-accent': mix(a, p.bg, 0.8),
     '--cds-on-accent': p.mode === 'dark' ? p.bg : '#ffffff',
+    // Spelled out so they never resolve through the neutrals a wallpaper clears.
+    '--cds-fill-primary': p.text,
+    '--cds-fill-primary-hover': mix(p.text, p.muted, 0.25),
+    '--cds-on-primary': p.bg,
     '--bg-000': hslTriplet(p.surfaceAlt),
     '--bg-100': hslTriplet(p.bg),
     '--bg-200': hslTriplet(p.surface),
@@ -269,5 +273,35 @@ export function webVars(p, { accent } = {}) {
     '--brand-100': hslTriplet(a),
     '--brand-200': hslTriplet(a),
   }
+  for (const [step, color] of neutralRamp(p)) vars[`--cds-neutral-${step}`] = color
+  ALPHA_STEPS.forEach((pct, i) => { vars[`--cds-alpha-${i}`] = `hsl(from ${p.text} h s l / ${pct}%)` })
+  vars['--cds-fill-ghost-hover'] = `hsl(from ${p.text} h s l / 7.5%)`
+  vars['--cds-fill-ghost-selected'] = `hsl(from ${p.text} h s l / 15%)`
   return vars
+}
+
+const ALPHA_STEPS = [0, 5, 10, 20, 35, 50, 60, 70, 85, 95]
+
+// claude.ai's --cds-neutral-<step> scale runs from the page's deepest shade
+// (0) to its brightest (900); steps 0..100 hold the surfaces.
+export const NEUTRAL_STEPS = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450,
+  500, 550, 600, 650, 700, 750, 800, 810, 820, 830, 840, 850, 860, 870, 880, 890, 900]
+
+export function neutralRamp(p) {
+  const anchors = [
+    [0, darken(p.bg, 0.3)],
+    [50, p.bg],
+    [100, p.surfaceAlt],
+    [300, mix(p.border, p.muted, 0.5)],
+    [500, p.muted],
+    [850, p.text],
+    [900, p.mode === 'dark' ? '#ffffff' : '#000000'],
+  ]
+  return NEUTRAL_STEPS.map(step => {
+    const hi = anchors.findIndex(([at]) => at >= step)
+    const [at1, c1] = anchors[hi]
+    if (at1 === step || hi === 0) return [step, c1]
+    const [at0, c0] = anchors[hi - 1]
+    return [step, mix(c0, c1, (step - at0) / (at1 - at0))]
+  })
 }

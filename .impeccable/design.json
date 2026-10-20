@@ -1,0 +1,716 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-21T00:00:00.000Z",
+  "title": "Design System: Mantle",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Cream Paper",
+        "canonical": "#fffaf0",
+        "oklch": "oklch(98.6% 0.014 84.6)",
+        "tonalRamp": [
+          "oklch(15% 0.014 84.6)",
+          "oklch(26.4% 0.014 84.6)",
+          "oklch(37.9% 0.014 84.6)",
+          "oklch(49.3% 0.014 84.6)",
+          "oklch(60.7% 0.014 84.6)",
+          "oklch(72.1% 0.014 84.6)",
+          "oklch(83.6% 0.014 84.6)",
+          "oklch(95% 0.014 84.6)"
+        ]
+      },
+      "bg-2": {
+        "role": "neutral",
+        "displayName": "Deep Paper",
+        "canonical": "#f8f4ea",
+        "oklch": "oklch(96.8% 0.014 88.7)",
+        "tonalRamp": [
+          "oklch(15% 0.014 88.7)",
+          "oklch(26.4% 0.014 88.7)",
+          "oklch(37.9% 0.014 88.7)",
+          "oklch(49.3% 0.014 88.7)",
+          "oklch(60.7% 0.014 88.7)",
+          "oklch(72.1% 0.014 88.7)",
+          "oklch(83.6% 0.014 88.7)",
+          "oklch(95% 0.014 88.7)"
+        ]
+      },
+      "gutter": {
+        "role": "neutral",
+        "displayName": "Striped Gutter",
+        "canonical": "#fbf8f1",
+        "oklch": "oklch(98% 0.01 87.5)",
+        "tonalRamp": [
+          "oklch(15% 0.01 87.5)",
+          "oklch(26.4% 0.01 87.5)",
+          "oklch(37.9% 0.01 87.5)",
+          "oklch(49.3% 0.01 87.5)",
+          "oklch(60.7% 0.01 87.5)",
+          "oklch(72.1% 0.01 87.5)",
+          "oklch(83.6% 0.01 87.5)",
+          "oklch(95% 0.01 87.5)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100% 0 89.9)",
+        "tonalRamp": [
+          "oklch(15% 0 89.9)",
+          "oklch(26.4% 0 89.9)",
+          "oklch(37.9% 0 89.9)",
+          "oklch(49.3% 0 89.9)",
+          "oklch(60.7% 0 89.9)",
+          "oklch(72.1% 0 89.9)",
+          "oklch(83.6% 0 89.9)",
+          "oklch(95% 0 89.9)"
+        ]
+      },
+      "panel-2": {
+        "role": "neutral",
+        "displayName": "Warm White",
+        "canonical": "#fdfbf6",
+        "oklch": "oklch(98.8% 0.007 88.6)",
+        "tonalRamp": [
+          "oklch(15% 0.007 88.6)",
+          "oklch(26.4% 0.007 88.6)",
+          "oklch(37.9% 0.007 88.6)",
+          "oklch(49.3% 0.007 88.6)",
+          "oklch(60.7% 0.007 88.6)",
+          "oklch(72.1% 0.007 88.6)",
+          "oklch(83.6% 0.007 88.6)",
+          "oklch(95% 0.007 88.6)"
+        ]
+      },
+      "panel-3": {
+        "role": "neutral",
+        "displayName": "Sunken Paper",
+        "canonical": "#f4f1ea",
+        "oklch": "oklch(95.9% 0.01 87.5)",
+        "tonalRamp": [
+          "oklch(15% 0.01 87.5)",
+          "oklch(26.4% 0.01 87.5)",
+          "oklch(37.9% 0.01 87.5)",
+          "oklch(49.3% 0.01 87.5)",
+          "oklch(60.7% 0.01 87.5)",
+          "oklch(72.1% 0.01 87.5)",
+          "oklch(83.6% 0.01 87.5)",
+          "oklch(95% 0.01 87.5)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#ebe6db",
+        "oklch": "oklch(92.6% 0.016 86.4)",
+        "tonalRamp": [
+          "oklch(15% 0.016 86.4)",
+          "oklch(26.4% 0.016 86.4)",
+          "oklch(37.9% 0.016 86.4)",
+          "oklch(49.3% 0.016 86.4)",
+          "oklch(60.7% 0.016 86.4)",
+          "oklch(72.1% 0.016 86.4)",
+          "oklch(83.6% 0.016 86.4)",
+          "oklch(95% 0.016 86.4)"
+        ]
+      },
+      "line-2": {
+        "role": "neutral",
+        "displayName": "Firm Hairline",
+        "canonical": "#dcd6c9",
+        "oklch": "oklch(87.7% 0.019 86.2)",
+        "tonalRamp": [
+          "oklch(15% 0.019 86.2)",
+          "oklch(26.4% 0.019 86.2)",
+          "oklch(37.9% 0.019 86.2)",
+          "oklch(49.3% 0.019 86.2)",
+          "oklch(60.7% 0.019 86.2)",
+          "oklch(72.1% 0.019 86.2)",
+          "oklch(83.6% 0.019 86.2)",
+          "oklch(95% 0.019 86.2)"
+        ]
+      },
+      "frame": {
+        "role": "neutral",
+        "displayName": "Frame Rule",
+        "canonical": "#d6d1c6",
+        "oklch": "oklch(86.2% 0.016 86.4)",
+        "tonalRamp": [
+          "oklch(15% 0.016 86.4)",
+          "oklch(26.4% 0.016 86.4)",
+          "oklch(37.9% 0.016 86.4)",
+          "oklch(49.3% 0.016 86.4)",
+          "oklch(60.7% 0.016 86.4)",
+          "oklch(72.1% 0.016 86.4)",
+          "oklch(83.6% 0.016 86.4)",
+          "oklch(95% 0.016 86.4)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0a0a0a",
+        "oklch": "oklch(14.5% 0 89.9)",
+        "tonalRamp": [
+          "oklch(15% 0 89.9)",
+          "oklch(26.4% 0 89.9)",
+          "oklch(37.9% 0 89.9)",
+          "oklch(49.3% 0 89.9)",
+          "oklch(60.7% 0 89.9)",
+          "oklch(72.1% 0 89.9)",
+          "oklch(83.6% 0 89.9)",
+          "oklch(95% 0 89.9)"
+        ]
+      },
+      "text-2": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "#3a3a3a",
+        "oklch": "oklch(34.8% 0 89.9)",
+        "tonalRamp": [
+          "oklch(15% 0 89.9)",
+          "oklch(26.4% 0 89.9)",
+          "oklch(37.9% 0 89.9)",
+          "oklch(49.3% 0 89.9)",
+          "oklch(60.7% 0 89.9)",
+          "oklch(72.1% 0 89.9)",
+          "oklch(83.6% 0 89.9)",
+          "oklch(95% 0 89.9)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Stone",
+        "canonical": "#625d53",
+        "oklch": "oklch(48% 0.017 84.6)",
+        "tonalRamp": [
+          "oklch(15% 0.017 84.6)",
+          "oklch(26.4% 0.017 84.6)",
+          "oklch(37.9% 0.017 84.6)",
+          "oklch(49.3% 0.017 84.6)",
+          "oklch(60.7% 0.017 84.6)",
+          "oklch(72.1% 0.017 84.6)",
+          "oklch(83.6% 0.017 84.6)",
+          "oklch(95% 0.017 84.6)"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Pencil",
+        "canonical": "#78726a",
+        "oklch": "oklch(55.5% 0.014 75.3)",
+        "tonalRamp": [
+          "oklch(15% 0.014 75.3)",
+          "oklch(26.4% 0.014 75.3)",
+          "oklch(37.9% 0.014 75.3)",
+          "oklch(49.3% 0.014 75.3)",
+          "oklch(60.7% 0.014 75.3)",
+          "oklch(72.1% 0.014 75.3)",
+          "oklch(83.6% 0.014 75.3)",
+          "oklch(95% 0.014 75.3)"
+        ]
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "Signal Emerald",
+        "canonical": "#10b981",
+        "oklch": "oklch(69.6% 0.149 162.5)",
+        "tonalRamp": [
+          "oklch(15% 0.095 162.5)",
+          "oklch(26.4% 0.116 162.5)",
+          "oklch(37.9% 0.137 162.5)",
+          "oklch(49.3% 0.149 162.5)",
+          "oklch(60.7% 0.149 162.5)",
+          "oklch(72.1% 0.137 162.5)",
+          "oklch(83.6% 0.116 162.5)",
+          "oklch(95% 0.095 162.5)"
+        ]
+      },
+      "green-600": {
+        "role": "primary",
+        "displayName": "Emerald Shade",
+        "canonical": "#059669",
+        "oklch": "oklch(59.6% 0.127 163.2)",
+        "tonalRamp": [
+          "oklch(15% 0.084 163.2)",
+          "oklch(26.4% 0.102 163.2)",
+          "oklch(37.9% 0.12 163.2)",
+          "oklch(49.3% 0.127 163.2)",
+          "oklch(60.7% 0.127 163.2)",
+          "oklch(72.1% 0.12 163.2)",
+          "oklch(83.6% 0.102 163.2)",
+          "oklch(95% 0.084 163.2)"
+        ]
+      },
+      "green-700": {
+        "role": "primary",
+        "displayName": "Drafting Green",
+        "canonical": "#15803d",
+        "oklch": "oklch(52.7% 0.137 150.1)",
+        "tonalRamp": [
+          "oklch(15% 0.089 150.1)",
+          "oklch(26.4% 0.108 150.1)",
+          "oklch(37.9% 0.128 150.1)",
+          "oklch(49.3% 0.137 150.1)",
+          "oklch(60.7% 0.137 150.1)",
+          "oklch(72.1% 0.128 150.1)",
+          "oklch(83.6% 0.108 150.1)",
+          "oklch(95% 0.089 150.1)"
+        ]
+      },
+      "green-900": {
+        "role": "primary",
+        "displayName": "Deep Forest",
+        "canonical": "#065f46",
+        "oklch": "oklch(43.2% 0.086 166.9)",
+        "tonalRamp": [
+          "oklch(15% 0.063 166.9)",
+          "oklch(26.4% 0.076 166.9)",
+          "oklch(37.9% 0.086 166.9)",
+          "oklch(49.3% 0.086 166.9)",
+          "oklch(60.7% 0.086 166.9)",
+          "oklch(72.1% 0.086 166.9)",
+          "oklch(83.6% 0.076 166.9)",
+          "oklch(95% 0.063 166.9)"
+        ]
+      },
+      "mint": {
+        "role": "primary",
+        "displayName": "Mint Wash",
+        "canonical": "#e8f3ef",
+        "oklch": "oklch(95.5% 0.013 172.4)",
+        "tonalRamp": [
+          "oklch(15% 0.013 172.4)",
+          "oklch(26.4% 0.013 172.4)",
+          "oklch(37.9% 0.013 172.4)",
+          "oklch(49.3% 0.013 172.4)",
+          "oklch(60.7% 0.013 172.4)",
+          "oklch(72.1% 0.013 172.4)",
+          "oklch(83.6% 0.013 172.4)",
+          "oklch(95% 0.013 172.4)"
+        ]
+      },
+      "mint-2": {
+        "role": "primary",
+        "displayName": "Mint Paper",
+        "canonical": "#f2f9f4",
+        "oklch": "oklch(97.6% 0.01 155.1)",
+        "tonalRamp": [
+          "oklch(15% 0.01 155.1)",
+          "oklch(26.4% 0.01 155.1)",
+          "oklch(37.9% 0.01 155.1)",
+          "oklch(49.3% 0.01 155.1)",
+          "oklch(60.7% 0.01 155.1)",
+          "oklch(72.1% 0.01 155.1)",
+          "oklch(83.6% 0.01 155.1)",
+          "oklch(95% 0.01 155.1)"
+        ]
+      },
+      "t-theme": {
+        "role": "secondary",
+        "displayName": "Plum Dusk",
+        "canonical": "#7d5f8b",
+        "oklch": "oklch(53.2% 0.076 314.7)",
+        "tonalRamp": [
+          "oklch(15% 0.058 314.7)",
+          "oklch(26.4% 0.069 314.7)",
+          "oklch(37.9% 0.076 314.7)",
+          "oklch(49.3% 0.076 314.7)",
+          "oklch(60.7% 0.076 314.7)",
+          "oklch(72.1% 0.076 314.7)",
+          "oklch(83.6% 0.069 314.7)",
+          "oklch(95% 0.058 314.7)"
+        ]
+      },
+      "t-skill": {
+        "role": "secondary",
+        "displayName": "Herbarium Teal",
+        "canonical": "#1f8a70",
+        "oklch": "oklch(56.9% 0.102 172)",
+        "tonalRamp": [
+          "oklch(15% 0.071 172)",
+          "oklch(26.4% 0.085 172)",
+          "oklch(37.9% 0.1 172)",
+          "oklch(49.3% 0.102 172)",
+          "oklch(60.7% 0.102 172)",
+          "oklch(72.1% 0.1 172)",
+          "oklch(83.6% 0.085 172)",
+          "oklch(95% 0.071 172)"
+        ]
+      },
+      "t-connector": {
+        "role": "secondary",
+        "displayName": "Blueprint Slate",
+        "canonical": "#3f6f95",
+        "oklch": "oklch(52.4% 0.08 244.1)",
+        "tonalRamp": [
+          "oklch(15% 0.06 244.1)",
+          "oklch(26.4% 0.071 244.1)",
+          "oklch(37.9% 0.08 244.1)",
+          "oklch(49.3% 0.08 244.1)",
+          "oklch(60.7% 0.08 244.1)",
+          "oklch(72.1% 0.08 244.1)",
+          "oklch(83.6% 0.071 244.1)",
+          "oklch(95% 0.06 244.1)"
+        ]
+      },
+      "t-plugin": {
+        "role": "secondary",
+        "displayName": "Brass Ochre",
+        "canonical": "#94691a",
+        "oklch": "oklch(55.2% 0.105 77.4)",
+        "tonalRamp": [
+          "oklch(15% 0.073 77.4)",
+          "oklch(26.4% 0.088 77.4)",
+          "oklch(37.9% 0.103 77.4)",
+          "oklch(49.3% 0.105 77.4)",
+          "oklch(60.7% 0.105 77.4)",
+          "oklch(72.1% 0.103 77.4)",
+          "oklch(83.6% 0.088 77.4)",
+          "oklch(95% 0.073 77.4)"
+        ]
+      },
+      "warn": {
+        "role": "status",
+        "displayName": "Ochre Warning",
+        "canonical": "#8a5d0c",
+        "oklch": "oklch(51.4% 0.105 74.7)",
+        "tonalRamp": [
+          "oklch(15% 0.072 74.7)",
+          "oklch(26.4% 0.087 74.7)",
+          "oklch(37.9% 0.102 74.7)",
+          "oklch(49.3% 0.105 74.7)",
+          "oklch(60.7% 0.105 74.7)",
+          "oklch(72.1% 0.102 74.7)",
+          "oklch(83.6% 0.087 74.7)",
+          "oklch(95% 0.072 74.7)"
+        ]
+      },
+      "err": {
+        "role": "status",
+        "displayName": "Brick Error",
+        "canonical": "#a8452f",
+        "oklch": "oklch(51.9% 0.136 34)",
+        "tonalRamp": [
+          "oklch(15% 0.088 34)",
+          "oklch(26.4% 0.107 34)",
+          "oklch(37.9% 0.127 34)",
+          "oklch(49.3% 0.136 34)",
+          "oklch(60.7% 0.136 34)",
+          "oklch(72.1% 0.127 34)",
+          "oklch(83.6% 0.107 34)",
+          "oklch(95% 0.088 34)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline (max 15ch, centered), closing CTA and page heads. Instrument Serif 400 with one italic green-700 phrase."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section heads (max 16ch); centered heads run to clamp(36px, 5vw, 64px)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Theme card names, bento titles, make-your-own card, empty state line. Serif 400, 25-28px."
+      },
+      "title-sans": {
+        "displayName": "Title Sans",
+        "purpose": "Item card names and label-like h3s; also the button label weight (Inter 600)."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Under display and page headlines, max 58ch, Graphite."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default reading text, 15px/1.6; paragraphs cap at 46-52ch."
+      },
+      "command": {
+        "displayName": "Command",
+        "purpose": "Install lines, copy fields, code blocks. Mono is reserved for data."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase mono status badges and the dark/light mode tag."
+      }
+    },
+    "shadows": [
+      {
+        "name": "lift",
+        "value": "0 10px 35px -10px rgba(28, 27, 24, 0.12), 0 1px 2px rgba(28, 27, 24, 0.05)",
+        "purpose": "Hover state for cards, bento cells and marquee cards (--shadow)."
+      },
+      {
+        "name": "float",
+        "value": "0 30px 80px -20px rgba(28, 27, 24, 0.18), 0 0 0 1px rgba(28, 27, 24, 0.06)",
+        "purpose": "Objects above the sheet at rest: specimen plate, popover, modal (--shadow-lg)."
+      },
+      {
+        "name": "ink-bevel",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 1px 2px rgba(0, 0, 0, 0.18)",
+        "purpose": "Primary button at rest."
+      },
+      {
+        "name": "seat",
+        "value": "0 1px 3px rgba(28, 27, 24, 0.12), 0 0 0 1px rgba(28, 27, 24, 0.05)",
+        "purpose": "The sliding segmented pill."
+      },
+      {
+        "name": "secondary-rest",
+        "value": "0 1px 2px rgba(28, 27, 24, 0.06)",
+        "purpose": "Cream secondary button at rest."
+      },
+      {
+        "name": "mock-window",
+        "value": "0 1.5em 3em -1.4em rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.18)",
+        "purpose": "Terminal/chat/Windows Terminal mocks inside specimen plates only."
+      },
+      {
+        "name": "navbar-pill",
+        "value": "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset",
+        "purpose": "Contracted navbar after 100px scroll, with backdrop-filter: blur(10px) on rgba(255,255,255,0.8)."
+      },
+      {
+        "name": "toast",
+        "value": "0 14px 30px -10px rgba(0, 0, 0, 0.45)",
+        "purpose": "Ink toast pill."
+      },
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 4px var(--mint)",
+        "purpose": "Search and field focus halo (3px on fields, 4px on search) with a green-700 border."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single long-tailed ease for every CSS transition (--ease)."
+      },
+      {
+        "name": "duration-control",
+        "value": "0.25s",
+        "purpose": "Buttons, palette chips, marquee card hover."
+      },
+      {
+        "name": "duration-surface",
+        "value": "0.3s",
+        "purpose": "Card and bento hover lift; toast/modal rise."
+      },
+      {
+        "name": "duration-stage",
+        "value": "0.6s",
+        "purpose": "Hero stage background crossfade between palettes."
+      },
+      {
+        "name": "segmented-spring",
+        "value": "spring(stiffness: 380, damping: 32)",
+        "purpose": "Shared-layout pill sliding between segmented options (motion layoutId)."
+      },
+      {
+        "name": "navbar-spring",
+        "value": "spring(stiffness: 200, damping: 50)",
+        "purpose": "Navbar contracting to a 40%-wide pill and dropping 20px after 100px of scroll."
+      },
+      {
+        "name": "plate-cycle",
+        "value": "1500ms",
+        "purpose": "Hero specimen plate steps through idle, thinking, working, plan, done, error; pauses on hover or manual pick."
+      },
+      {
+        "name": "marquee-slow",
+        "value": "80s linear infinite",
+        "purpose": "Catalog marquee rows, opposite directions, paused on hover, 12% edge mask."
+      },
+      {
+        "name": "moving-border",
+        "value": "3200ms",
+        "purpose": "Emerald glow travelling the closing CTA's border."
+      },
+      {
+        "name": "shimmer",
+        "value": "1.6s linear infinite",
+        "purpose": "Claude Code spinner shimmer inside terminal mocks (product fidelity)."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none; transition: none",
+        "purpose": "All motion stops under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "720px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1060px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink button for the main action; turns green on hover with white text kept at 4.5:1 or better.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Browse the gallery <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid transparent; border-radius: 10px; padding: 10px 17px; font: 600 14px/1.6 var(--sans); cursor: pointer; white-space: nowrap; transition: background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease); } .ds-btn:active { transform: translateY(1px); } .ds-btn:focus-visible { outline: 2px solid var(--green-700); outline-offset: 2px; } .ds-btn-primary { background: linear-gradient(180deg, #2a2a2a, #0a0a0a); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 1px 2px rgba(0,0,0,0.18); } .ds-btn-primary:hover { background: var(--green-700); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 20px -8px rgba(21,128,61,0.55); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Cream-gradient button paired beside the primary; hover inks the border and text green.",
+      "html": "<button class=\"ds-btn-secondary\">Make a theme</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 7px; border-radius: 10px; padding: 10px 17px; font: 600 14px/1.6 var(--sans); cursor: pointer; background: linear-gradient(180deg, #fff, #fbf9f6 55%, #f3f0ea); border: 1px solid #e2dfd7; color: var(--text); box-shadow: 0 1px 2px rgba(28,27,24,0.06); transition: border-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease); } .ds-btn-secondary:hover { border-color: var(--green-700); color: var(--green-900); } .ds-btn-secondary:active { transform: translateY(1px); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--green-700); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Hairline-bordered quiet action: Copy, Clear filters.",
+      "html": "<button class=\"ds-btn-ghost\">Copy</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; border-radius: 8px; padding: 6px 11px; font: 600 13px/1.6 var(--sans); cursor: pointer; background: transparent; border: 1px solid var(--line-2); color: var(--text-2); transition: background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease); } .ds-btn-ghost:hover { background: var(--panel); border-color: var(--frame); color: var(--text); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--green-700); outline-offset: 2px; }"
+    },
+    {
+      "name": "Install Line",
+      "kind": "custom",
+      "refersTo": "install-line",
+      "description": "Copyable mono install command pill under the hero CTAs.",
+      "html": "<button class=\"ds-install-line\"><span class=\"ds-prompt\">&gt;</span><code>/plugin install mantle --marketplace AkshitTiwarii/mantle</code><span class=\"ds-copy\">Copy</span></button>",
+      "css": ".ds-install-line { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; padding: 7px 8px 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,0.7); font: 12.5px/1.5 var(--mono); color: var(--text-2); cursor: pointer; } .ds-install-line code { font: inherit; white-space: nowrap; overflow-x: auto; scrollbar-width: none; } .ds-prompt { color: var(--green-700); } .ds-copy { font: 600 13px/1.6 var(--sans); padding: 6px 11px; border-radius: 8px; border: 1px solid var(--line-2); color: var(--text-2); transition: background 0.25s var(--ease), border-color 0.25s var(--ease); } .ds-install-line:hover .ds-copy { background: var(--panel); border-color: var(--frame); color: var(--text); } .ds-install-line:focus-visible { outline: 2px solid var(--green-700); outline-offset: 2px; }"
+    },
+    {
+      "name": "Segmented Filter",
+      "kind": "nav",
+      "refersTo": "segmented",
+      "description": "Pill track whose selected option is a white pill that slides between options (motion layoutId in the app).",
+      "html": "<div class=\"ds-seg\" role=\"tablist\"><button class=\"ds-on\" role=\"tab\" aria-selected=\"true\">All <span class=\"ds-count\">42</span></button><button role=\"tab\">Themes <span class=\"ds-count\">10</span></button><button role=\"tab\">Skills <span class=\"ds-count\">14</span></button></div>",
+      "css": ".ds-seg { display: inline-flex; gap: 2px; padding: 3px; background: var(--panel-3); border: 1px solid var(--line); border-radius: 999px; } .ds-seg button { border: 0; background: transparent; color: var(--muted); padding: 6px 13px; border-radius: 999px; font: 500 13.5px/1.6 var(--sans); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s var(--ease), background 0.2s var(--ease); } .ds-seg button:hover { color: var(--text); } .ds-seg button.ds-on { color: var(--text); background: var(--panel); box-shadow: 0 1px 3px rgba(28,27,24,0.12), 0 0 0 1px rgba(28,27,24,0.05); } .ds-seg button:focus-visible { outline: 2px solid var(--green-700); outline-offset: 2px; } .ds-count { font-size: 0.78em; font-weight: 600; color: var(--muted); background: rgba(28,27,24,0.06); padding: 1px 7px; border-radius: 99px; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "Pill search with leading icon; focus shifts the border green with a mint halo.",
+      "html": "<label class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input type=\"search\" placeholder=\"Search grill-me, github, synthwave…\"></label>",
+      "css": ".ds-search { display: flex; align-items: center; gap: 8px; min-width: min(340px, 100%); background: var(--panel); border: 1px solid var(--line-2); border-radius: 999px; padding: 0 14px; color: var(--muted); transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); } .ds-search:focus-within { border-color: var(--green-700); box-shadow: 0 0 0 4px var(--mint); } .ds-search input { border: 0; background: transparent; outline: 0; padding: 10px 0; width: 100%; font: 15px/1.6 var(--sans); color: var(--text); } .ds-search input::placeholder { color: var(--faint); }"
+    },
+    {
+      "name": "Item Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White catalog card on a hairline; lifts 3px with the Lift shadow on hover.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-head\"><span class=\"ds-icon\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 22v-5\"/><path d=\"M9 8V2\"/><path d=\"M15 8V2\"/><path d=\"M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z\"/></svg></span><div><h3>github</h3><span class=\"ds-author\">Connector · GitHub</span></div><span class=\"ds-badge\">Public repo</span></div><p>Read issues, pull requests and code from Claude.</p></article>",
+      "css": ".ds-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; max-width: 340px; transition: border-color 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease); } .ds-card:hover { border-color: var(--line-2); transform: translateY(-3px); box-shadow: 0 10px 35px -10px rgba(28,27,24,0.12), 0 1px 2px rgba(28,27,24,0.05); } .ds-card-head { display: flex; align-items: center; gap: 10px; } .ds-card h3 { margin: 0; font: 600 16.5px/1.25 var(--sans); letter-spacing: -0.01em; color: var(--text); } .ds-author { font-size: 12.5px; color: var(--muted); } .ds-icon { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; flex: none; color: var(--t-connector); background: color-mix(in srgb, currentColor 9%, var(--panel)); border: 1px solid color-mix(in srgb, currentColor 22%, transparent); } .ds-badge { margin-left: auto; font: 600 10.5px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 99px; background: var(--mint-2); border: 1px solid rgba(6,95,70,0.2); color: var(--green-900); } .ds-card p { margin: 0; font: 14px/1.6 var(--sans); color: var(--text-2); }"
+    },
+    {
+      "name": "Specimen Plate",
+      "kind": "custom",
+      "refersTo": "specimen-plate",
+      "description": "Signature: a dark theme specimen in a white mat, with palette chips and live-state pills in the caption.",
+      "html": "<figure class=\"ds-plate\"><div class=\"ds-stage\"><div class=\"ds-mock\"><span class=\"ds-dots\"><i></i><i></i><i></i></span><code>✻ Thinking…</code></div></div><figcaption class=\"ds-caption\"><span class=\"ds-chips\"><button class=\"ds-chip ds-on\" aria-label=\"Aurora\" style=\"background: linear-gradient(135deg, #0b1220 0 45%, #5eead4 45% 72%, #a78bfa 72%)\"></button><button class=\"ds-chip\" aria-label=\"Ember\" style=\"background: linear-gradient(135deg, #1a1614 0 45%, #d97757 45% 72%, #e8a87c 72%)\"></button><span class=\"ds-name\">Aurora <em>· thinking</em></span></span><span class=\"ds-states\"><button>idle</button><button class=\"ds-on\">thinking</button><button>done</button></span></figcaption></figure>",
+      "css": ".ds-plate { margin: 0; padding: 12px; border-radius: 24px; background: var(--panel); box-shadow: 0 30px 80px -20px rgba(28,27,24,0.18), 0 0 0 1px rgba(28,27,24,0.06); max-width: 560px; } .ds-stage { aspect-ratio: 16 / 8.6; border-radius: 16px; overflow: hidden; background: radial-gradient(120% 120% at 0% 0%, #18233a, #0b1220 60%); display: grid; place-items: center; transition: background 0.6s var(--ease); } .ds-mock { width: 70%; border: 1px solid #24324d; border-radius: 0.75em; background: #121b2e; color: #5eead4; font: 12px/1.55 var(--mono); padding: 0.6em 1em 1em; box-shadow: 0 1.5em 3em -1.4em rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.18); } .ds-dots { display: flex; gap: 0.4em; margin-bottom: 0.6em; } .ds-dots i { width: 0.72em; height: 0.72em; border-radius: 50%; background: #24324d; } .ds-caption { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 14px 8px 4px; } .ds-chips { display: flex; align-items: center; gap: 7px; } .ds-chip { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--panel); box-shadow: 0 0 0 1px var(--line-2); padding: 0; cursor: pointer; transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease); } .ds-chip:hover, .ds-chip.ds-on { transform: scale(1.12); } .ds-chip.ds-on { box-shadow: 0 0 0 1.5px var(--text); } .ds-name { font: 22px/1.2 var(--serif); margin-left: 6px; color: var(--text); } .ds-name em { color: var(--muted); } .ds-states { display: flex; gap: 4px; } .ds-states button { border: 1px solid var(--line); background: var(--panel-2); color: var(--muted); font: 11.5px/1.5 var(--mono); padding: 4px 11px; border-radius: 99px; cursor: pointer; transition: color 0.2s var(--ease), border-color 0.2s var(--ease); } .ds-states button:hover { color: var(--text); } .ds-states button.ds-on { color: var(--text); border-color: var(--text); } .ds-plate button:focus-visible { outline: 2px solid var(--green-700); outline-offset: 2px; }"
+    },
+    {
+      "name": "Section Rule",
+      "kind": "custom",
+      "refersTo": "rule",
+      "description": "Full-bleed hairline between sections with green-900 crosshair marks where it meets the frame.",
+      "html": "<div class=\"ds-sheetdemo\"><div class=\"ds-paper\"><h2>Real tools, from <em>the people who make them.</em></h2></div><div class=\"ds-rule\"></div><div class=\"ds-paper\"><h2>One theme, <em>everywhere.</em></h2></div></div>",
+      "css": ".ds-sheetdemo { --fx: 40px; background-color: var(--gutter); background-image: repeating-linear-gradient(-45deg, rgba(0,0,0,0.045) 0 1px, transparent 1px 8px); padding: 0 var(--fx); } .ds-paper { background: var(--bg); border-inline: 1px solid var(--frame); padding: 32px 24px; } .ds-paper h2 { margin: 0; font: 400 32px/1.08 var(--serif); letter-spacing: 0.015em; color: var(--text); } .ds-paper h2 em { font-style: italic; color: var(--green-700); } .ds-rule { position: relative; height: 0; border-top: 1px solid var(--frame); margin-inline: calc(-1 * var(--fx)); } .ds-rule::before, .ds-rule::after { content: ''; position: absolute; top: -7px; width: 13px; height: 13px; background: linear-gradient(var(--green-900), var(--green-900)) center / 13px 1.5px no-repeat, linear-gradient(var(--green-900), var(--green-900)) center / 1.5px 13px no-repeat; } .ds-rule::before { left: calc(var(--fx) - 6px); } .ds-rule::after { right: calc(var(--fx) - 6px); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Architect's Catalogue Sheet",
+    "overview": "Mantle is drawn as one sheet of cream drafting paper pinned inside a ruled frame. The paper sits between two 1px side rules; outside them the gutter is a warm off-white scored with a -45° hairline stripe, so the page always reads as an object laid on a table rather than a full-bleed screen. Sections are not separated by colored bands but by full-bleed rules that cross paper and gutter alike, with small green crosshair marks where each rule meets the frame. The visual language is the user's ZeroCarbon site carried into a product gallery: Instrument Serif display with one italic green phrase, Inter for reading, JetBrains Mono only where something is a command, a value or a badge.\n\nThe paper is quiet on purpose. The only saturated color in the system belongs to the thing being sold: Mantle's themes, shown as dark specimen plates set in white mats, like prints in a catalogue. Chrome stays ink, cream and one green. This refuses the dark neon AI-tool default outright; the dark surfaces that do exist are specimens, the ink button and the toast, never page chrome.\n\nMotion is borrowed from the Aceternity / 21st.dev component vocabulary and kept purposeful: the hero plate steps through Claude's live states, the navbar contracts into a floating pill on scroll, catalog marquees drift slowly, and a white pill slides between segmented options. Everything settles on one long-tailed ease and stops entirely under reduced motion.",
+    "keyCharacteristics": [
+      "Cream paper inside a ruled frame on a hairline-striped gutter; light-only.",
+      "Full-bleed rules with green crosshair marks divide sections.",
+      "Serif display (weight 400) with an italic green-700 accent phrase; Inter body; mono for data only.",
+      "Ink-black primary buttons that turn green on hover; cream-gradient secondary buttons.",
+      "White cards on hairlines that lift on hover.",
+      "Theme previews are the only saturated color, presented as dark plates in white mats."
+    ],
+    "rules": [
+      {
+        "name": "The Specimen Rule",
+        "body": "Saturated color appears only inside a theme preview (terminal, chat and Windows Terminal mocks, palette chips, state swatches). App chrome uses ink, paper and green.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Green Rule",
+        "body": "Green-700 is the only accent that carries meaning in chrome. Brighter greens mark status and glow; they never sit under text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Type-Hue Rule",
+        "body": "The four `t-*` hues label catalog types only, always as tinted pills or icons, never as fills for buttons or sections.",
+        "section": "colors"
+      },
+      {
+        "name": "The Italic Accent Rule",
+        "body": "A serif headline may carry one italic phrase in green-700, at its end (\"in one place.\", \"yours.\"). Never more than one, never in body text.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono-Is-Data Rule",
+        "body": "JetBrains Mono is reserved for commands, values, live-state names and badges. Headings and prose are never mono.",
+        "section": "typography"
+      },
+      {
+        "name": "The Light Serif Rule",
+        "body": "Instrument Serif is set at 400 only; emphasis comes from italic and green, never weight.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ruled Sheet Rule",
+        "body": "Sections are divided by full-bleed rules with crosshair marks, never by alternating background bands.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-At-Rest Rule",
+        "body": "Paper surfaces have no shadow until hovered, focused or floating; hairlines do the structural work.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Mat Rule",
+        "body": "A theme preview is always inset in a white mat (8–12px) with its own smaller radius, never bled to a card edge.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** keep every page inside the ruled sheet: cream paper, 1px Frame Rule sides, hatched gutter outside.",
+      "**Do** separate sections with full-bleed rules carrying green-900 crosshair marks at the frame.",
+      "**Do** end a serif headline with at most one italic green-700 phrase.",
+      "**Do** show themes as dark specimens inset in a white mat (8–12px), with their palette chips and live-state pills beside them.",
+      "**Do** set commands, values, state names and badges in JetBrains Mono, and make every install command copyable in one click.",
+      "**Do** keep surfaces flat on hairlines at rest and lift them (Lift shadow, 3px rise) only on hover or focus.",
+      "**Do** keep text on green at 4.5:1 or better: white labels sit on green-700, not on the brighter emeralds.",
+      "**Do** honor `prefers-reduced-motion` by stopping all animation and transition."
+    ],
+    "donts": [
+      "**Don't** make page chrome dark or neon; dark belongs to specimen plates, the ink button and toasts only.",
+      "**Don't** put saturated color outside a theme preview, or use the `t-*` type hues for anything but type pills and icons.",
+      "**Don't** set headings or prose in mono, or the serif at any weight above 400.",
+      "**Don't** divide sections with alternating background bands; use the rule.",
+      "**Don't** add `dark:` variants; the sheet is light-only.",
+      "**Don't** add eyebrow labels or kickers above headlines."
+    ]
+  }
+}

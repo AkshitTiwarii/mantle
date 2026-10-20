@@ -6,7 +6,15 @@ import type { LiveState, Palette } from '../lib/palettes.js'
 // Mantle mod uses, so what you see here is what gets written. Sizes are in em:
 // set `fontSize` on the wrapper to scale a preview.
 
-type PreviewProps = { palette: Palette; state?: LiveState; style?: CSSProperties; className?: string }
+type PreviewProps = { palette: Palette; state?: LiveState; style?: CSSProperties; className?: string; wallpaper?: string | null }
+
+// A wallpaper sits under a wash of the theme's background, the way Windows
+// Terminal blends its background image at the opacity Mantle sets (about 30%).
+function washed(p: Palette, wallpaper: string | null | undefined, strength = 0.68): CSSProperties {
+  if (!wallpaper) return { background: p.bg }
+  const a = Math.round(strength * 255).toString(16).padStart(2, '0')
+  return { background: `linear-gradient(${p.bg}${a}, ${p.bg}${a}), url("${wallpaper}") center / cover no-repeat`, backgroundColor: p.bg }
+}
 
 const STATE_LINE: Record<LiveState, { glyph: string; text: string }> = {
   idle: { glyph: '●', text: 'Ready' },
@@ -17,12 +25,12 @@ const STATE_LINE: Record<LiveState, { glyph: string; text: string }> = {
   error: { glyph: '✗', text: 'Bash failed: exit code 1' },
 }
 
-export function TerminalPreview({ palette: p, state = 'idle', style, className }: PreviewProps) {
+export function TerminalPreview({ palette: p, state = 'idle', style, className, wallpaper }: PreviewProps) {
   const o = claudeCodeTheme(p, { state }).overrides
   const line = STATE_LINE[state]
   const live = stateColor(p, state)
   return (
-    <div className={`mock mock-term ${className ?? ''}`} style={{ background: p.bg, color: o.text, borderColor: mix(p.border, p.bg, 0.3), ...style }}>
+    <div className={`mock mock-term ${className ?? ''}`} style={{ ...washed(p, wallpaper), color: o.text, borderColor: mix(p.border, p.bg, 0.3), ...style }}>
       <div className="mock-bar" style={{ background: mix(p.bg, p.text, 0.06), borderColor: mix(p.border, p.bg, 0.4) }}>
         <span className="dots" aria-hidden>
           <i style={{ background: mix(p.error, p.bg, 0.25) }} />
@@ -72,11 +80,14 @@ export function TerminalPreview({ palette: p, state = 'idle', style, className }
   )
 }
 
-export function ChatPreview({ palette: p, state = 'idle', style, className }: PreviewProps) {
+export function ChatPreview({ palette: p, state = 'idle', style, className, wallpaper }: PreviewProps) {
   const v = webVars(p, { accent: state === 'idle' ? undefined : stateColor(p, state) })
+  // With a wallpaper, claude.ai's page goes clear and its panels turn to glass, as the extension does.
+  const glass = (c: string, pct: number) => (wallpaper ? `color-mix(in srgb, ${c} ${pct}%, transparent)` : c)
   return (
     <div className={`mock mock-chat ${className ?? ''}`} style={{ background: v['--cds-page-bg'], color: v['--cds-text-primary'], borderColor: v['--cds-border'], ...style }}>
-      <div className="chat-side" style={{ background: v['--cds-surface-0'], borderColor: v['--cds-border'] }}>
+      {wallpaper && <div className="chat-wall" aria-hidden style={{ backgroundImage: `url("${wallpaper}")` }} />}
+      <div className="chat-side" style={{ background: glass(v['--cds-surface-0'], 70), borderColor: v['--cds-border'] }}>
         <div className="chat-new" style={{ background: v['--cds-bg-accent'], color: v['--cds-text-accent'] }}>+ New chat</div>
         {[0.9, 0.7, 0.8, 0.55].map((w, i) => (
           <div key={i} className="chat-row" style={{ width: `${w * 100}%`, background: i === 0 ? v['--cds-surface-3'] : v['--cds-surface-2'] }} />
@@ -87,7 +98,7 @@ export function ChatPreview({ palette: p, state = 'idle', style, className }: Pr
           Theme ideas <span style={{ color: v['--cds-text-muted'] }}>▾</span>
         </div>
         <div className="chat-msgs">
-          <div className="chat-user" style={{ background: v['--cds-surface-3'] }}>Can you suggest a calmer palette?</div>
+          <div className="chat-user" style={{ background: glass(v['--cds-surface-3'], 85) }}>Can you suggest a calmer palette?</div>
           <div className="chat-bot">
             <span className="chat-dot" style={{ background: v['--cds-fill-accent'] }} />
             <div>
@@ -98,7 +109,7 @@ export function ChatPreview({ palette: p, state = 'idle', style, className }: Pr
             </div>
           </div>
         </div>
-        <div className="chat-input" style={{ background: v['--cds-surface-2'], borderColor: v['--cds-border-strong'] }}>
+        <div className="chat-input" style={{ background: glass(v['--cds-surface-2'], 82), borderColor: v['--cds-border-strong'] }}>
           <span style={{ color: v['--cds-text-muted'] }}>Reply…</span>
           <span className="chat-send" style={{ background: v['--cds-fill-accent'], color: v['--cds-on-accent'] }}>↑</span>
         </div>
@@ -107,10 +118,10 @@ export function ChatPreview({ palette: p, state = 'idle', style, className }: Pr
   )
 }
 
-export function TerminalSwatch({ palette: p, style, className }: PreviewProps) {
+export function TerminalSwatch({ palette: p, style, className, wallpaper }: PreviewProps) {
   const a = p.ansi
   return (
-    <div className={`mock mock-wt ${className ?? ''}`} style={{ background: p.bg, color: p.text, borderColor: mix(p.border, p.bg, 0.3), ...style }}>
+    <div className={`mock mock-wt ${className ?? ''}`} style={{ ...washed(p, wallpaper), color: p.text, borderColor: mix(p.border, p.bg, 0.3), ...style }}>
       <div className="wt-tabs" style={{ background: mix(p.bg, '#000000', 0.25) }}>
         <span className="wt-tab" style={{ background: p.bg, color: p.text }}>
           <span style={{ color: p.accent }}>◆</span> Claude · Mantle

@@ -5,6 +5,9 @@ import { baseFrom, contrast, paletteFrom, validBase } from '../lib/exports'
 import type { BaseColors } from '../lib/exports'
 import { ApplyThemeButton } from '../components/ApplyTheme'
 import { ExportPanel } from '../components/ExportPanel'
+import { WallpaperPicker } from '../components/WallpaperPicker'
+import { stageBackground } from '../components/Card'
+import { useWall } from '../lib/wallpaper'
 import { ChatPreview, PaletteStrip, TerminalPreview, TerminalSwatch } from '../components/Previews'
 import { Segmented } from '../components/ui'
 
@@ -71,6 +74,7 @@ export function Maker({ from }: { from?: string }) {
   }, [base])
 
   const palette = useMemo(() => paletteFrom(base), [base])
+  const wall = useWall(palette.id)
   const set = (patch: Partial<BaseColors>) => setBase(b => ({ ...b, ...patch }))
 
   const textContrast = contrast(base.text, base.bg)
@@ -83,7 +87,6 @@ export function Maker({ from }: { from?: string }) {
   return (
     <div className="page maker">
       <header className="page-head">
-        <span className="eyebrow">Theme maker</span>
         <h1>Make a theme</h1>
         <p className="lede">Pick eight colors. Mantle derives the surfaces, borders and all 16 terminal colors, and previews every surface as you go.</p>
       </header>
@@ -192,14 +195,15 @@ export function Maker({ from }: { from?: string }) {
             <div className="preview-bar">
               <Segmented label="Live state" value={state} onChange={setState} options={LIVE_STATES.map(s => ({ value: s, label: s }))} />
             </div>
-            <div className="maker-stage" style={{ background: `radial-gradient(100% 100% at 0% 0%, ${palette.surfaceAlt}, ${palette.bg} 70%)` }}>
-              <TerminalPreview palette={palette} state={state} className="mk-term" />
+            <div className="maker-stage" style={{ background: stageBackground(palette.surfaceAlt, palette.bg, wall?.src) }}>
+              <TerminalPreview palette={palette} state={state} className="mk-term" wallpaper={wall?.src} />
               <div className="mk-side">
-                <ChatPreview palette={palette} state={state} className="mk-chat" />
-                <TerminalSwatch palette={palette} className="mk-wt" />
+                <ChatPreview palette={palette} state={state} className="mk-chat" wallpaper={wall?.src} />
+                <TerminalSwatch palette={palette} className="mk-wt" wallpaper={wall?.src} />
               </div>
             </div>
             <PaletteStrip palette={palette} className="strip-lg" />
+            <WallpaperPicker more={false} />
             <div className="row">
               <ApplyThemeButton target={{ palette }} name={palette.name} />
             </div>

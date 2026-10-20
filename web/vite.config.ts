@@ -1,12 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import { fileURLToPath, URL } from 'node:url'
 
 // The companion (server/index.mjs) owns /api; Vite proxies to it so the
 // browser only ever talks to one localhost origin.
 const COMPANION_PORT = Number(process.env.MANTLE_COMPANION_PORT ?? 5178)
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
+  resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   server: {
     host: '127.0.0.1',
     port: 5173,

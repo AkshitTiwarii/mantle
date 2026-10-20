@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { CATALOG, TYPE_PLURAL, itemById } from '../lib/catalog'
 import type { Item } from '../lib/catalog'
@@ -15,7 +16,7 @@ export function Detail({ id }: { id: string }) {
   if (!item) {
     return (
       <div className="page narrow">
-        <a className="back" href="#/">← Gallery</a>
+        <a className="back" href="#/"><ArrowLeft size={15} /> Gallery</a>
         <h1>Not found</h1>
         <p>There's no listing called “{id}”.</p>
       </div>
@@ -25,7 +26,7 @@ export function Detail({ id }: { id: string }) {
   return (
     <div className="page">
       <a className="back" href="#/">
-        ← All {TYPE_PLURAL[item.type].toLowerCase()}
+        <ArrowLeft size={15} /> All {TYPE_PLURAL[item.type].toLowerCase()}
       </a>
       <header className="detail-head">
         <div>
@@ -42,7 +43,7 @@ export function Detail({ id }: { id: string }) {
               <>
                 {' · '}
                 <a href={item.source.url} target="_blank" rel="noreferrer noopener">
-                  {item.source.label} ↗
+                  {item.source.label} <ArrowUpRight size={13} className="inline -translate-y-px" />
                 </a>
               </>
             )}

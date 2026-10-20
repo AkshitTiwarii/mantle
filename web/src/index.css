@@ -1,0 +1,23 @@
+@import 'tailwindcss';
+@import './styles.css' layer(components);
+
+/* The sheet is light-only: `dark:` utilities apply only under an explicit .dark ancestor. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter Variable', Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --color-paper: #fcfaf4;
+  --color-ink: #0a0a0a;
+  --color-forest: #065f46;
+}
+
+@theme {
+  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+  @keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
+}

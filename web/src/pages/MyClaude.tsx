@@ -1,3 +1,4 @@
+import { Lock } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { api } from '../lib/api'
@@ -35,7 +36,6 @@ export function MyClaude() {
     <div className="page me">
       <header className="page-head me-head">
         <div>
-          <span className="eyebrow">My Claude · this computer only</span>
           <h1>Your setup, in one view</h1>
           <p className="lede">
             Read from <code>{scan?.claudeDir ?? '~/.claude'}</code> by the local companion. Nothing is sent anywhere but this browser tab, and secrets in connector configs are
@@ -391,7 +391,7 @@ function ConnectorRow({ c }: { c: LocalConnector }) {
         </div>
         {(c.env || c.headers) && (
           <div className="masked">
-            <span className="lock" aria-hidden>🔒</span>
+            <Lock size={12} className="lock" aria-hidden />
             {c.env && <span>env: {Object.keys(c.env).map(k => `${k}=••••••`).join(', ')}</span>}
             {c.headers && <span>headers: {Object.keys(c.headers).map(k => `${k}: ••••••`).join(', ')}</span>}
           </div>

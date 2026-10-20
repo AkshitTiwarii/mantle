@@ -226,6 +226,39 @@ async function applyAll($: $): Promise<void> {
   await say($, lines)
 }
 
+// ---- wallpapers ---------------------------------------------------------------
+
+// `/mantle wallpaper <https url | file path | off>`: a URL is downloaded for
+// Windows Terminal (which needs a local file) and handed to claude.ai as is;
+// a file is used for both. Then every surface that is on is applied.
+async function setWallpaper($: $, input: string): Promise<string[]> {
+  const target = input.replace(/^"|"$/g, '')
+  if (!target) return ['Usage: /mantle wallpaper <https image URL | image file path | off>']
+  if (target === 'off') {
+    await setConfig($, c => ({ ...c, terminal: { ...c.terminal, wallpaper: '' }, web: { ...c.web, wallpaper: '' } }))
+    await applyAll($)
+    return ['Wallpaper removed.', ...(await read($, log)).slice(-3)]
+  }
+  let local = target
+  let web = target
+  if (/^https:\/\//i.test(target)) {
+    const name = ((target.split('?')[0] ?? '').split('/').pop() || 'wallpaper').replace(/[^\w.-]/g, '').slice(0, 60) || 'wallpaper'
+    const file = /\.(jpe?g|png|webp)$/i.test(name) ? name : `${name}.jpg`
+    const isWindows = Boolean(await $.env.get('LOCALAPPDATA'))
+    local = `${await claudeDir($)}/mantle/wallpapers/${file}`
+    if (isWindows) local = local.replaceAll('/', '\\')
+    const got = await $.process.run(['curl', '-L', '--fail', '--silent', '--show-error', '--create-dirs', '-o', local, target], { timeoutMs: 180_000 })
+    if (got.exitCode !== 0) return [`Could not download the wallpaper: ${got.stderr.trim() || `curl exited ${got.exitCode}`}`]
+  } else {
+    if (!(await $.fs.exists(target))) return [`No image at ${target}.`]
+    web = target
+  }
+  await setConfig($, c => ({ ...c, terminal: { ...c.terminal, wallpaper: local }, web: { ...c.web, wallpaper: web } }))
+  await applyAll($)
+  await $.store.set('applied', true)
+  return [`Wallpaper set: ${local}`, ...(await read($, log)).slice(-3)]
+}
+
 // ---- live state -------------------------------------------------------------
 
 async function writeLive($: $): Promise<void> {
@@ -257,7 +290,7 @@ export const register: Register = on => {
     await $.command.register({
       name: COMMAND,
       description: 'Mantle theme studio: one theme for Claude Code, Windows Terminal and claude.ai',
-      argumentHint: '[apply | <preset> | live on|off]',
+      argumentHint: '[apply | <preset> | wallpaper <url|file|off> | live on|off]',
     })
     const c = await read($, config)
     if (c.targets.code && (await $.store.get('applied'))) await writeCodeTheme($, c, 'idle').catch(() => undefined)
@@ -288,6 +321,10 @@ export const register: Register = on => {
       const isOn = value !== 'off'
       await setConfig($, c => ({ ...c, reactive: isOn }))
       return { text: `Live reactions ${isOn ? 'on' : 'off'}.` }
+    }
+    if (word === 'wallpaper') {
+      const lines = await setWallpaper($, args.slice(word.length).trim())
+      return { text: lines.join('\n') }
     }
     const preset = PALETTES.find(p => p.id === word || p.name.toLowerCase() === args.toLowerCase())
     if (preset) {
