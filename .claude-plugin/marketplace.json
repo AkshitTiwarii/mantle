@@ -1,0 +1,12 @@
+{
+  "name": "mantle",
+  "owner": { "name": "Akshit Tiwari" },
+  "description": "Mantle: themes for Claude Code, Windows Terminal and claude.ai",
+  "plugins": [
+    {
+      "name": "mantle",
+      "source": "./mantle",
+      "description": "One theme everywhere: Claude Code, Windows Terminal (scheme, wallpaper, acrylic) and claude.ai, alive to what Claude is doing."
+    }
+  ]
+}

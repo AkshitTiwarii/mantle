@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mantle</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Mantle</h1>
+        <p class="sub">Themes for claude.ai</p>
+      </div>
+      <label class="switch" title="Turn Mantle on or off">
+        <input type="checkbox" id="enabled" />
+        <span></span>
+      </label>
+    </header>
+
+    <label class="row check">
+      <input type="checkbox" id="follow" />
+      <span>Follow the Mantle studio in Claude Code</span>
+    </label>
+
+    <section>
+      <h2>Preset</h2>
+      <div id="presets" class="presets"></div>
+    </section>
+
+    <section>
+      <h2>Accent</h2>
+      <div class="row">
+        <input type="color" id="accent" />
+        <button id="accent-reset" class="ghost">Use preset</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Wallpaper</h2>
+      <div class="row">
+        <label class="button">
+          Choose image
+          <input type="file" id="wall-file" accept="image/*" hidden />
+        </label>
+        <button id="wall-clear" class="ghost">Remove</button>
+      </div>
+      <input type="url" id="wall-url" placeholder="…or paste an https image URL and press Enter" />
+      <div id="wall-preview" class="preview"></div>
+      <label class="slider">Blur <input type="range" id="blur" min="0" max="20" /><output></output></label>
+      <label class="slider">Dim <input type="range" id="dim" min="0" max="80" /><output></output></label>
+      <label class="slider">Panels <input type="range" id="panelOpacity" min="40" max="100" /><output></output></label>
+    </section>
+
+    <label class="row check">
+      <input type="checkbox" id="reactive" />
+      <span>Glow while Claude responds</span>
+    </label>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

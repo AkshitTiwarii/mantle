@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Mantle for claude.ai",
+  "version": "0.1.0",
+  "description": "Themes, wallpapers and a live glow for claude.ai, synced with the Mantle studio in Claude Code.",
+  "permissions": ["storage", "unlimitedStorage"],
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["palettes.js", "mantle-theme.json"],
+      "matches": ["https://claude.ai/*"]
+    }
+  ],
+  "action": {
+    "default_title": "Mantle",
+    "default_popup": "popup.html"
+  }
+}
