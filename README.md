@@ -38,3 +38,7 @@ npm run dev
 ```
 
 Then open http://127.0.0.1:5173. See [`web/README.md`](web/README.md).
+
+## License
+
+MIT, see [LICENSE](LICENSE).

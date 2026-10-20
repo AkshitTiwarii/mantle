@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "One theme everywhere: Claude Code, Windows Terminal (scheme, wallpaper, acrylic) and claude.ai, alive to what Claude is doing.",
   "author": { "name": "Akshit Tiwari" },
-  "homepage": "https://github.com/akshittiwarii/mantle",
+  "homepage": "https://github.com/AkshitTiwarii/mantle",
+  "license": "MIT",
   "types": "./types/index.d.ts"
 }
