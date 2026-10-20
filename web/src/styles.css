@@ -510,6 +510,74 @@ textarea:focus {
   color: var(--green-700);
 }
 
+/* Set up with your agent */
+.agent-connect {
+  width: min(860px, 100%);
+  margin-top: 30px;
+}
+.agent-title {
+  margin: 0 0 12px;
+  font-family: var(--serif);
+  font-size: 24px;
+}
+.agent-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.agent-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.agent-tab:hover {
+  border-color: var(--line-2);
+  color: var(--text);
+}
+.agent-tab.on {
+  border-color: var(--text);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(28, 27, 24, 0.12);
+}
+.agent-prompt {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 12px;
+  padding: 14px 14px 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  text-align: left;
+}
+.agent-prompt p {
+  margin: 0;
+  flex: 1;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.agent-note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--faint);
+}
+@media (max-width: 720px) {
+  .agent-prompt {
+    flex-direction: column;
+  }
+}
+
 /* The plate: a white mat around a dark specimen, like a print in a catalogue. */
 .hero-plate {
   width: min(1120px, 100%);

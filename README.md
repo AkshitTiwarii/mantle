@@ -1,35 +1,147 @@
 # Mantle
 
-**Make Claude yours. One theme across Claude Code, your terminal and claude.ai, alive to what Claude is doing.**
+**Make Claude yours.** One theme across Claude Code, your terminal and claude.ai, with real 4K wallpapers, colors that react to what Claude is doing, and a built-in knowledge base of the whole Claude ecosystem.
 
-Mantle is an independent project and isn't affiliated with Anthropic.
+Mantle is an independent, MIT-licensed project. It is not affiliated with Anthropic.
 
-## What's here
+---
 
-| Folder | What it is |
+## What you get
+
+| | What it does |
 | --- | --- |
-| [`mantle/`](mantle/) | The Claude Code plugin: the `/mantle` studio pane, live reactions, the Windows Terminal profile, the claude.ai Chrome extension and 10 presets |
-| [`web/`](web/) | The Mantle web app: a gallery of themes, skills, connectors and plugins with live previews, a theme maker, and a "My Claude" dashboard for your local setup |
+| **Mantle plugin** (`mantle/`) | A Claude Code plugin that themes Claude Code, Windows Terminal and claude.ai together, puts a wallpaper behind them, and recolors them live as Claude thinks, runs tools, plans, finishes or errors. |
+| **Mantle Atlas** (`mantle/skills/mantle-atlas/`) | A skill that turns Claude (or Cursor, Codex, Copilot, Gemini CLI…) into an expert on every skill, connector, plugin and Claude Code feature: what each is, when to use it, when not to, and the exact install command. |
+| **Mantle web** (`web/`) | A gallery of themes, wallpapers, skills, connectors and plugins with live previews and one-click install commands, a theme maker, and "My Claude", a local dashboard of what you have installed. |
 
-## Install the plugin
+---
 
-At the prompt of a Claude Code terminal session:
+## Install
+
+### In Claude Code
+
+At the Claude Code prompt:
 
 ```
-/plugin install mantle --marketplace akshittiwarii/mantle
+/plugin install mantle --marketplace AkshitTiwarii/mantle
 ```
 
 From a shell:
 
 ```bash
-claude plugin install mantle --marketplace akshittiwarii/mantle
+claude plugin install mantle --marketplace AkshitTiwarii/mantle
 ```
 
-In the Claude desktop app, where `/plugin` doesn't run: click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `akshittiwarii/mantle`, then **Add plugin**.
+In the Claude desktop app's Code tab: click **+** next to the prompt box → **Plugins** → **Add marketplace** `AkshitTiwarii/mantle` → **Add plugin**.
 
-Then run `/mantle` to open the studio, or `/mantle aurora` to apply a preset everywhere. See [`mantle/README.md`](mantle/README.md) for the claude.ai extension and every option.
+Then run `/mantle` to open the studio, or `/mantle aurora` to apply a theme everywhere.
 
-## Run the web app
+### In any other agent (Atlas only)
+
+```bash
+npx skills add AkshitTiwarii/mantle --skill mantle-atlas
+```
+
+Target a specific agent with `-a cursor`, `-a codex`, `-a github-copilot`, `-a gemini-cli`, `-a windsurf`, `-a cline`, or `-a '*'` for all of them.
+
+### Let your agent do it
+
+Paste this into Claude Code:
+
+> Install Mantle for me: run `claude plugin install mantle --marketplace AkshitTiwarii/mantle` in the terminal. When it finishes, tell me to run /reload-plugins and then /mantle aurora.
+
+Or into Cursor, Codex, Copilot, Gemini CLI, Windsurf or Cline (swap the `-a` value):
+
+> Install the Mantle Atlas skill: run `npx skills add AkshitTiwarii/mantle --skill mantle-atlas -a cursor -y`. From now on, whenever I ask which skill, connector, plugin or setting fits a task, use mantle-atlas to answer.
+
+The website's hero has the same prompts, one tab per agent, with a copy button.
+
+---
+
+## Everything Mantle does
+
+### 1. One theme on every surface
+
+One apply recolors three places at once:
+
+- **Claude Code:** every interface color — accent, prompt border, diffs, your message background, plan and accept-edits modes, status colors — through a native theme file (`~/.claude/themes/mantle.json`, selected as **Mantle (live)** in `/theme`).
+- **Windows Terminal:** a **Claude · Mantle** profile with a matching color scheme (all 16 ANSI colors), your wallpaper behind the text, window opacity, acrylic blur, font and tab color. It's written as a settings fragment, so your own `settings.json` is never edited.
+- **claude.ai** (Chrome): page colors, a blurred wallpaper behind frosted panels, readable buttons, and a light that sweeps across the top while Claude replies. Done by a bundled Chrome extension that recolors claude.ai's own design tokens.
+
+Each surface can also be customized separately in the studio: its own preset, accent, wallpaper, opacity or blur.
+
+### 2. Colors that react to Claude
+
+While you work, the Claude Code theme shifts with Claude's state:
+
+| Claude is… | Accent and prompt border turn |
+| --- | --- |
+| idle | the theme's accent |
+| thinking | its second accent |
+| running a tool | the info color |
+| in plan mode | the warning color |
+| done with an answer | success, for 2.5 s |
+| hitting an error or refusal | error, for 5 s |
+
+On claude.ai a light sweeps across the page and the accent shifts while a reply streams. Turn reactions off with `/mantle live off`.
+
+### 3. Wallpapers
+
+- `/mantle wallpaper <https URL | image file | off>` downloads an image and puts it behind your terminal and claude.ai in one step.
+- The website has **24 freely licensed 4K wallpapers** (flowers, nature, NASA/Webb space, ocean, city, abstract), each credited to its photographer with its license. Every theme preview on the site shows one behind it.
+- **Your own image** works everywhere: attach it on the website (it never leaves your browser tab), point `/mantle wallpaper` at the file, or pick it in the extension popup.
+
+### 4. The studio pane
+
+`/mantle` opens a pane beside the chat with:
+
+- a main preset and a live swatch strip;
+- on/off switches for each surface (Claude Code, Windows Terminal, claude.ai) and for live reactions;
+- a **Claude Code** tab: idle accent, thinking color, tool-running color, your message background;
+- a **Terminal** tab: wallpaper path, wallpaper strength, window opacity, acrylic, font, background override;
+- a **claude.ai** tab: wallpaper, blur, dim, panel opacity, accent, the reply glow, and reinstalling the extension files;
+- **Apply everywhere**, with a short log of what changed.
+
+### 5. Ten presets
+
+Ember, Aurora, Synthwave, Tokyo Night, Catppuccin Mocha, Rosé Pine, Nord Night, Forest, Deep Ocean and Paper (light). They also appear on their own in Claude Code's `/theme` picker.
+
+### 6. Mantle Atlas, the knowledge base
+
+Ask Claude things like:
+
+- "Is there a skill for filling PDF forms?"
+- "Connect Claude to Jira."
+- "How do I make Claude run my tests after every edit?"
+- "What's the best way to share our team's prompts?"
+- "How can I change how Claude Code looks?"
+
+Atlas answers with 1–3 options, best first: what each does, when to use it, when to skip it, the exact install command, and how to use it afterwards. It also flags anything that needs API keys or broad access.
+
+What it knows:
+
+| Area | Curated guide (with judgment) | Full searchable index |
+| --- | --- | --- |
+| Skills | 162 skills grouped by job | 30,483 skills from skills.sh, with install counts; top 5,000 described |
+| Connectors (MCP) | 156 connectors grouped by job, Composio included | 17,145 servers from the official MCP Registry, each with a setup command |
+| Plugins | ~90 plugins, 13 marketplaces | 439 plugins from Anthropic's marketplaces and Mantle |
+| Claude Code features | 37 features: what, when, how | — |
+| Choosing a mechanism | 28 goals mapped to the right tool (skill vs hook vs MCP vs plugin vs CLAUDE.md…) | — |
+| UI customization | themes, status lines, terminals, claude.ai, wallpapers, and what can't be themed | — |
+
+Tools that ship with it:
+
+```bash
+node mantle/skills/mantle-atlas/scripts/search.mjs "jira" --type connectors
+node mantle/skills/mantle-atlas/scripts/search.mjs "pdf forms" --live   # also asks skills.sh and the MCP Registry now
+node mantle/skills/mantle-atlas/scripts/refresh.mjs                     # rebuild the index from live sources (~10 min)
+```
+
+Claude always knows Atlas exists; the guides and index load only when a question needs them, so your context isn't flooded. Atlas never edits your memory on its own. If you ask it to "always remember," it shows you a three-line note for `~/.claude/CLAUDE.md` and adds it only on your yes.
+
+Sources: skills.sh, each skill's SKILL.md on GitHub, the official MCP Registry, Anthropic's plugin marketplaces and the Claude Code docs.
+
+### 7. The website
 
 ```bash
 cd web
@@ -37,7 +149,84 @@ npm install
 npm run dev
 ```
 
-Then open http://127.0.0.1:5173. See [`web/README.md`](web/README.md).
+Open http://127.0.0.1:5173.
+
+- **Gallery:** themes, wallpapers, skills, connectors and plugins in one place. Theme cards preview live on hover, cycling through Claude's states over their wallpaper. Every listing links to its source and copies its install command in one click.
+- **Set up with your agent:** prompts for Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, Windsurf, Cline or any agent.
+- **Make a theme:** pick eight colors, watch Claude Code, claude.ai and the terminal update live over a wallpaper, and export a Claude Code theme, a Windows Terminal scheme and a claude.ai payload.
+- **My Claude:** a local companion (127.0.0.1 only) lists the skills, plugins, connectors, themes and marketplaces you already have, with secrets masked. Its only write is applying a Mantle theme after you confirm.
+
+---
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| `/mantle` | Opens the studio pane |
+| `/mantle apply` | Applies the current settings to every surface that's switched on |
+| `/mantle <preset>` | Switches preset and applies it, e.g. `/mantle synthwave` |
+| `/mantle wallpaper <url \| file \| off>` | Downloads an image and puts it behind your terminal and claude.ai |
+| `/mantle live on \| off` | Turns live reactions on or off |
+
+## Where it works
+
+| Surface | Colors | Wallpaper | Live reactions |
+| --- | --- | --- | --- |
+| Claude Code (terminal) | Yes | Yes, via your terminal | Yes |
+| Windows Terminal | Yes | Yes | Colors set on apply |
+| claude.ai in Chrome | Yes | Yes | Yes (reply glow) |
+| Claude desktop app | No | No | No |
+
+The Claude desktop app's interface can't be themed: its bundle is integrity-checked. Mantle's plugin and Atlas still run in its Code tab.
+
+## Load the claude.ai extension
+
+1. Run `/mantle apply` once; it writes the extension to `~/.claude/mantle/chrome-extension`.
+2. In Chrome open `chrome://extensions`, turn on **Developer mode**, click **Load unpacked**, and pick that folder.
+
+After that every apply reaches open claude.ai tabs within seconds. The popup works on its own too: presets, accent, wallpaper upload or URL, blur, dim, panel opacity, the reply glow.
+
+## Privacy and safety
+
+- Everything runs on your machine. The plugin makes no network calls except downloading a wallpaper you asked for.
+- The website's local companion binds to 127.0.0.1, reads `~/.claude` read-only, masks secrets, and writes only `themes/mantle.json` after you confirm.
+- Atlas recommends; it never installs or configures anything unless you ask.
+- Third-party skills and MCP servers run with your permissions. Atlas tells you which ones need keys or broad access; review their source before installing.
+
+## Repository layout
+
+```
+mantle/                    Claude Code plugin
+  hooks/register.tsx       the mod: /mantle, studio pane, live reactions, wallpaper
+  chrome-extension/        claude.ai extension (content script, popup, palettes)
+  themes/                  10 presets as standalone Claude Code themes
+  skills/mantle-atlas/     the knowledge-base skill
+    SKILL.md
+    references/            curated guides
+    data/                  full index (skills, connectors, plugins)
+    scripts/               search.mjs, refresh.mjs
+  tests/                   plugin tests
+web/                       the website (Vite, React, Tailwind, motion)
+  server/                  local companion for My Claude
+PRODUCT.md, DESIGN.md      product and design records
+```
+
+## Develop
+
+```bash
+claude --plugin-dir ./mantle      # run the plugin from this folder
+claude plugin validate ./mantle   # check the manifest and hooks
+claude plugin test ./mantle       # run the plugin tests
+cd web && npm run build           # type-check and build the site
+```
+
+## Credits
+
+- Presets Tokyo Night, Catppuccin Mocha, Rosé Pine and Nord Night adapt the colors of [Tokyo Night](https://github.com/folke/tokyonight.nvim), [Catppuccin](https://catppuccin.com), [Rosé Pine](https://rosepinetheme.com) and [Nord](https://www.nordtheme.com).
+- Wallpapers come from Wikimedia Commons and NASA, each credited on its card with its license (public domain, CC0, CC BY, CC BY-SA).
+- Agent logos from [Simple Icons](https://simpleicons.org) (CC0); trademarks belong to their owners.
+- UI components from [Aceternity UI](https://ui.aceternity.com); design process with [Impeccable](https://impeccable.style).
+- Skill and connector data from [skills.sh](https://www.skills.sh) and the [official MCP Registry](https://registry.modelcontextprotocol.io).
 
 ## License
 

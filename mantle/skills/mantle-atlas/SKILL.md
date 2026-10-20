@@ -1,6 +1,6 @@
 ---
 name: mantle-atlas
-description: Knowledge base of the Claude ecosystem — every public Agent Skill on skills.sh (~20k), every connector in the official MCP Registry (~17k), the official plugin marketplaces, every Claude Code feature, and UI customization (themes, status lines, wallpapers). Use when the user asks "is there a skill/tool/connector/plugin for X", "how do I make Claude do X", "what's the best way to extend/customize/automate Claude", wants to compare options, set up a workflow, connect an app (Jira, Slack, GitHub, Stripe...), change how Claude looks, or when you yourself need a capability you don't have and should check whether one exists before building it.
+description: Knowledge base of the Claude ecosystem — every public Agent Skill on skills.sh (~30k), every connector in the official MCP Registry (~17k), the official plugin marketplaces, every Claude Code feature, and UI customization (themes, status lines, wallpapers). Use when the user asks "is there a skill/tool/connector/plugin for X", "how do I make Claude do X", "what's the best way to extend/customize/automate Claude", wants to compare options, set up a workflow, connect an app (Jira, Slack, GitHub, Stripe...), change how Claude looks, or when you yourself need a capability you don't have and should check whether one exists before building it.
 license: MIT
 ---
 

@@ -29,12 +29,12 @@ Mantle is the only theme system that applies one theme across Claude Code, Windo
 - Ten Mantle presets: Ember, Aurora, Synthwave, Tokyo Night, Catppuccin Mocha, Rosé Pine, Nord Night, Forest, Deep Ocean, Paper.
 - Live states: idle, thinking, working, plan, done, error.
 - The Claude desktop app cannot be themed (integrity-checked bundle).
-- Catalog entries other than Mantle's own are a small, clearly labelled sample; some are placeholders.
+- The gallery lists real, verified public projects (69 skills, plugins and connectors) and 24 credited 4K wallpapers; Mantle Atlas indexes ~30k skills, ~17k connectors and 439 plugins.
 - Stack: Vite + React + TypeScript front end, a dependency-free Node companion server.
 
 ## Brand Commitments
 
-- Name: Mantle. Independent project, not affiliated with Anthropic; no Anthropic or Claude logos or brand assets.
+- Name: Mantle. Independent project, not affiliated with Anthropic. Third-party logos (Claude, Cursor, Copilot, Gemini…) appear only to show compatibility in "Set up with your agent", from Simple Icons, with an ownership note; never as Mantle branding.
 - The user wants the site to look like their ZeroCarbon project (zerocarbon.org.in): binding visual reference.
 - License: MIT. Author: Akshit Tiwari. Repository: github.com/AkshitTiwarii/mantle.
 

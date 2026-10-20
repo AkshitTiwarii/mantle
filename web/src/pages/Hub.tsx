@@ -12,6 +12,7 @@ import { WALLPAPERS } from '../lib/wallpapers'
 import type { WallpaperCategory } from '../lib/wallpapers'
 import { useWall } from '../lib/wallpaper'
 import { WallpaperPicker } from '../components/WallpaperPicker'
+import { AgentConnect } from '../components/AgentConnect'
 import { ChatPreview, TerminalPreview, TerminalSwatch } from '../components/Previews'
 import { Segmented, TypeIcon, copy } from '../components/ui'
 import { BentoGrid } from '../components/ui/bento-grid'
@@ -82,6 +83,8 @@ function Hero() {
         <code>{INSTALL_COMMAND}</code>
         <span className="btn btn-ghost btn-sm">Copy</span>
       </button>
+
+      <AgentConnect />
 
       <figure className="hero-plate" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
         <div className="hero-stage" style={{ background: stageBackground(p.surfaceAlt, p.bg, wall?.src) }}>
