@@ -131,7 +131,7 @@ export function wallpaperFile(path: string): string {
   return path ? `wall-${(path.split(/[\\/]/).pop() ?? 'wallpaper').replace(/[^\w.-]+/g, '-')}` : ''
 }
 
-export function terminalFragment(c: MantleConfig) {
+export function terminalFragment(c: MantleConfig, active: string[] = []) {
   const p = paletteById(c.terminal.preset || c.preset)
   const custom = isHex(c.terminal.background)
   const own = terminalScheme(p, { background: c.terminal.background })
@@ -158,10 +158,10 @@ export function terminalFragment(c: MantleConfig) {
     font: { face: c.terminal.font || 'Cascadia Code' },
     ...look,
   }
-  // Opt-in (/mantle terminal everywhere on): the profiles you ran /mantle from
-  // (PowerShell, Command Prompt, WSL...) get the same look through "updates".
-  // Off by default, so only Claude's own profile carries the wallpaper.
-  const mine = c.terminal.everywhere ? (c.terminal.profiles ?? []) : []
+  // The profile of every tab where Claude is running right now (`active`) gets
+  // the look through "updates", so the wallpaper appears when Claude starts and
+  // goes when it quits. `/mantle terminal everywhere on` keeps it on for good.
+  const mine = [...new Set([...(c.terminal.everywhere ? (c.terminal.profiles ?? []) : []), ...active])]
   const updates = mine.filter(g => g.toLowerCase() !== PROFILE_GUID).map(g => ({ updates: g, ...look }))
   return { profiles: [profile, ...updates], schemes }
 }
@@ -231,19 +231,16 @@ async function applyTerminal($: $, c: MantleConfig): Promise<string[]> {
     const got = await $.process.run(['curl', '--fail', '--silent', '--show-error', '--create-dirs', '-o', `${dir}\\${wallpaperFile(c.terminal.wallpaper)}`, from], { timeoutMs: 60_000 })
     if (got.exitCode !== 0) return [`Terminal: could not copy the wallpaper (${got.stderr.trim() || `curl exited ${got.exitCode}`}).`]
   }
-  await $.fs.write(`${dir}\\mantle.json`, JSON.stringify(terminalFragment(c), null, 2) + '\n')
+  await $.fs.write(`${dir}\\mantle.json`, JSON.stringify(terminalFragment(c, await activeProfiles($)), null, 2) + '\n')
   // Windows Terminal reads fragments only when it (re)loads its settings, and it
   // reloads when settings.json's timestamp changes. Bump the timestamp (the
   // contents are left exactly as they are) so the change shows without a restart.
   const touch =
     "Get-ChildItem \"$env:LOCALAPPDATA\\Packages\\Microsoft.WindowsTerminal*\\LocalState\\settings.json\",\"$env:LOCALAPPDATA\\Microsoft\\Windows Terminal\\settings.json\" -ErrorAction SilentlyContinue | ForEach-Object { $_.LastWriteTime = Get-Date }"
   await $.process.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', touch], { timeoutMs: 15_000 }).catch(() => undefined)
-  const mine = c.terminal.everywhere ? (c.terminal.profiles ?? []).length : 0
-  return [
-    mine
-      ? `Terminal: your ${mine === 1 ? 'profile' : `${mine} profiles`} and "Claude · Mantle" updated (everywhere is on). Open a new tab to see it.`
-      : 'Terminal: "Claude · Mantle" profile updated; your other profiles are untouched. Run /mantle open to start Claude in it here.',
-  ]
+  if (c.terminal.everywhere) return ['Terminal: your profile now keeps the wallpaper all the time (/mantle terminal everywhere off to undo).']
+  if (await $.env.get('WT_PROFILE_ID')) return ['Terminal: wallpaper is on in this tab while Claude runs; it goes away when you quit Claude.']
+  return ['Terminal: "Claude · Mantle" profile updated. Start Claude inside Windows Terminal to get the wallpaper there, or run /mantle open.']
 }
 
 // /mantle open: start Claude in a new tab that uses the Claude · Mantle profile,
@@ -266,11 +263,49 @@ async function openClaudeTab($: $): Promise<string> {
   return r.exitCode === 0 ? 'Opened Claude in a new iTerm2 window with the "Claude · Mantle" profile.' : `Could not open iTerm2 (${r.stderr.trim() || `exit ${r.exitCode}`}).`
 }
 
+// Tabs where Claude is running, across every open Claude session:
+// ~/.claude/mantle/terminal-sessions.json maps a session to its tab's profile.
+const SESSION_KEY = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+const STALE_MS = 12 * 60 * 60 * 1000
+type ActiveTabs = Record<string, { profile: string; at: number }>
+
+async function activeFile($: $): Promise<string> {
+  return `${await claudeDir($)}/mantle/terminal-sessions.json`
+}
+
+async function readActive($: $): Promise<ActiveTabs> {
+  const path = await activeFile($)
+  if (!(await $.fs.exists(path))) return {}
+  try {
+    return JSON.parse((await $.fs.read(path)) as string) as ActiveTabs
+  } catch {
+    return {}
+  }
+}
+
+async function activeProfiles($: $): Promise<string[]> {
+  return [...new Set(Object.values(await readActive($)).map(v => v.profile))]
+}
+
+// Marks this session's tab as running Claude (or not). False outside Windows Terminal.
+async function markActive($: $, isOn: boolean): Promise<boolean> {
+  const guid = await $.env.get('WT_PROFILE_ID')
+  if (!guid) return false
+  const now = await $.clock.now()
+  const tabs = await readActive($)
+  for (const [k, v] of Object.entries(tabs)) if (now - v.at > STALE_MS) delete tabs[k]
+  if (isOn) tabs[SESSION_KEY] = { profile: guid, at: now }
+  else delete tabs[SESSION_KEY]
+  await $.fs.write(await activeFile($), JSON.stringify(tabs))
+  return true
+}
+
 // Runs inside Windows Terminal: remember the profile this tab uses so it gets
 // the theme too. Outside it (VS Code, another terminal) say what will happen.
 async function rememberProfile($: $): Promise<string | null> {
   const guid = await $.env.get('WT_PROFILE_ID')
   if (guid) {
+    await markActive($, true)
     const c = await read($, config)
     if (!(c.terminal.profiles ?? []).includes(guid) && guid.toLowerCase() !== PROFILE_GUID) {
       await setConfig($, x => ({ ...x, terminal: { ...x.terminal, profiles: [...(x.terminal.profiles ?? []), guid] } }))
@@ -420,7 +455,12 @@ export const register: Register = on => {
       argumentHint: '[apply | <preset> | wallpaper <url|file|off> | open | live on|off | terminal everywhere on|off]',
     })
     const c = await read($, config)
-    if (c.targets.code && (await $.store.get('applied'))) await writeCodeTheme($, c, 'idle').catch(() => undefined)
+    const applied = Boolean(await $.store.get('applied'))
+    if (c.targets.code && applied) await writeCodeTheme($, c, 'idle').catch(() => undefined)
+    // Claude just started in this tab: put the wallpaper behind it.
+    if (c.targets.terminal && applied && (await markActive($, true).catch(() => false))) {
+      await applyTerminal($, c).catch(() => undefined)
+    }
 
     return next(e)
   })
@@ -429,8 +469,13 @@ export const register: Register = on => {
     settleTimer?.cancel()
     writeTimer?.cancel()
     const c = await read($, config)
-    if (c.reactive && c.targets.code && (await $.store.get('applied'))) {
+    const applied = Boolean(await $.store.get('applied'))
+    if (c.reactive && c.targets.code && applied) {
       await writeCodeTheme($, c, 'idle').catch(() => undefined)
+    }
+    // Claude is quitting: take the wallpaper off this tab (other Claude tabs keep theirs).
+    if (c.targets.terminal && applied && (await markActive($, false).catch(() => false))) {
+      await applyTerminal($, c).catch(() => undefined)
     }
 
     return next(e)

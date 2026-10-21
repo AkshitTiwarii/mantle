@@ -65,9 +65,9 @@ The website's hero has the same prompts, one tab per agent, with a copy button.
 One apply recolors three places at once:
 
 - **Claude Code:** every interface color — accent, prompt border, diffs, your message background, plan and accept-edits modes, status colors — through a native theme file (`~/.claude/themes/mantle.json`, selected as **Mantle (live)** in `/theme`).
-- **Your terminal:** a dedicated **Claude · Mantle** profile gets a matching color scheme (all 16 ANSI colors), your wallpaper behind the text, window opacity and blur. Your own shells stay as they are; `/mantle open` starts Claude in a Mantle tab in the current folder.
-  - **Windows Terminal:** written as a settings fragment, so your `settings.json` is never edited, and it shows up without a restart. `/mantle terminal everywhere on` also puts the look on the profile you run `/mantle` from.
-  - **macOS (iTerm2):** written as an iTerm2 Dynamic Profile, which iTerm2 picks up live. Terminal.app can't load a wallpaper from a file, so it gets Claude Code's colors only.
+- **Your terminal:** the wallpaper and matching colors (all 16 ANSI colors, opacity, blur) appear behind Claude when it starts and go away when you quit it. Your shell looks normal the rest of the time; nothing to re-apply after a restart.
+  - **Windows Terminal:** written as a settings fragment, so your `settings.json` is never edited, and it changes live without restarting Windows Terminal. While Claude runs, every tab of that same profile shows the wallpaper. `/mantle terminal everywhere on` keeps it on all the time; there's also a dedicated **Claude · Mantle** profile (`/mantle open`).
+  - **macOS (iTerm2):** written as an iTerm2 Dynamic Profile, **Claude · Mantle**, which iTerm2 picks up live; `/mantle open` starts Claude in it. Terminal.app can't load a wallpaper from a file, so it gets Claude Code's colors only.
 - **claude.ai** (Chrome): page colors, a blurred wallpaper behind frosted panels, readable buttons, and a light that sweeps across the top while Claude replies. Done by a bundled Chrome extension that recolors claude.ai's own design tokens.
 
 Each surface can also be customized separately in the studio: its own preset, accent, wallpaper, opacity or blur.
