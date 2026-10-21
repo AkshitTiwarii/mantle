@@ -65,7 +65,7 @@ The website's hero has the same prompts, one tab per agent, with a copy button.
 One apply recolors three places at once:
 
 - **Claude Code:** every interface color — accent, prompt border, diffs, your message background, plan and accept-edits modes, status colors — through a native theme file (`~/.claude/themes/mantle.json`, selected as **Mantle (live)** in `/theme`).
-- **Windows Terminal:** a **Claude · Mantle** profile with a matching color scheme (all 16 ANSI colors), your wallpaper behind the text, window opacity, acrylic blur, font and tab color. It's written as a settings fragment, so your own `settings.json` is never edited.
+- **Windows Terminal:** the profile you run `/mantle` from (Windows PowerShell, Command Prompt, WSL…) plus a dedicated **Claude · Mantle** profile get a matching color scheme (all 16 ANSI colors), your wallpaper behind the text, window opacity and acrylic blur. It's written as a settings fragment, so your own `settings.json` is never edited; open a new tab (or restart Windows Terminal) to see changes.
 - **claude.ai** (Chrome): page colors, a blurred wallpaper behind frosted panels, readable buttons, and a light that sweeps across the top while Claude replies. Done by a bundled Chrome extension that recolors claude.ai's own design tokens.
 
 Each surface can also be customized separately in the studio: its own preset, accent, wallpaper, opacity or blur.
@@ -175,6 +175,7 @@ Open http://127.0.0.1:5173.
 | Claude Code (terminal) | Yes | Yes, via your terminal | Yes |
 | Windows Terminal | Yes | Yes | Colors set on apply |
 | claude.ai in Chrome | Yes | Yes | Yes (reply glow) |
+| VS Code (terminal and Claude extension) | Follows your VS Code theme | No | No |
 | Claude desktop app | No | No | No |
 
 The Claude desktop app's interface can't be themed: its bundle is integrity-checked. Mantle's plugin and Atlas still run in its Code tab.

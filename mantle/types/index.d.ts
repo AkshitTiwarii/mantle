@@ -18,6 +18,8 @@ export type MantleTerminalConfig = {
   acrylic: boolean
   font: string
   background: string
+  /** Windows Terminal profiles (GUIDs) Mantle also themes, besides its own: the ones you ran /mantle from. */
+  profiles: string[]
 }
 
 export type MantleWebConfig = {

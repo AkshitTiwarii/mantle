@@ -24,7 +24,7 @@ export const DEFAULT_CONFIG: MantleConfig = {
   targets: { code: true, terminal: true, web: true },
   reactive: true,
   code: { preset: '', accent: '', thinking: '', working: '', messageBg: '' },
-  terminal: { preset: '', wallpaper: '', imageOpacity: 30, opacity: 85, acrylic: true, font: 'Cascadia Code', background: '' },
+  terminal: { preset: '', wallpaper: '', imageOpacity: 30, opacity: 85, acrylic: true, font: 'Cascadia Code', background: '', profiles: [] },
   web: { preset: '', wallpaper: '', blur: 6, dim: 35, panelOpacity: 78, accent: '', reactive: true },
 }
 
@@ -125,6 +125,12 @@ async function applyCode($: $, c: MantleConfig): Promise<string[]> {
 
 // ---- Windows Terminal -----------------------------------------------------
 
+// Windows Terminal 1.24+ loads a fragment's images only from the fragment's own
+// folder, so the wallpaper is copied next to mantle.json and named relatively.
+export function wallpaperFile(path: string): string {
+  return path ? `wall-${(path.split(/[\\/]/).pop() ?? 'wallpaper').replace(/[^\w.-]+/g, '-')}` : ''
+}
+
 export function terminalFragment(c: MantleConfig) {
   const p = paletteById(c.terminal.preset || c.preset)
   const custom = isHex(c.terminal.background)
@@ -132,24 +138,30 @@ export function terminalFragment(c: MantleConfig) {
   if (custom) own.name = 'Mantle Custom'
   const schemes = PALETTES.map(x => terminalScheme(x))
   if (custom) schemes.push(own)
+  const look: Record<string, unknown> = {
+    colorScheme: own.name,
+    opacity: c.terminal.opacity,
+    useAcrylic: c.terminal.acrylic,
+  }
+  if (c.terminal.wallpaper) {
+    look.backgroundImage = wallpaperFile(c.terminal.wallpaper)
+    look.backgroundImageOpacity = c.terminal.imageOpacity / 100
+    look.backgroundImageStretchMode = 'uniformToFill'
+  }
   const profile: Record<string, unknown> = {
     guid: PROFILE_GUID,
     name: 'Claude · Mantle',
     commandline: 'powershell.exe -NoLogo -NoExit -Command claude',
     startingDirectory: '%USERPROFILE%',
-    colorScheme: own.name,
     tabColor: p.accent,
     cursorShape: 'bar',
-    opacity: c.terminal.opacity,
-    useAcrylic: c.terminal.acrylic,
     font: { face: c.terminal.font || 'Cascadia Code' },
+    ...look,
   }
-  if (c.terminal.wallpaper) {
-    profile.backgroundImage = c.terminal.wallpaper
-    profile.backgroundImageOpacity = c.terminal.imageOpacity / 100
-    profile.backgroundImageStretchMode = 'uniformToFill'
-  }
-  return { profiles: [profile], schemes }
+  // The profiles you actually use (PowerShell, Command Prompt, WSL...) get the
+  // same look through "updates"; deleting the fragment undoes all of it.
+  const updates = (c.terminal.profiles ?? []).filter(g => g.toLowerCase() !== PROFILE_GUID).map(g => ({ updates: g, ...look }))
+  return { profiles: [profile, ...updates], schemes }
 }
 
 async function applyTerminal($: $, c: MantleConfig): Promise<string[]> {
@@ -158,9 +170,36 @@ async function applyTerminal($: $, c: MantleConfig): Promise<string[]> {
   if (c.terminal.wallpaper && !(await $.fs.exists(c.terminal.wallpaper))) {
     return [`Terminal: wallpaper not found at ${c.terminal.wallpaper}.`]
   }
-  const path = `${local}/Microsoft/Windows Terminal/Fragments/Mantle/mantle.json`
-  await $.fs.write(path, JSON.stringify(terminalFragment(c), null, 2) + '\n')
-  return ['Terminal: profile "Claude · Mantle" updated. Open it from the Windows Terminal tab menu (new window if it does not show yet).']
+  const dir = `${local}\\Microsoft\\Windows Terminal\\Fragments\\Mantle`
+  if (c.terminal.wallpaper) {
+    const from = `file:///${encodeURI(c.terminal.wallpaper.replaceAll('\\', '/'))}`
+    const got = await $.process.run(['curl', '--fail', '--silent', '--show-error', '--create-dirs', '-o', `${dir}\\${wallpaperFile(c.terminal.wallpaper)}`, from], { timeoutMs: 60_000 })
+    if (got.exitCode !== 0) return [`Terminal: could not copy the wallpaper (${got.stderr.trim() || `curl exited ${got.exitCode}`}).`]
+  }
+  await $.fs.write(`${dir}\\mantle.json`, JSON.stringify(terminalFragment(c), null, 2) + '\n')
+  const mine = (c.terminal.profiles ?? []).length
+  return [
+    mine
+      ? `Terminal: ${mine === 1 ? 'this profile' : `${mine} profiles`} and "Claude · Mantle" updated. Open a new tab to see it (restart Windows Terminal if it doesn't change).`
+      : 'Terminal: profile "Claude · Mantle" updated. Open it from the tab menu (restart Windows Terminal if it is missing).',
+  ]
+}
+
+// Runs inside Windows Terminal: remember the profile this tab uses so it gets
+// the theme too. Outside it (VS Code, another terminal) say what will happen.
+async function rememberProfile($: $): Promise<string | null> {
+  const guid = await $.env.get('WT_PROFILE_ID')
+  if (guid) {
+    const c = await read($, config)
+    if (!(c.terminal.profiles ?? []).includes(guid) && guid.toLowerCase() !== PROFILE_GUID) {
+      await setConfig($, x => ({ ...x, terminal: { ...x.terminal, profiles: [...(x.terminal.profiles ?? []), guid] } }))
+    }
+    return null
+  }
+  if ((await $.env.get('TERM_PROGRAM')) === 'vscode') {
+    return "VS Code: its terminal and the Claude Code extension can't show wallpapers; they follow your VS Code color theme. The wallpaper still goes to Windows Terminal and claude.ai."
+  }
+  return null
 }
 
 // ---- claude.ai --------------------------------------------------------------
@@ -212,12 +251,13 @@ async function applyWeb($: $, c: MantleConfig): Promise<string[]> {
   await $.fs.write(`${dir}/mantle-theme.json`, JSON.stringify(payload))
   return isFresh
     ? [`claude.ai: extension files written to ${dir}.`, 'Load it once: chrome://extensions → Developer mode → Load unpacked → that folder.']
-    : [`claude.ai: ${p.name} synced; open claude.ai tabs update within a few seconds.`]
+    : [`claude.ai: ${p.name} synced to the Mantle extension. Not loaded in Chrome yet? chrome://extensions → Developer mode → Load unpacked → ${dir}`]
 }
 
 async function applyAll($: $): Promise<void> {
+  const note = await rememberProfile($)
   const c = await read($, config)
-  const lines: string[] = []
+  const lines: string[] = note ? [note] : []
   const failed = (label: string) => (err: Error) => [`${label}: failed (${err.message}).`]
   if (c.targets.code) lines.push(...(await applyCode($, c).catch(failed('Claude Code'))))
   if (c.targets.terminal) lines.push(...(await applyTerminal($, c).catch(failed('Terminal'))))
