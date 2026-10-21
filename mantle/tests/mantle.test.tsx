@@ -1,6 +1,6 @@
 import { expect, mock, test } from 'claude-code/testing'
 import type { On } from 'claude-code'
-import { DEFAULT_CONFIG, itermProfile, terminalFragment } from '../hooks/register.tsx'
+import { DEFAULT_CONFIG, SHORTCUT, itermProfile, terminalFragment } from '../hooks/register.tsx'
 
 const PANE = {
   plugin: 'mantle',
@@ -130,4 +130,10 @@ test('macOS gets an iTerm2 dynamic profile with the wallpaper and the palette', 
   expect(p['Background Image Location']).toBe('/Users/me/.claude/mantle/wallpapers/a.jpg')
   expect(p.Blend).toBe(0.7)
   expect(p['Ansi 15 Color']).toBeDefined()
+})
+
+test('the claude shortcut is plain ASCII and opens the Mantle profile', async () => {
+  expect(/^[\x00-\x7f]*$/.test(SHORTCUT)).toBe(true)
+  expect(SHORTCUT).toContain("wt.exe -w 0 nt -p '{d1f4b7a2-3c6e-4f81-9a2b-5e7c0d9f4a11}'")
+  expect(SHORTCUT).toContain(String.raw`$dir = (Get-Location).ProviderPath.TrimEnd('\') + '\.'`)
 })

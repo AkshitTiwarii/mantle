@@ -24,7 +24,7 @@ export const DEFAULT_CONFIG: MantleConfig = {
   targets: { code: true, terminal: true, web: true },
   reactive: true,
   code: { preset: '', accent: '', thinking: '', working: '', messageBg: '' },
-  terminal: { preset: '', wallpaper: '', imageOpacity: 30, opacity: 85, acrylic: true, font: 'Cascadia Code', background: '', profiles: [], everywhere: false },
+  terminal: { preset: '', wallpaper: '', imageOpacity: 30, opacity: 85, acrylic: true, font: 'Cascadia Code', background: '', profiles: [], everywhere: false, follow: false },
   web: { preset: '', wallpaper: '', blur: 6, dim: 35, panelOpacity: 78, accent: '', reactive: true },
 }
 
@@ -231,7 +231,7 @@ async function applyTerminal($: $, c: MantleConfig): Promise<string[]> {
     const got = await $.process.run(['curl', '--fail', '--silent', '--show-error', '--create-dirs', '-o', `${dir}\\${wallpaperFile(c.terminal.wallpaper)}`, from], { timeoutMs: 60_000 })
     if (got.exitCode !== 0) return [`Terminal: could not copy the wallpaper (${got.stderr.trim() || `curl exited ${got.exitCode}`}).`]
   }
-  await $.fs.write(`${dir}\\mantle.json`, JSON.stringify(terminalFragment(c, await activeProfiles($)), null, 2) + '\n')
+  await $.fs.write(`${dir}\\mantle.json`, JSON.stringify(terminalFragment(c, c.terminal.follow ? await activeProfiles($) : []), null, 2) + '\n')
   // Windows Terminal reads fragments only when it (re)loads its settings, and it
   // reloads when settings.json's timestamp changes. Bump the timestamp (the
   // contents are left exactly as they are) so the change shows without a restart.
@@ -239,8 +239,89 @@ async function applyTerminal($: $, c: MantleConfig): Promise<string[]> {
     "Get-ChildItem \"$env:LOCALAPPDATA\\Packages\\Microsoft.WindowsTerminal*\\LocalState\\settings.json\",\"$env:LOCALAPPDATA\\Microsoft\\Windows Terminal\\settings.json\" -ErrorAction SilentlyContinue | ForEach-Object { $_.LastWriteTime = Get-Date }"
   await $.process.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', touch], { timeoutMs: 15_000 }).catch(() => undefined)
   if (c.terminal.everywhere) return ['Terminal: your profile now keeps the wallpaper all the time (/mantle terminal everywhere off to undo).']
-  if (await $.env.get('WT_PROFILE_ID')) return ['Terminal: wallpaper is on in this tab while Claude runs; it goes away when you quit Claude.']
+  if (c.terminal.follow && (await $.env.get('WT_PROFILE_ID'))) return ['Terminal: wallpaper is on in this profile while Claude runs; it goes away when you quit Claude.']
+  if ((await $.env.get('WT_PROFILE_ID')) && !(await hasShortcut($))) {
+    return ['Terminal: "Claude · Mantle" tab updated; your other tabs stay plain. Run /mantle shortcut on so typing claude opens it, or /mantle open now.']
+  }
   return ['Terminal: "Claude · Mantle" profile updated. Start Claude inside Windows Terminal to get the wallpaper there, or run /mantle open.']
+}
+
+// ---- the `claude` shortcut (PowerShell) -------------------------------------------
+
+const SHORTCUT_START = '# >>> mantle shortcut >>>'
+const SHORTCUT_END = '# <<< mantle shortcut <<<'
+
+// ASCII only: Windows PowerShell 5.1 reads a BOM-less profile in the ANSI code page.
+export const SHORTCUT = [
+  SHORTCUT_START,
+  '# Added by Mantle (/mantle shortcut off removes it). In Windows Terminal, `claude`',
+  '# opens in its own Claude - Mantle tab in this folder, so only that tab shows the',
+  '# wallpaper. Set $env:MANTLE_INLINE = 1 to run Claude in the current tab instead.',
+  'function claude {',
+  `  if ($env:WT_SESSION -and $env:WT_PROFILE_ID -ne '${PROFILE_GUID}' -and -not $env:MANTLE_INLINE) {`,
+  "    $dir = (Get-Location).ProviderPath.TrimEnd('\\') + '\\.'",
+  "    $rest = ($args | ForEach-Object { \"'\" + (\"$_\" -replace \"'\", \"''\") + \"'\" }) -join ' '",
+  `    wt.exe -w 0 nt -p '${PROFILE_GUID}' -d $dir powershell.exe -NoLogo -NoExit -Command ("claude " + $rest).Replace(';', '\\;')`,
+  '    return',
+  '  }',
+  '  $real = Get-Command claude -CommandType Application, ExternalScript -ErrorAction SilentlyContinue | Select-Object -First 1',
+  '  if ($real) { & $real.Source @args } else { Write-Error "claude is not on PATH" }',
+  '}',
+  SHORTCUT_END,
+].join('\r\n')
+
+// The PowerShell profile files that exist or can be created: Windows PowerShell
+// always, PowerShell 7 when it is installed.
+async function profilePaths($: $): Promise<string[]> {
+  const out: string[] = []
+  for (const shell of ['powershell.exe', 'pwsh.exe']) {
+    const r = await $.process
+      .run([shell, '-NoProfile', '-NonInteractive', '-Command', '$PROFILE.CurrentUserCurrentHost'], { timeoutMs: 15_000 })
+      .catch(() => undefined)
+    const path = r && r.exitCode === 0 ? r.stdout.trim() : ''
+    if (path && !out.includes(path)) out.push(path)
+  }
+  return out
+}
+
+function withoutShortcut(text: string): string {
+  const a = text.indexOf(SHORTCUT_START)
+  const b = text.indexOf(SHORTCUT_END)
+  if (a < 0 || b < a) return text
+  return (text.slice(0, a).replace(/\s+$/, '') + '\r\n' + text.slice(b + SHORTCUT_END.length).replace(/^\s+/, '')).trim() + '\r\n'
+}
+
+async function hasShortcut($: $): Promise<boolean> {
+  for (const path of await profilePaths($)) {
+    if ((await $.fs.exists(path)) && String(await $.fs.read(path)).includes(SHORTCUT_START)) return true
+  }
+  return false
+}
+
+async function setShortcut($: $, isOn: boolean): Promise<string[]> {
+  if (!(await $.env.get('LOCALAPPDATA'))) return ['The claude shortcut is for PowerShell in Windows Terminal. On macOS use /mantle open.']
+  const paths = await profilePaths($)
+  if (paths.length === 0) return ['Could not find your PowerShell profile path.']
+  const done: string[] = []
+  for (const path of paths) {
+    const before = (await $.fs.exists(path)) ? String(await $.fs.read(path)) : ''
+    const base = withoutShortcut(before)
+    const next = isOn ? `${base.trim() ? `${base.trimEnd()}\r\n\r\n` : ''}${SHORTCUT}\r\n` : base
+    if (next !== before) {
+      await $.fs.write(path, next)
+      done.push(path)
+    }
+  }
+  if (!isOn) return done.length ? [`Removed the claude shortcut from ${done.join(' and ')}.`] : ['The claude shortcut was not installed.']
+  // A Restricted or AllSigned policy skips profile scripts, so the shortcut would never load.
+  const policy = await $.process.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', 'Get-ExecutionPolicy'], { timeoutMs: 15_000 }).catch(() => undefined)
+  const blocked = policy && /^(Restricted|AllSigned)$/i.test(policy.stdout.trim())
+  return [
+    ...(blocked ? [`PowerShell's execution policy is ${policy.stdout.trim()}, which skips profile scripts. Allow local scripts once with: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`] : []),
+    `Added the claude shortcut to ${(done.length ? done : paths).join(' and ')}.`,
+    'Open a new PowerShell tab, type claude: it opens in its own Claude · Mantle tab with the wallpaper, and your other tabs stay plain.',
+    'Run Claude in the current tab once with $env:MANTLE_INLINE = 1; remove the shortcut with /mantle shortcut off.',
+  ]
 }
 
 // /mantle open: start Claude in a new tab that uses the Claude · Mantle profile,
@@ -305,7 +386,7 @@ async function markActive($: $, isOn: boolean): Promise<boolean> {
 async function rememberProfile($: $): Promise<string | null> {
   const guid = await $.env.get('WT_PROFILE_ID')
   if (guid) {
-    await markActive($, true)
+    if ((await read($, config)).terminal.follow) await markActive($, true)
     const c = await read($, config)
     if (!(c.terminal.profiles ?? []).includes(guid) && guid.toLowerCase() !== PROFILE_GUID) {
       await setConfig($, x => ({ ...x, terminal: { ...x.terminal, profiles: [...(x.terminal.profiles ?? []), guid] } }))
@@ -452,13 +533,13 @@ export const register: Register = on => {
     await $.command.register({
       name: COMMAND,
       description: 'Mantle theme studio: one theme for Claude Code, Windows Terminal and claude.ai',
-      argumentHint: '[apply | <preset> | wallpaper <url|file|off> | open | live on|off | terminal everywhere on|off]',
+      argumentHint: '[apply | <preset> | wallpaper <url|file|off> | open | shortcut on|off | live on|off | terminal everywhere|follow on|off]',
     })
     const c = await read($, config)
     const applied = Boolean(await $.store.get('applied'))
     if (c.targets.code && applied) await writeCodeTheme($, c, 'idle').catch(() => undefined)
     // Claude just started in this tab: put the wallpaper behind it.
-    if (c.targets.terminal && applied && (await markActive($, true).catch(() => false))) {
+    if (c.targets.terminal && applied && c.terminal.follow && (await markActive($, true).catch(() => false))) {
       await applyTerminal($, c).catch(() => undefined)
     }
 
@@ -474,7 +555,7 @@ export const register: Register = on => {
       await writeCodeTheme($, c, 'idle').catch(() => undefined)
     }
     // Claude is quitting: take the wallpaper off this tab (other Claude tabs keep theirs).
-    if (c.targets.terminal && applied && (await markActive($, false).catch(() => false))) {
+    if (c.targets.terminal && applied && c.terminal.follow && (await markActive($, false).catch(() => false))) {
       await applyTerminal($, c).catch(() => undefined)
     }
 
@@ -499,6 +580,13 @@ export const register: Register = on => {
       return { text: lines.join('\n') }
     }
     if (word === 'open') return { text: await openClaudeTab($) }
+    if (word === 'shortcut') return { text: (await setShortcut($, value !== 'off')).join('\n') }
+    if (word === 'terminal' && value === 'follow') {
+      const isOn = args.split(/\s+/)[2] === 'on'
+      await setConfig($, c => ({ ...c, terminal: { ...c.terminal, follow: isOn } }))
+      await applyAll($)
+      return { text: isOn ? 'While Claude runs, every tab of its profile shows the wallpaper.' : 'Other tabs stay plain while Claude runs.' }
+    }
     if (word === 'terminal' && value === 'everywhere') {
       const isOn = args.split(/\s+/)[2] === 'on'
       await setConfig($, c => ({ ...c, terminal: { ...c.terminal, everywhere: isOn } }))

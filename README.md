@@ -65,8 +65,8 @@ The website's hero has the same prompts, one tab per agent, with a copy button.
 One apply recolors three places at once:
 
 - **Claude Code:** every interface color — accent, prompt border, diffs, your message background, plan and accept-edits modes, status colors — through a native theme file (`~/.claude/themes/mantle.json`, selected as **Mantle (live)** in `/theme`).
-- **Your terminal:** the wallpaper and matching colors (all 16 ANSI colors, opacity, blur) appear behind Claude when it starts and go away when you quit it. Your shell looks normal the rest of the time; nothing to re-apply after a restart.
-  - **Windows Terminal:** written as a settings fragment, so your `settings.json` is never edited, and it changes live without restarting Windows Terminal. While Claude runs, every tab of that same profile shows the wallpaper. `/mantle terminal everywhere on` keeps it on all the time; there's also a dedicated **Claude · Mantle** profile (`/mantle open`).
+- **Your terminal:** Claude runs in its own **Claude · Mantle** tab with the wallpaper and matching colors (all 16 ANSI colors, opacity, blur); your other tabs stay plain.
+  - **Windows Terminal:** run `/mantle shortcut on` once. After that, typing `claude` in any PowerShell tab opens Claude in a new Claude · Mantle tab in the same folder (set `$env:MANTLE_INLINE = 1` to run it in place; `/mantle shortcut off` removes the shortcut from your PowerShell profile). Mantle's look is a settings fragment, so your `settings.json` is never edited, and changes show live. Windows Terminal ties a wallpaper to a profile, not a tab, which is why Claude gets a profile of its own. `/mantle terminal everywhere on` puts the look on your own profile instead.
   - **macOS (iTerm2):** written as an iTerm2 Dynamic Profile, **Claude · Mantle**, which iTerm2 picks up live; `/mantle open` starts Claude in it. Terminal.app can't load a wallpaper from a file, so it gets Claude Code's colors only.
 - **claude.ai** (Chrome): page colors, a blurred wallpaper behind frosted panels, readable buttons, and a light that sweeps across the top while Claude replies. Done by a bundled Chrome extension that recolors claude.ai's own design tokens.
 
@@ -168,6 +168,7 @@ Open http://127.0.0.1:5173.
 | `/mantle apply` | Applies the current settings to every surface that's switched on |
 | `/mantle <preset>` | Switches preset and applies it, e.g. `/mantle synthwave` |
 | `/mantle wallpaper <url \| file \| off>` | Downloads an image and puts it behind your terminal and claude.ai |
+| `/mantle shortcut on \| off` | Windows: makes `claude` in PowerShell open in its own Claude · Mantle tab (adds or removes a marked block in your PowerShell profile) |
 | `/mantle open` | Starts Claude in a new Claude · Mantle tab (Windows Terminal) or window (iTerm2) in this folder |
 | `/mantle live on \| off` | Turns live reactions on or off |
 | `/mantle terminal everywhere on \| off` | Also themes the Windows Terminal profile you run `/mantle` from (off by default) |

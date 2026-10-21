@@ -22,6 +22,8 @@ export type MantleTerminalConfig = {
   profiles: string[]
   /** Off (default): only the Claude · Mantle profile gets the wallpaper and colors. On: your own profiles too. */
   everywhere: boolean
+  /** On: while Claude runs, its tab's whole profile shows the wallpaper (every tab of that profile). Off by default. */
+  follow: boolean
 }
 
 export type MantleWebConfig = {
