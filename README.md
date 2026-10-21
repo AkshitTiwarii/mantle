@@ -72,6 +72,9 @@ One apply recolors three places at once:
 
 Each surface can also be customized separately in the studio: its own preset, accent, wallpaper, opacity or blur.
 
+<img width="1512" height="795" alt="Screenshot 2026-10-21 214929" src="https://github.com/user-attachments/assets/740b9b67-7ee1-4e2e-a791-7c7cee621978" />
+
+
 ### 2. Colors that react to Claude
 
 While you work, the Claude Code theme shifts with Claude's state:
