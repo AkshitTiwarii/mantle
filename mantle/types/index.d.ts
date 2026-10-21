@@ -18,8 +18,10 @@ export type MantleTerminalConfig = {
   acrylic: boolean
   font: string
   background: string
-  /** Windows Terminal profiles (GUIDs) Mantle also themes, besides its own: the ones you ran /mantle from. */
+  /** Windows Terminal profiles (GUIDs) you ran /mantle from; themed only when `everywhere` is on. */
   profiles: string[]
+  /** Off (default): only the Claude · Mantle profile gets the wallpaper and colors. On: your own profiles too. */
+  everywhere: boolean
 }
 
 export type MantleWebConfig = {

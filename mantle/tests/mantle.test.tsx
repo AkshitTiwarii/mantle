@@ -1,6 +1,6 @@
 import { expect, mock, test } from 'claude-code/testing'
 import type { On } from 'claude-code'
-import { DEFAULT_CONFIG, terminalFragment } from '../hooks/register.tsx'
+import { DEFAULT_CONFIG, itermProfile, terminalFragment } from '../hooks/register.tsx'
 
 const PANE = {
   plugin: 'mantle',
@@ -107,10 +107,27 @@ test('the studio draws on terminal and desktop', async ($, on) => {
 test('the wallpaper sits beside the fragment and reaches the profiles you use', async () => {
   const c = {
     ...DEFAULT_CONFIG,
-    terminal: { ...DEFAULT_CONFIG.terminal, wallpaper: 'C:\\Users\\me\\.claude\\mantle\\wallpapers\\Carina Nebula.jpg', profiles: ['{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'] },
+    terminal: { ...DEFAULT_CONFIG.terminal, wallpaper: 'C:\\Users\\me\\.claude\\mantle\\wallpapers\\Carina Nebula.jpg', profiles: ['{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'], everywhere: true },
   }
   const f = terminalFragment(c)
   // Windows Terminal 1.24+ only loads images from the fragment's folder.
   expect(f.profiles[0].backgroundImage).toBe('wall-Carina-Nebula.jpg')
   expect(f.profiles[1]).toMatchObject({ updates: '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}', backgroundImage: 'wall-Carina-Nebula.jpg', colorScheme: 'Mantle Aurora' })
+})
+
+test('only the Claude profile gets the wallpaper unless everywhere is on', async () => {
+  const guid = '{61c54bbd-c2c6-5271-96e7-009a87ff44bf}'
+  const base = { ...DEFAULT_CONFIG, terminal: { ...DEFAULT_CONFIG.terminal, wallpaper: 'C:\w\a.jpg', profiles: [guid] } }
+  expect(terminalFragment(base).profiles).toHaveLength(1)
+  const everywhere = { ...base, terminal: { ...base.terminal, everywhere: true } }
+  expect(terminalFragment(everywhere).profiles[1]).toMatchObject({ updates: guid })
+})
+
+test('macOS gets an iTerm2 dynamic profile with the wallpaper and the palette', async () => {
+  const c = { ...DEFAULT_CONFIG, terminal: { ...DEFAULT_CONFIG.terminal, wallpaper: '/Users/me/.claude/mantle/wallpapers/a.jpg' } }
+  const p = itermProfile(c).Profiles[0] as Record<string, unknown>
+  expect(p.Name).toBe('Claude · Mantle')
+  expect(p['Background Image Location']).toBe('/Users/me/.claude/mantle/wallpapers/a.jpg')
+  expect(p.Blend).toBe(0.7)
+  expect(p['Ansi 15 Color']).toBeDefined()
 })

@@ -24,7 +24,7 @@ export const DEFAULT_CONFIG: MantleConfig = {
   targets: { code: true, terminal: true, web: true },
   reactive: true,
   code: { preset: '', accent: '', thinking: '', working: '', messageBg: '' },
-  terminal: { preset: '', wallpaper: '', imageOpacity: 30, opacity: 85, acrylic: true, font: 'Cascadia Code', background: '', profiles: [] },
+  terminal: { preset: '', wallpaper: '', imageOpacity: 30, opacity: 85, acrylic: true, font: 'Cascadia Code', background: '', profiles: [], everywhere: false },
   web: { preset: '', wallpaper: '', blur: 6, dim: 35, panelOpacity: 78, accent: '', reactive: true },
 }
 
@@ -158,17 +158,72 @@ export function terminalFragment(c: MantleConfig) {
     font: { face: c.terminal.font || 'Cascadia Code' },
     ...look,
   }
-  // The profiles you actually use (PowerShell, Command Prompt, WSL...) get the
-  // same look through "updates"; deleting the fragment undoes all of it.
-  const updates = (c.terminal.profiles ?? []).filter(g => g.toLowerCase() !== PROFILE_GUID).map(g => ({ updates: g, ...look }))
+  // Opt-in (/mantle terminal everywhere on): the profiles you ran /mantle from
+  // (PowerShell, Command Prompt, WSL...) get the same look through "updates".
+  // Off by default, so only Claude's own profile carries the wallpaper.
+  const mine = c.terminal.everywhere ? (c.terminal.profiles ?? []) : []
+  const updates = mine.filter(g => g.toLowerCase() !== PROFILE_GUID).map(g => ({ updates: g, ...look }))
   return { profiles: [profile, ...updates], schemes }
 }
 
+// ---- iTerm2 (macOS) -----------------------------------------------------------
+
+const ITERM_GUID = 'mantle-claude-profile'
+
+function itermColor(hex: string) {
+  const n = parseInt(hex.replace('#', '').slice(0, 6), 16)
+  return { 'Red Component': ((n >> 16) & 255) / 255, 'Green Component': ((n >> 8) & 255) / 255, 'Blue Component': (n & 255) / 255, 'Alpha Component': 1, 'Color Space': 'sRGB' }
+}
+
+// An iTerm2 Dynamic Profile: iTerm2 watches its DynamicProfiles folder and picks
+// this up live. Your own profiles are never touched.
+export function itermProfile(c: MantleConfig) {
+  const p = paletteById(c.terminal.preset || c.preset)
+  const s = terminalScheme(p, { background: c.terminal.background })
+  const profile: Record<string, unknown> = {
+    Name: 'Claude · Mantle',
+    Guid: ITERM_GUID,
+    Tags: ['Mantle'],
+    'Background Color': itermColor(s.background),
+    'Foreground Color': itermColor(s.foreground),
+    'Cursor Color': itermColor(s.cursorColor),
+    'Selection Color': itermColor(s.selectionBackground),
+    'Bold Color': itermColor(s.foreground),
+    'Link Color': itermColor(p.accent),
+    'Tab Color': itermColor(p.accent),
+    'Use Tab Color': true,
+    Transparency: Math.round((1 - c.terminal.opacity / 100) * 100) / 100,
+    Blur: c.terminal.acrylic,
+    'Blur Radius': 12,
+  }
+  p.ansi.forEach((hex: string, i: number) => (profile[`Ansi ${i} Color`] = itermColor(hex)))
+  if (c.terminal.wallpaper) {
+    profile['Background Image Location'] = c.terminal.wallpaper
+    profile['Background Image Mode'] = 2
+    // Blend is how much of the background color covers the image.
+    profile.Blend = Math.round((1 - c.terminal.imageOpacity / 100) * 100) / 100
+  }
+  return { Profiles: [profile] }
+}
+
+async function applyIterm($: $, c: MantleConfig, home: string): Promise<string[]> {
+  const dir = `${home}/Library/Application Support/iTerm2`
+  if (!(await $.fs.exists(dir))) {
+    return ["Terminal: wallpapers on macOS need iTerm2 (iterm2.com); Terminal.app can't load one from a file. Claude Code's colors still apply."]
+  }
+  await $.fs.write(`${dir}/DynamicProfiles/mantle.json`, JSON.stringify(itermProfile(c), null, 2) + '\n')
+  return ['Terminal: iTerm2 profile "Claude · Mantle" updated; your other profiles are untouched. Run /mantle open to start Claude in it here.']
+}
+
 async function applyTerminal($: $, c: MantleConfig): Promise<string[]> {
-  const local = await $.env.get('LOCALAPPDATA')
-  if (!local) return ['Terminal: Windows Terminal sync needs Windows; skipped.']
   if (c.terminal.wallpaper && !(await $.fs.exists(c.terminal.wallpaper))) {
     return [`Terminal: wallpaper not found at ${c.terminal.wallpaper}.`]
+  }
+  const local = await $.env.get('LOCALAPPDATA')
+  if (!local) {
+    const home = await $.env.get('HOME')
+    if (home && (await $.fs.exists(`${home}/Library`))) return applyIterm($, c, home)
+    return ['Terminal: wallpapers are set up for Windows Terminal and iTerm2 (macOS); skipped here. Claude Code\'s colors still apply.']
   }
   const dir = `${local}\\Microsoft\\Windows Terminal\\Fragments\\Mantle`
   if (c.terminal.wallpaper) {
@@ -177,12 +232,38 @@ async function applyTerminal($: $, c: MantleConfig): Promise<string[]> {
     if (got.exitCode !== 0) return [`Terminal: could not copy the wallpaper (${got.stderr.trim() || `curl exited ${got.exitCode}`}).`]
   }
   await $.fs.write(`${dir}\\mantle.json`, JSON.stringify(terminalFragment(c), null, 2) + '\n')
-  const mine = (c.terminal.profiles ?? []).length
+  // Windows Terminal reads fragments only when it (re)loads its settings, and it
+  // reloads when settings.json's timestamp changes. Bump the timestamp (the
+  // contents are left exactly as they are) so the change shows without a restart.
+  const touch =
+    "Get-ChildItem \"$env:LOCALAPPDATA\\Packages\\Microsoft.WindowsTerminal*\\LocalState\\settings.json\",\"$env:LOCALAPPDATA\\Microsoft\\Windows Terminal\\settings.json\" -ErrorAction SilentlyContinue | ForEach-Object { $_.LastWriteTime = Get-Date }"
+  await $.process.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', touch], { timeoutMs: 15_000 }).catch(() => undefined)
+  const mine = c.terminal.everywhere ? (c.terminal.profiles ?? []).length : 0
   return [
     mine
-      ? `Terminal: ${mine === 1 ? 'this profile' : `${mine} profiles`} and "Claude · Mantle" updated. Open a new tab to see it (restart Windows Terminal if it doesn't change).`
-      : 'Terminal: profile "Claude · Mantle" updated. Open it from the tab menu (restart Windows Terminal if it is missing).',
+      ? `Terminal: your ${mine === 1 ? 'profile' : `${mine} profiles`} and "Claude · Mantle" updated (everywhere is on). Open a new tab to see it.`
+      : 'Terminal: "Claude · Mantle" profile updated; your other profiles are untouched. Run /mantle open to start Claude in it here.',
   ]
+}
+
+// /mantle open: start Claude in a new tab that uses the Claude · Mantle profile,
+// in this session's folder, so the wallpaper is there only while you use Claude.
+async function openClaudeTab($: $): Promise<string> {
+  const cwd = await $.session.cwd()
+  if (await $.env.get('LOCALAPPDATA')) {
+    const r = await $.process.run(['wt.exe', '-w', '0', 'nt', '-p', 'Claude · Mantle', '-d', cwd], { timeoutMs: 15_000 })
+    return r.exitCode === 0 ? `Opened Claude in a "Claude · Mantle" tab at ${cwd}.` : `Could not open Windows Terminal (${r.stderr.trim() || `exit ${r.exitCode}`}). Is it installed?`
+  }
+  // A new iTerm2 window on the Mantle profile, then cd here and start Claude in it.
+  const dir = cwd.replaceAll('\\', '\\\\').replaceAll('"', '\\"')
+  const script = [
+    'tell application "iTerm"',
+    '  set w to (create window with profile "Claude · Mantle")',
+    `  tell current session of w to write text "cd " & quoted form of "${dir}" & " && claude"`,
+    'end tell',
+  ].join('\n')
+  const r = await $.process.run(['osascript', '-e', script], { timeoutMs: 15_000 })
+  return r.exitCode === 0 ? 'Opened Claude in a new iTerm2 window with the "Claude · Mantle" profile.' : `Could not open iTerm2 (${r.stderr.trim() || `exit ${r.exitCode}`}).`
 }
 
 // Runs inside Windows Terminal: remember the profile this tab uses so it gets
@@ -336,7 +417,7 @@ export const register: Register = on => {
     await $.command.register({
       name: COMMAND,
       description: 'Mantle theme studio: one theme for Claude Code, Windows Terminal and claude.ai',
-      argumentHint: '[apply | <preset> | wallpaper <url|file|off> | live on|off]',
+      argumentHint: '[apply | <preset> | wallpaper <url|file|off> | open | live on|off | terminal everywhere on|off]',
     })
     const c = await read($, config)
     if (c.targets.code && (await $.store.get('applied'))) await writeCodeTheme($, c, 'idle').catch(() => undefined)
@@ -371,6 +452,17 @@ export const register: Register = on => {
     if (word === 'wallpaper') {
       const lines = await setWallpaper($, args.slice(word.length).trim())
       return { text: lines.join('\n') }
+    }
+    if (word === 'open') return { text: await openClaudeTab($) }
+    if (word === 'terminal' && value === 'everywhere') {
+      const isOn = args.split(/\s+/)[2] === 'on'
+      await setConfig($, c => ({ ...c, terminal: { ...c.terminal, everywhere: isOn } }))
+      await applyAll($)
+      return {
+        text: isOn
+          ? 'Your own terminal profile now gets the wallpaper and colors too (every folder, Claude or not). Undo with /mantle terminal everywhere off.'
+          : 'Only the "Claude · Mantle" profile has the wallpaper now; your other profiles are back to their own look. Restart Windows Terminal to see it.',
+      }
     }
     const preset = PALETTES.find(p => p.id === word || p.name.toLowerCase() === args.toLowerCase())
     if (preset) {
