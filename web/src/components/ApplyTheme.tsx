@@ -6,7 +6,7 @@ import { Modal, toast } from './ui'
 
 export type CompanionState = 'checking' | 'online' | 'offline'
 
-// On the hosted site (Vercel) there is no companion to reach: it only ever runs
+// On a hosted copy of the site there is no companion to reach: it only ever runs
 // on the visitor's own machine, so skip the request and show setup steps instead.
 export const HOSTED = typeof location !== 'undefined' && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
 

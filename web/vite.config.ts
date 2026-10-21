@@ -7,9 +7,9 @@ import { fileURLToPath, URL } from 'node:url'
 // browser only ever talks to one localhost origin.
 const COMPANION_PORT = Number(process.env.MANTLE_COMPANION_PORT ?? 5178)
 
-// Link previews (LinkedIn, X, Slack) need absolute image URLs. On Vercel the
-// production domain comes from its system env; SITE_URL overrides it.
-const SITE_URL = process.env.SITE_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '')
+// Link previews (LinkedIn, X, Slack) need absolute image URLs: set SITE_URL
+// to the site's origin at build time.
+const SITE_URL = process.env.SITE_URL ?? ''
 
 export default defineConfig({
   plugins: [

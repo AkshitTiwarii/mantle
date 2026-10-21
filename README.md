@@ -156,12 +156,6 @@ Open http://127.0.0.1:5173.
 - **Make a theme:** start from a preset, or build a theme straight from a wallpaper or your own photo (the colors are read in your browser; nothing is uploaded). Lock the colors you like and shuffle the rest with Space, undo with Ctrl+Z, check contrast on every color, and share the result as a link. Claude Code, claude.ai and the terminal update live over the wallpaper; export a Claude Code theme, a Windows Terminal scheme and a claude.ai payload.
 - **My Claude:** a local companion (127.0.0.1 only) lists the skills, plugins, connectors, themes and marketplaces you already have, with secrets masked. Its only write is applying a Mantle theme after you confirm.
 
-### Deploy the website
-
-The repo is ready for Vercel: import `AkshitTiwarii/mantle` at [vercel.com/new](https://vercel.com/new) and click **Deploy**. `vercel.json` builds `web/` and serves `web/dist`; no settings to change. Link previews use the production domain automatically (set `SITE_URL` to override it, e.g. for a custom domain).
-
-On the hosted site everything works except **My Claude**, which reads your local `~/.claude` and so only runs when you start the site on your own machine.
-
 ---
 
 ## Commands
