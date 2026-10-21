@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { MotionConfig } from 'motion/react'
+import { PageTransition } from './components/Motion'
 import { IconBrandGithub as Github } from '@tabler/icons-react'
 import { href, useRoute } from './lib/router'
-import { useCompanion } from './components/ApplyTheme'
+import { HOSTED, useCompanion } from './components/ApplyTheme'
 import { Toasts, copy } from './components/ui'
 import { MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle, NavBody, NavItems, Navbar, NavbarButton } from './components/ui/resizable-navbar'
 import { Hub } from './pages/Hub'
@@ -34,7 +36,7 @@ export function App() {
           </a>
           <NavItems items={items} className="text-[14px] [&_a]:!text-[var(--text-2)] [&_.bg-gray-100]:!bg-[var(--panel-3)]" />
           <div className="relative z-20 flex items-center gap-2">
-            <span className={`nav-dot ${companion}`} title={companionTitle} aria-label={companionTitle} />
+            {!HOSTED && <span className={`nav-dot ${companion}`} title={companionTitle} aria-label={companionTitle} />}
             <NavbarButton href={REPO_URL} target="_blank" rel="noreferrer" variant="secondary" className="!px-3 !font-semibold">
               <Github size={16} className="mr-1.5 inline -translate-y-px" />
               GitHub
@@ -65,10 +67,14 @@ export function App() {
         </MobileNav>
       </Navbar>
       <main>
-        {route.page === 'hub' && <Hub />}
-        {route.page === 'item' && <Detail key={route.id} id={route.id} />}
-        {route.page === 'make' && <Maker key={route.from ?? ''} from={route.from} />}
-        {route.page === 'me' && <MyClaude />}
+        <MotionConfig reducedMotion="user">
+          <PageTransition id={route.page === 'item' ? `item:${route.id}` : route.page}>
+            {route.page === 'hub' && <Hub />}
+            {route.page === 'item' && <Detail id={route.id} />}
+            {route.page === 'make' && <Maker key={route.from ?? ''} from={route.from} share={route.share} />}
+            {route.page === 'me' && <MyClaude />}
+          </PageTransition>
+        </MotionConfig>
       </main>
       <div className="rule" />
       <footer className="footer">

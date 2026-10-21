@@ -792,43 +792,6 @@ textarea:focus {
   font-weight: 600;
 }
 
-/* marquee cards */
-.mq-card {
-  width: 320px;
-  flex: none;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--panel);
-  padding: 16px 18px;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
-}
-.mq-card:hover {
-  border-color: var(--line-2);
-  box-shadow: var(--shadow);
-}
-.mq-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.mq-top b {
-  font-weight: 600;
-}
-.mq-top span {
-  color: var(--muted);
-  font-size: 12.5px;
-}
-.mq-card p {
-  margin: 0;
-  color: var(--text-2);
-  font-size: 13.5px;
-  line-height: 1.5;
-}
-
 /* bento */
 .bento-cell {
   border: 1px solid var(--line);
@@ -1492,6 +1455,48 @@ textarea:focus {
   border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
   flex: none;
 }
+/* Maker logos: the brand's own mark on a quiet tile. */
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  overflow: hidden;
+  background: var(--panel-2, #f6f3ea);
+  border: 1px solid var(--line);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.brand-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card:hover .brand-logo {
+  transform: translateY(-1px) scale(1.06);
+  box-shadow: 0 6px 14px -8px rgb(0 0 0 / 0.35);
+}
+.detail-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.detail-title .brand-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+}
+/* Gallery cells animate in and reflow when filters change (see Motion.tsx). */
+.grid-cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.grid-cell > .card {
+  flex: 1;
+}
 .card-make {
   text-decoration: none;
   align-items: center;
@@ -1955,6 +1960,143 @@ pre.code {
   font-size: 10px;
 }
 
+/* presets row: each preset as a small specimen */
+.maker-presets {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 12px;
+  margin-bottom: 8px;
+  scrollbar-width: thin;
+}
+.preset-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex: none;
+  padding: 6px 12px 6px 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.preset-chip:hover {
+  border-color: var(--line-2);
+  box-shadow: var(--shadow);
+}
+.preset-chip.on {
+  border-color: var(--text);
+  color: var(--text);
+  box-shadow: 0 0 0 1px var(--text);
+}
+.preset-sw {
+  display: grid;
+  grid-template-columns: repeat(2, 7px);
+  gap: 3px;
+  padding: 5px;
+  border-radius: 8px;
+}
+.preset-sw i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.maker-tools {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.maker-tools .btn {
+  flex: 1 1 auto;
+  justify-content: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.swatch-pop {
+  display: inline-flex;
+}
+.color-field {
+  grid-template-columns: 40px 1fr 92px 30px;
+}
+.color-text label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+}
+.ratio {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+.ratio.ok {
+  color: var(--ok);
+  background: color-mix(in srgb, var(--ok) 10%, transparent);
+}
+.ratio.low {
+  color: var(--err);
+  background: color-mix(in srgb, var(--err) 10%, transparent);
+}
+.lock {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--faint);
+  cursor: pointer;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.lock:hover {
+  color: var(--text);
+  background: var(--panel-3);
+}
+.color-field.locked {
+  background: var(--panel-2);
+}
+.color-field.locked .lock {
+  color: var(--text);
+  border-color: var(--line-2);
+  background: var(--panel);
+}
+.maker-actions {
+  flex-wrap: wrap;
+}
+.maker-controls,
+.maker-preview {
+  min-width: 0;
+}
+.maker-controls .field-row {
+  flex-wrap: wrap;
+}
+.maker-controls .field-row .grow {
+  min-width: 180px;
+}
+kbd {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  padding: 1px 5px;
+  border: 1px solid var(--line-2);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  color: var(--muted);
+  background: var(--panel);
+}
+
 /* ---- my claude ---------------------------------------------------------------------- */
 .me-head {
   display: flex;
@@ -2371,7 +2513,7 @@ code.block {
 @media (max-width: 1060px) {
   .detail-grid,
   .maker-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .maker-sticky {
     position: static;
@@ -2424,7 +2566,7 @@ code.block {
     margin-left: 0;
   }
   .color-field {
-    grid-template-columns: 40px 1fr 88px;
+    grid-template-columns: 40px 1fr 84px 30px;
   }
   .card-foot {
     flex-wrap: wrap;

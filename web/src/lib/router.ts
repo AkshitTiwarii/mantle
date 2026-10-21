@@ -4,14 +4,17 @@ import { useEffect, useState } from 'react'
 export type Route =
   | { page: 'hub' }
   | { page: 'item'; id: string }
-  | { page: 'make'; from?: string }
+  | { page: 'make'; from?: string; share?: string }
   | { page: 'me' }
 
 export function parse(hash: string): Route {
   const [path, query = ''] = hash.replace(/^#/, '').split('?')
   const parts = path.split('/').filter(Boolean)
   if (parts[0] === 'item' && parts[1]) return { page: 'item', id: decodeURIComponent(parts[1]) }
-  if (parts[0] === 'make') return { page: 'make', from: new URLSearchParams(query).get('from') ?? undefined }
+  if (parts[0] === 'make') {
+    const q = new URLSearchParams(query)
+    return { page: 'make', from: q.get('from') ?? undefined, share: q.get('t') ?? undefined }
+  }
   if (parts[0] === 'me') return { page: 'me' }
   return { page: 'hub' }
 }
@@ -21,6 +24,7 @@ export function href(route: Route): string {
     case 'item':
       return `#/item/${encodeURIComponent(route.id)}`
     case 'make':
+      if (route.share) return `#/make?t=${route.share}`
       return route.from ? `#/make?from=${encodeURIComponent(route.from)}` : '#/make'
     case 'me':
       return '#/me'

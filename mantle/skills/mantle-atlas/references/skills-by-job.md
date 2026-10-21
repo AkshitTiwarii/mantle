@@ -4,7 +4,7 @@ The most useful and most installed public Agent Skills, grouped by the job you n
 
 Source: skills.sh + each skill's SKILL.md, collected 2026-10-21.
 
-This file is a curated short list (162 skills). The full index of about 20k skills lives in `data/skills.tsv` (searchable with grep / rg). Install counts are all-time installs from the skills.sh search API on the date above. Some very high counts come from bundled packs that install many skills at once, so treat installs as a popularity signal, not a quality score. Every install command uses the open `skills` CLI (`npx skills add <owner/repo> --skill <skillId>`), which works across Claude Code, Codex, Cursor, Copilot and other agents.
+This file is a curated short list (about 170 skills and packs). The full index of about 30k skills lives in `data/skills.tsv` (searchable with grep / rg). Install counts are all-time installs from the skills.sh search API on the date above. Some very high counts come from bundled packs that install many skills at once, so treat installs as a popularity signal, not a quality score. Most install commands use the open `skills` CLI (`npx skills add <owner/repo> --skill <skillId>`), which works across Claude Code, Codex, Cursor, Copilot and other agents; a few tools ship as a Claude Code plugin, an MCP server or a shadcn registry instead, and say so.
 
 ---
 
@@ -137,6 +137,58 @@ This file is a curated short list (162 skills). The full index of about 20k skil
 - **Skip when:** You have no `SLEEK_API_KEY` (required); for native-feeling Expo UI without a service use `expo-native-ui`.
 - **Install:** `npx skills add designed-by-ai/skills --skill design-mobile-apps`
 - **Installs:** 925,210
+
+## Animation, motion & video
+
+### gsap skills — greensock/gsap-skills
+- **What:** GreenSock's official skills for GSAP: core tweens, timelines, ScrollTrigger, plugins, React (useGSAP), utilities and performance.
+- **Use when:** You're writing JavaScript animation or scroll-driven effects with GSAP and want the agent to use the current API correctly.
+- **Skip when:** Simple UI state transitions that CSS or Motion (Framer Motion) already handle (`transitions-dev`).
+- **Install:** `npx skills add https://github.com/greensock/gsap-skills`
+
+### cinematic-gsap-lenis-motion-system — mengto/skills
+- **What:** A connected motion language built on Lenis smooth scrolling + GSAP + ScrollTrigger: reveals, pinned scenes, parallax, staggered text, cursor effects.
+- **Use when:** Editorial or Awwwards-style marketing sites that need smooth scroll and choreographed motion. (There is no official Lenis skill; this is the most-installed real one.)
+- **Skip when:** App UI or dashboards, where smooth-scroll hijacking hurts usability.
+- **Install:** `npx skills add mengto/skills --skill cinematic-gsap-lenis-motion-system`
+
+### transitions.dev — Jakubantalik/transitions.dev
+- **What:** A library of portable CSS UI transitions (menus, modals, icon swaps, number pop-ins) as skills, plus a polish skill that tunes existing motion against timing and easing tokens.
+- **Use when:** UI state changes feel abrupt and you want crafted, dependency-free transitions.
+- **Skip when:** Long scroll-driven sequences (GSAP skills). License is custom: free to use, not to redistribute the library.
+- **Install:** `npx skills add Jakubantalik/transitions.dev`
+
+### React Bits — DavidHDev/react-bits (shadcn registry)
+- **What:** 215+ free animated React components and backgrounds, installed through the shadcn registry and MCP rather than a skill.
+- **Use when:** You want a ready-made animated text effect, background or card instead of writing the animation yourself.
+- **Skip when:** You need no React, or the license (MIT + Commons Clause) conflicts with reselling the components.
+- **Install:** add `"@react-bits": "https://reactbits.dev/r/{name}.json"` under `registries` in components.json, then `npx shadcn@latest mcp init --client claude`; or one component: `npx shadcn@latest add @react-bits/SplitText-TS-TW`
+
+### 21st.dev skills — 21st-dev/skill
+- **What:** 21st.dev's own skills for its CLI: search and install React/shadcn components, generate UI with 21st AI, publish components and themes. The Claude Code plugin `21st-dev/claude-code-plugin` bundles them with the 21st MCP server (successor to Magic MCP).
+- **Use when:** Building UI from community components rather than from scratch.
+- **Skip when:** You can't add an API key (needs `API_KEY_21ST` or `npx @21st-dev/cli login`).
+- **Install:** `npx skills add 21st-dev/skill` — or the plugin: `/plugin marketplace add 21st-dev/claude-code-plugin` then `/plugin install 21st@21st`
+
+### designlang — Manavarya09/design-extract
+- **What:** Reads a live website's design system off the DOM and emits DTCG tokens, a Tailwind config, a shadcn theme and Figma variables. Ships as a plugin (/extract, /grade, /remix), an MCP server and a skill.
+- **Use when:** "Make it look like site X", auditing a site's tokens, or seeding a design system from an existing product.
+- **Skip when:** Copying a brand you don't own; use it for reference and your own sites.
+- **Install:** `/plugin marketplace add Manavarya09/design-extract` then `/plugin install designlang@designlang` — or MCP: `claude mcp add designlang -- npx -y designlang mcp`
+
+### REA: Reverse Engineer Anything — morluto/rea
+- **What:** An MCP server and skill for working out how an app feature works without its source: native binaries, JavaScript/Electron apps, .NET assemblies and websites (optionally via Hopper, Ghidra or IDA).
+- **Use when:** Investigating your own or permitted software, interoperability, or debugging a closed component.
+- **Skip when:** It would break a license or terms of service. Only morluto/rea and the rea-agents npm package are official; ignore look-alike copies.
+- **Install:** `npx rea-agents setup` (pick Claude Code) — skill only: `npx skills add morluto/rea --skill reverse-engineer-anything`
+
+### Motion graphics video — three picks
+- **remotion-best-practices (remotion-dev/skills):** the official Remotion skill; start here for programmatic video in React. `npx skills add remotion-dev/skills --skill remotion-best-practices`
+- **motion-graphics-skills (charlie947):** 15 workflows for launch films, explainers, animated charts and reels; MP4 export via HyperFrames. `npx skills add charlie947/motion-graphics-skills` then `npx skills add heygen-com/hyperframes`
+- **remotion-motion-graphics-skill (Liamrjohnston):** kinetic text, cinematic camera moves, terminal demos and article highlights as finished Remotion clips. `npx skills add liamrjohnston/remotion-motion-graphics-skill`
+- **motion-design-skills (iart-ai):** fundamentals — animation principles, color, composition, art direction, beat-synced edits, logo reveals, After Effects. `/plugin marketplace add iart-ai/motion-design-skills` then `/plugin install motion-design-skills`
+- **Use when:** Product launch videos, demo reels, social clips and animated data stories rendered from code.
+- **Skip when:** You need live-action editing; these generate motion graphics, not cuts of real footage.
 
 ## Web frameworks
 

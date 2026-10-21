@@ -8,6 +8,7 @@ import { href } from '../lib/router'
 import { ApplyThemeButton } from '../components/ApplyTheme'
 import { ItemCard, ThemeCard } from '../components/Card'
 import { ExportPanel } from '../components/ExportPanel'
+import { Brand } from '../components/Brand'
 import { ChatPreview, TerminalPreview, TerminalSwatch } from '../components/Previews'
 import { CopyField, Segmented, StatusBadge, TypePill, copy } from '../components/ui'
 
@@ -35,7 +36,10 @@ export function Detail({ id }: { id: string }) {
             <StatusBadge status={item.status} />
             {item.license && <span className="tag">{item.license}</span>}
           </div>
-          <h1>{item.name}</h1>
+          <h1 className="detail-title">
+            {!item.palette && <Brand item={item} size={30} />}
+            {item.name}
+          </h1>
           <p className="lede">{item.tagline}</p>
           <p className="byline">
             by <b>{item.author}</b>

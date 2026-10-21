@@ -6,6 +6,10 @@ import { Modal, toast } from './ui'
 
 export type CompanionState = 'checking' | 'online' | 'offline'
 
+// On the hosted site (Vercel) there is no companion to reach: it only ever runs
+// on the visitor's own machine, so skip the request and show setup steps instead.
+export const HOSTED = typeof location !== 'undefined' && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
+
 let cached: Promise<boolean> | undefined
 
 // Whether the local companion answers. Checked once per page load; `retry`
@@ -15,7 +19,7 @@ export function useCompanion(): [CompanionState, () => void] {
   const [tick, setTick] = useState(0)
   useEffect(() => {
     let live = true
-    if (!cached || tick) cached = api.health().then(() => true, () => false)
+    if (!cached || tick) cached = HOSTED ? Promise.resolve(false) : api.health().then(() => true, () => false)
     cached.then(ok => live && setState(ok ? 'online' : 'offline'))
     return () => {
       live = false

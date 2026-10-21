@@ -102,7 +102,7 @@ const decode = s => s.replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").repl
 async function skillDescription(owner, repo, skill) {
   const page = await get(`https://www.skills.sh/${owner}/${repo}/${skill}`, { tries: 2 })
   const meta = /<meta name="description" content="([^"]*)"/.exec(page ?? '')
-  if (meta && meta[1] && !/^Agent skills published by/.test(meta[1])) return { description: decode(meta[1]), path: 'skills.sh' }
+  if (meta && meta[1] && !/^(Agent skills published by|undefined\b)/.test(meta[1])) return { description: decode(meta[1]), path: 'skills.sh' }
   const base = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD`
   const paths = [`skills/${skill}/SKILL.md`, `${skill}/SKILL.md`, `.claude/skills/${skill}/SKILL.md`, `SKILL.md`, `skills/${skill}/skill.md`]
   for (const p of paths) {
@@ -132,25 +132,32 @@ async function refreshSkills() {
   log(`skills: install counts from ${TERMS.length} searches`)
   const installs = new Map()
   const names = new Map()
+  const sources = new Map()
   await pool(TERMS, 6, async term => {
     const res = await get(`https://skills.sh/api/search?q=${encodeURIComponent(term)}&limit=200`, { json: true })
     for (const s of res?.skills ?? []) {
       installs.set(s.id, Math.max(installs.get(s.id) ?? 0, s.installs ?? 0))
       names.set(s.id, s.name)
+      if (s.source && s.skillId) sources.set(s.id, { source: s.source, skill: s.skillId })
       ids.add(s.id)
     }
   })
   log(`skills: ${installs.size} with install counts`)
 
+  // Most skills live in a GitHub repo (owner/repo/skill). Some are published from
+  // a website's well-known endpoint instead (domain/skill), installed by URL.
   const rows = [...ids].map(id => {
-    const [owner, repo, skill] = id.split('/')
+    const parts = id.split('/')
+    const src = sources.get(id) ?? (parts.length === 2 ? { source: parts[0], skill: parts[1] } : { source: `${parts[0]}/${parts[1]}`, skill: parts[2] })
+    const hosted = !src.source.includes('/')
     return {
       id,
-      name: names.get(id) ?? skill,
+      name: names.get(id) ?? src.skill,
       installs: installs.get(id) ?? '',
       description: '',
-      install: `npx skills add ${owner}/${repo} --skill ${skill}`,
+      install: `npx skills add ${hosted ? `https://${src.source}` : src.source} --skill ${src.skill}`,
       url: `https://www.skills.sh/${id}`,
+      hosted,
     }
   })
   rows.sort((a, b) => (Number(b.installs) || 0) - (Number(a.installs) || 0))
@@ -159,6 +166,7 @@ async function refreshSkills() {
   log(`skills: reading SKILL.md descriptions for the top ${toDescribe.length}`)
   let done = 0
   await pool(toDescribe, 10, async row => {
+    if (row.hosted) return
     const [owner, repo, skill] = row.id.split('/')
     const d = await skillDescription(owner, repo, skill)
     if (d) row.description = d.description

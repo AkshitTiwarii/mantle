@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ArrowRight, Plus, Search } from 'lucide-react'
 import { IconBrandGithub as Github } from '@tabler/icons-react'
-import { CATALOG, TYPE_LABEL, TYPE_PLURAL } from '../lib/catalog'
-import type { Item, ItemType } from '../lib/catalog'
+import { CATALOG, TYPE_PLURAL } from '../lib/catalog'
+import type { ItemType } from '../lib/catalog'
 import { LIVE_STATES, PALETTES, stateColor } from '../lib/palettes.js'
 import type { LiveState } from '../lib/palettes.js'
 import { href } from '../lib/router'
@@ -16,13 +16,12 @@ import { AgentConnect } from '../components/AgentConnect'
 import { ChatPreview, TerminalPreview, TerminalSwatch } from '../components/Previews'
 import { Segmented, TypeIcon, copy } from '../components/ui'
 import { BentoGrid } from '../components/ui/bento-grid'
-import { InfiniteMovingCards } from '../components/ui/infinite-moving-cards'
 import { Button as MovingBorderButton } from '../components/ui/moving-border'
 import { Terminal } from '../components/ui/terminal'
+import { AnimatedGrid, Reveal } from '../components/Motion'
 
 type Filter = 'all' | ItemType | 'wallpaper'
 const TYPES: ItemType[] = ['theme', 'skill', 'connector', 'plugin']
-const REAL = CATALOG.filter(i => i.type !== 'theme')
 
 function readFilter(): Filter {
   try {
@@ -36,8 +35,6 @@ export function Hub() {
   return (
     <>
       <Hero />
-      <div className="rule" />
-      <Marquee />
       <div className="rule" />
       <HowItWorks />
       <div className="rule" />
@@ -125,40 +122,6 @@ function Hero() {
   )
 }
 
-function Marquee() {
-  const half = Math.ceil(REAL.length / 2)
-  const card = (i: Item) => (
-    <a className="mq-card" href={href({ page: 'item', id: i.id })}>
-      <span className="mq-top">
-        <span className={`item-icon icon-${i.type}`}>
-          <TypeIcon type={i.type} size={18} />
-        </span>
-        <span className="flex min-w-0 flex-col">
-          <b className="truncate">{i.name}</b>
-          <span>
-            {TYPE_LABEL[i.type]} · {i.author}
-          </span>
-        </span>
-      </span>
-      <p>{i.tagline}</p>
-    </a>
-  )
-  return (
-    <section className="band">
-      <div className="band-center mb-10">
-        <h2>
-          Real tools, from <em>the people who make them.</em>
-        </h2>
-        <p>
-          {REAL.length} skills, plugins and connectors, each checked against its own repository, with the exact command its authors document.
-        </p>
-      </div>
-      <InfiniteMovingCards items={REAL.slice(0, half)} render={card} keyOf={i => i.id} speed="slow" />
-      <InfiniteMovingCards items={REAL.slice(half)} render={card} keyOf={i => i.id} speed="slow" direction="right" />
-    </section>
-  )
-}
-
 function HowItWorks() {
   const p = PALETTES[0]
   const [lit, setLit] = useState(0)
@@ -168,14 +131,14 @@ function HowItWorks() {
   }, [])
   return (
     <section className="band">
-      <div className="band-head">
+      <Reveal className="band-head">
         <h2>
           One theme, <em>everywhere you use Claude.</em>
         </h2>
         <p>
           Mantle is a Claude Code plugin with a browser extension. Pick a theme once and it lands on every surface, then keeps reacting while Claude works.
         </p>
-      </div>
+      </Reveal>
       <BentoGrid className="max-w-none gap-4 md:auto-rows-[21rem]">
         <div className="bento-cell md:col-span-2">
           <div className="bento-art term-art">
@@ -291,12 +254,12 @@ function Browse() {
 
   return (
     <section className="browse" id="browse">
-      <div className="band-head">
+      <Reveal className="band-head">
         <h2>
           The <em>gallery.</em>
         </h2>
-        <p>Themes preview live on hover. Everything else links to its source and copies its install command in one click.</p>
-      </div>
+        <p>Themes preview live on hover. Skills, connectors and plugins carry their makers' logos, link to their source and copy their install command in one click.</p>
+      </Reveal>
       <div className="toolbar">
         <Segmented
           label="Filter by type"
@@ -352,20 +315,23 @@ function Browse() {
       {themes.length > 0 && (
         <>
           {filter === 'all' && <SectionHead title="Themes" note="Each one covers Claude Code, Windows Terminal and claude.ai, and reacts to what Claude is doing." />}
-          <div className="grid grid-themes">
-            {themes.map(i => (
-              <ThemeCard key={i.id} item={i} />
-            ))}
-            {!q && (
-              <a className="card card-make" href={href({ page: 'make' })}>
-                <span className="make-plus">
-                  <Plus size={26} strokeWidth={1.6} />
-                </span>
-                <h3>Make your own theme</h3>
-                <p>Pick a few colors, preview every surface live, export three JSON files.</p>
-              </a>
-            )}
-          </div>
+          <AnimatedGrid
+            className="grid grid-themes"
+            items={themes}
+            keyOf={i => i.id}
+            render={i => <ThemeCard item={i} />}
+            tail={
+              !q && (
+                <a className="card card-make" href={href({ page: 'make' })}>
+                  <span className="make-plus">
+                    <Plus size={26} strokeWidth={1.6} />
+                  </span>
+                  <h3>Make your own theme</h3>
+                  <p>Pick a few colors or drop in a wallpaper, preview every surface live, share a link.</p>
+                </a>
+              )
+            }
+          />
         </>
       )}
 
@@ -381,25 +347,17 @@ function Browse() {
             onChange={setCategory}
             options={[
               { value: 'any' as const, label: 'All' },
-              ...(['flowers', 'nature', 'space', 'ocean', 'city', 'abstract'] as WallpaperCategory[]).map(c => ({ value: c, label: c[0].toUpperCase() + c.slice(1) })),
+              ...(['flowers', 'nature', 'mountains', 'space', 'ocean', 'city', 'minimal', 'abstract'] as WallpaperCategory[]).map(c => ({ value: c, label: c[0].toUpperCase() + c.slice(1) })),
             ]}
           />
-          <div className="grid grid-themes mt-5">
-            {walls.map(w => (
-              <WallpaperCard key={w.id} wallpaper={w} />
-            ))}
-          </div>
+          <AnimatedGrid className="grid grid-themes mt-5" items={walls} keyOf={w => w.id} render={w => <WallpaperCard wallpaper={w} />} />
         </div>
       )}
 
       {others.length > 0 && (
         <>
           {filter === 'all' && <SectionHead title="Skills, connectors & plugins" note="Real public projects. Each links to its source and was checked against it." />}
-          <div className="grid grid-items">
-            {others.map(i => (
-              <ItemCard key={i.id} item={i} />
-            ))}
-          </div>
+          <AnimatedGrid className="grid grid-items" items={others} keyOf={i => i.id} render={i => <ItemCard item={i} />} />
         </>
       )}
     </section>

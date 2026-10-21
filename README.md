@@ -88,7 +88,7 @@ On claude.ai a light sweeps across the page and the accent shifts while a reply 
 ### 3. Wallpapers
 
 - `/mantle wallpaper <https URL | image file | off>` downloads an image and puts it behind your terminal and claude.ai in one step.
-- The website has **24 freely licensed 4K wallpapers** (flowers, nature, NASA/Webb space, ocean, city, abstract), each credited to its photographer with its license. Every theme preview on the site shows one behind it.
+- The website has **48 freely licensed 4K wallpapers** (flowers, nature, mountains, NASA/Webb space, ocean, city, minimal, abstract), each credited to its photographer with its license. Every theme preview on the site shows one behind it.
 - **Your own image** works everywhere: attach it on the website (it never leaves your browser tab), point `/mantle wallpaper` at the file, or pick it in the extension popup.
 
 ### 4. The studio pane
@@ -122,7 +122,7 @@ What it knows:
 
 | Area | Curated guide (with judgment) | Full searchable index |
 | --- | --- | --- |
-| Skills | 162 skills grouped by job | 30,483 skills from skills.sh, with install counts; top 5,000 described |
+| Skills | ~170 skills grouped by job, including animation, motion and video | 30,483 skills from skills.sh, with install counts; top 5,000 described |
 | Connectors (MCP) | 156 connectors grouped by job, Composio included | 17,145 servers from the official MCP Registry, each with a setup command |
 | Plugins | ~90 plugins, 13 marketplaces | 439 plugins from Anthropic's marketplaces and Mantle |
 | Claude Code features | 37 features: what, when, how | — |
@@ -151,10 +151,16 @@ npm run dev
 
 Open http://127.0.0.1:5173.
 
-- **Gallery:** themes, wallpapers, skills, connectors and plugins in one place. Theme cards preview live on hover, cycling through Claude's states over their wallpaper. Every listing links to its source and copies its install command in one click.
+- **Gallery:** themes, wallpapers, skills, connectors and plugins in one place, each with its maker's logo. Theme cards preview live on hover, cycling through Claude's states over their wallpaper. Every listing links to its source and copies its install command in one click.
 - **Set up with your agent:** prompts for Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, Windsurf, Cline or any agent.
-- **Make a theme:** pick eight colors, watch Claude Code, claude.ai and the terminal update live over a wallpaper, and export a Claude Code theme, a Windows Terminal scheme and a claude.ai payload.
+- **Make a theme:** start from a preset, or build a theme straight from a wallpaper or your own photo (the colors are read in your browser; nothing is uploaded). Lock the colors you like and shuffle the rest with Space, undo with Ctrl+Z, check contrast on every color, and share the result as a link. Claude Code, claude.ai and the terminal update live over the wallpaper; export a Claude Code theme, a Windows Terminal scheme and a claude.ai payload.
 - **My Claude:** a local companion (127.0.0.1 only) lists the skills, plugins, connectors, themes and marketplaces you already have, with secrets masked. Its only write is applying a Mantle theme after you confirm.
+
+### Deploy the website
+
+The repo is ready for Vercel: import `AkshitTiwarii/mantle` at [vercel.com/new](https://vercel.com/new) and click **Deploy**. `vercel.json` builds `web/` and serves `web/dist`; no settings to change. Link previews use the production domain automatically (set `SITE_URL` to override it, e.g. for a custom domain).
+
+On the hosted site everything works except **My Claude**, which reads your local `~/.claude` and so only runs when you start the site on your own machine.
 
 ---
 

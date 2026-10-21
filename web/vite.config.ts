@@ -7,8 +7,16 @@ import { fileURLToPath, URL } from 'node:url'
 // browser only ever talks to one localhost origin.
 const COMPANION_PORT = Number(process.env.MANTLE_COMPANION_PORT ?? 5178)
 
+// Link previews (LinkedIn, X, Slack) need absolute image URLs. On Vercel the
+// production domain comes from its system env; SITE_URL overrides it.
+const SITE_URL = process.env.SITE_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '')
+
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    { name: 'absolute-og-urls', transformIndexHtml: html => html.replaceAll('content="/og.png"', `content="${SITE_URL}/og.png"`).replace('%SITE_URL%', SITE_URL || '/') },
+  ],
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   server: {
     host: '127.0.0.1',

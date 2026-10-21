@@ -8,7 +8,8 @@ import { Download, ImageIcon } from 'lucide-react'
 import { PALETTES, paletteById } from '../lib/palettes.js'
 import { setWall, toWall, useWall, useWallChoice, wallCommand } from '../lib/wallpaper'
 import type { Wallpaper } from '../lib/wallpapers'
-import { InstallButton, StatusBadge, TypeIcon, TypePill, copy } from './ui'
+import { InstallButton, StatusBadge, TypePill, copy } from './ui'
+import { Brand } from './Brand'
 
 // Cycle the live states while hovered so a card shows its theme reacting.
 export function useCycle(active: boolean, ms = 1100): LiveState {
@@ -77,9 +78,7 @@ export function ItemCard({ item }: { item: Item }) {
     <article className={`card card-item card-${item.type}`}>
       <div className="card-body">
         <div className="card-head">
-          <span className={`item-icon icon-${item.type}`}>
-            <TypeIcon type={item.type} size={20} />
-          </span>
+          <Brand item={item} />
           <div className="card-titles">
             <h3>
               <a className="stretched" href={href({ page: 'item', id: item.id })}>

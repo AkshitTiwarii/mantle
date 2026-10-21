@@ -242,8 +242,14 @@ async function setWallpaper($: $, input: string): Promise<string[]> {
   let local = target
   let web = target
   if (/^https:\/\//i.test(target)) {
-    const name = ((target.split('?')[0] ?? '').split('/').pop() || 'wallpaper').replace(/[^\w.-]/g, '').slice(0, 60) || 'wallpaper'
-    const file = /\.(jpe?g|png|webp)$/i.test(name) ? name : `${name}.jpg`
+    // Readable, safe file name: decode %xx, keep the extension, trim the stem.
+    let raw = (target.split('?')[0] ?? '').split('/').pop() || 'wallpaper'
+    try {
+      raw = decodeURIComponent(raw)
+    } catch {}
+    const ext = raw.match(/\.(jpe?g|png|webp)$/i)?.[0].toLowerCase() ?? '.jpg'
+    const stem = raw.replace(/\.[^.]*$/, '').replace(/[^\w-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'wallpaper'
+    const file = `${stem}${ext}`
     const isWindows = Boolean(await $.env.get('LOCALAPPDATA'))
     local = `${await claudeDir($)}/mantle/wallpapers/${file}`
     if (isWindows) local = local.replaceAll('/', '\\')

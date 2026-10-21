@@ -562,6 +562,132 @@ export const REAL_ITEMS: Item[] = [
     install: [{ label: 'Install this skill', command: 'npx skills add expo/skills --skill expo-dev-client', where: 'terminal' }],
   },
 
+  // design, motion and video (added 2026-10-21, each checked against its repo)
+  {
+    id: 'skill-gsap',
+    type: 'skill',
+    name: 'GSAP Skills',
+    tagline: 'Official GSAP skills: tweens, timelines, ScrollTrigger and more.',
+    description:
+      "GreenSock's own skills that teach agents correct GSAP usage, from the core API and timelines to ScrollTrigger, plugins, React and performance. Claude reaches for them whenever you ask for JavaScript animation.",
+    author: 'GreenSock',
+    source: { label: 'github.com/greensock/gsap-skills', url: 'https://github.com/greensock/gsap-skills' },
+    license: 'MIT',
+    tags: ['animation', 'gsap', 'scroll'],
+    status: 'verified',
+    includes: ['gsap-core', 'gsap-timeline', 'gsap-scrolltrigger', 'gsap-plugins', 'gsap-utils', 'gsap-react', 'gsap-performance', 'gsap-frameworks'],
+    install: [{ label: 'Install the skills', command: 'npx skills add https://github.com/greensock/gsap-skills', where: 'terminal' }],
+  },
+
+  {
+    id: 'skill-cinematic-gsap-lenis-motion-system',
+    type: 'skill',
+    name: 'Cinematic GSAP + Lenis',
+    tagline: 'Smooth-scroll motion systems built on Lenis, GSAP and ScrollTrigger.',
+    description:
+      'Builds a connected premium motion language with Lenis smooth scrolling, GSAP and ScrollTrigger: scroll reveals, pinned scenes, parallax, staggered text and cursor effects. Use it for editorial or Awwwards-style sites rather than one-off animations.',
+    author: 'Meng To',
+    source: {
+      label: 'github.com/MengTo/Skills',
+      url: 'https://github.com/MengTo/Skills/tree/main/agent-skills/web-design/cinematic-gsap-lenis-motion-system',
+    },
+    license: 'MIT',
+    tags: ['animation', 'lenis', 'scroll'],
+    status: 'verified',
+    install: [
+      { label: 'Install this skill', command: 'npx skills add mengto/skills --skill cinematic-gsap-lenis-motion-system', where: 'terminal' },
+    ],
+  },
+
+  {
+    id: 'skill-21st',
+    type: 'skill',
+    name: '21st.dev Skills',
+    tagline: 'Search, install and publish 21st.dev UI components from the agent.',
+    description:
+      "21st.dev's own skills that teach the agent the 21st CLI: find and install React/shadcn components, generate UI with 21st AI, and publish components, themes and templates. Needs a 21st API key or `npx @21st-dev/cli login`.",
+    author: '21st.dev',
+    source: { label: 'github.com/21st-dev/skill', url: 'https://github.com/21st-dev/skill' },
+    license: 'Apache-2.0',
+    tags: ['ui', 'components', 'shadcn'],
+    status: 'verified',
+    includes: ['21st-cli-use', '21st-ai', '21st-registry', '21st-design-sync', '21st-ui-build', '21st-ui-explore', '21st-ui-review'],
+    install: [{ label: 'Install the skills', command: 'npx skills add 21st-dev/skill', where: 'terminal' }],
+  },
+
+  {
+    id: 'skill-transitions-dev',
+    type: 'skill',
+    name: 'Transitions.dev',
+    tagline: 'Drop crafted CSS UI transitions into your project, then polish them.',
+    description:
+      'Packages the transitions.dev library of portable CSS transitions (menus, modals, icon swaps, number pop-ins and more) as agent skills, plus a polish skill that tunes existing motion against its timing and easing tokens. Use it when UI state changes need to feel smooth.',
+    author: 'Jakub Antalik',
+    source: { label: 'github.com/Jakubantalik/transitions.dev', url: 'https://github.com/Jakubantalik/transitions.dev' },
+    license: 'Custom (free for personal and commercial use)',
+    tags: ['animation', 'css', 'ui'],
+    status: 'verified',
+    includes: ['transitions-dev', 'transitions-polish', 'transitions-ui-generation'],
+    install: [{ label: 'Install the skills', command: 'npx skills add Jakubantalik/transitions.dev', where: 'terminal' }],
+  },
+
+  {
+    id: 'skill-motion-graphics-pack',
+    type: 'skill',
+    name: 'Motion Graphics Skill Pack',
+    tagline: 'Launch films, animated charts and reels, written as code.',
+    description:
+      "Charlie Hills' 15 workflows for launch-grade motion graphics, from brand intake and briefs to launch videos, explainers, animated charts and reel export. Exporting to MP4 uses HyperFrames, which the README asks you to add once.",
+    author: 'Charlie Hills',
+    source: { label: 'github.com/charlie947/motion-graphics-skills', url: 'https://github.com/charlie947/motion-graphics-skills' },
+    license: 'MIT',
+    tags: ['video', 'motion graphics', 'animation'],
+    status: 'verified',
+    includes: ['brand-intake', 'motion-brief-writer', 'launch-video', 'vox-explainer', 'animated-chart', 'title-sequence-3d', 'reel-export', '+ more'],
+    install: [
+      { label: 'Install the skills', command: 'npx skills add charlie947/motion-graphics-skills', where: 'terminal' },
+      { label: 'Add HyperFrames for MP4 export', command: 'npx skills add heygen-com/hyperframes', where: 'terminal' },
+    ],
+  },
+
+  {
+    id: 'skill-remotion-motion-graphics',
+    type: 'skill',
+    name: 'Remotion Motion Graphics',
+    tagline: 'Editor-ready Remotion clips: kinetic text, camera moves, terminals.',
+    description:
+      'Four skills that turn the agent into a Remotion motion-graphics artist, covering kinetic text and diagrams, cinematic camera moves, terminal demos and article highlights. Each build starts by confirming format and background, then renders a finished clip.',
+    author: 'Liam Johnston',
+    source: {
+      label: 'github.com/Liamrjohnston/remotion-motion-graphics-skill',
+      url: 'https://github.com/Liamrjohnston/remotion-motion-graphics-skill',
+    },
+    license: 'MIT',
+    tags: ['video', 'remotion', 'motion graphics'],
+    status: 'verified',
+    includes: ['motion-graphics', 'cinematic-camera', 'terminal-inserts', 'article-highlights'],
+    install: [{ label: 'Install the skills', command: 'npx skills add liamrjohnston/remotion-motion-graphics-skill', where: 'terminal' }],
+  },
+
+  {
+    id: 'skill-motion-design-skills',
+    type: 'skill',
+    name: 'Motion Design Skills',
+    tagline: 'Timing, color, composition, Remotion and After Effects know-how.',
+    description:
+      "iart.ai's motion design fundamentals as skills: animation principles, color, shot composition, art direction, beat-synced editing, logo reveals, looping backgrounds, Remotion and After Effects. They activate when you ask to animate, time or direct motion.",
+    author: 'iart.ai',
+    source: { label: 'github.com/iart-ai/motion-design-skills', url: 'https://github.com/iart-ai/motion-design-skills' },
+    license: 'MIT',
+    tags: ['motion design', 'video', 'animation'],
+    status: 'verified',
+    includes: ['animation-principles', 'motion-art-direction', 'remotion-video', 'after-effects', 'logo-animation', 'motion-background', '+ more'],
+    install: [
+      { label: 'Add the marketplace', command: '/plugin marketplace add iart-ai/motion-design-skills', where: 'claude-code' },
+      { label: 'Install the plugin', command: '/plugin install motion-design-skills', where: 'claude-code' },
+    ],
+  },
+
   // ---------------------------------------------------------------- plugins
   {
     id: 'plugin-ponytail',
@@ -711,6 +837,43 @@ export const REAL_ITEMS: Item[] = [
     tags: ['hooks', 'guardrails'],
     status: 'verified',
     install: officialPlugin('hookify'),
+  },
+
+  {
+    id: 'plugin-21st',
+    type: 'plugin',
+    name: '21st',
+    tagline: '21st MCP server plus the 21st.dev skills in one install.',
+    description:
+      "21st.dev's Claude Code plugin, bundling the remote 21st MCP server (the successor to Magic MCP) with its seven UI skills. Claude can search 10,000+ components, generate UI and publish your own; export API_KEY_21ST before starting Claude Code.",
+    author: '21st.dev',
+    source: { label: 'github.com/21st-dev/claude-code-plugin', url: 'https://github.com/21st-dev/claude-code-plugin' },
+    license: 'Apache-2.0',
+    tags: ['ui', 'components', 'mcp'],
+    status: 'verified',
+    install: [
+      { label: 'Add the marketplace', command: '/plugin marketplace add 21st-dev/claude-code-plugin', where: 'claude-code' },
+      { label: 'Install the plugin', command: '/plugin install 21st@21st', where: 'claude-code' },
+    ],
+  },
+
+  {
+    id: 'plugin-designlang',
+    type: 'plugin',
+    name: 'designlang',
+    tagline: "Extract any website's design system: tokens, Tailwind, Figma.",
+    description:
+      'Points a headless browser at a URL and reads its design language off the live DOM, emitting DTCG tokens, a Tailwind config, a shadcn theme and Figma variables. The plugin adds slash commands such as /extract, /grade, /remix and /verify.',
+    author: 'Manav Arya Singh',
+    source: { label: 'github.com/Manavarya09/design-extract', url: 'https://github.com/Manavarya09/design-extract' },
+    license: 'MIT',
+    tags: ['design', 'tokens', 'extraction'],
+    status: 'verified',
+    includes: ['/extract', '/site', '/grade', '/battle', '/remix', '/pack', '/verify', '+ more'],
+    install: [
+      { label: 'Add the marketplace', command: '/plugin marketplace add Manavarya09/design-extract', where: 'claude-code' },
+      { label: 'Install the plugin', command: '/plugin install designlang@designlang', where: 'claude-code' },
+    ],
   },
 
   // ---------------------------------------------------------------- connectors
@@ -1103,5 +1266,52 @@ export const REAL_ITEMS: Item[] = [
     tags: ['analytics', 'feature flags', 'remote'],
     status: 'verified',
     install: [{ label: 'Run the setup wizard', command: 'npx @posthog/wizard mcp add', where: 'terminal' }],
+  },
+  {
+    id: 'connector-react-bits',
+    type: 'connector',
+    name: 'React Bits',
+    tagline: 'Animated React components your agent adds through the shadcn MCP.',
+    description:
+      'React Bits ships 215+ free animated components and backgrounds as a shadcn registry. Add "@react-bits": "https://reactbits.dev/r/{name}.json" under registries in components.json, connect the shadcn MCP server, then ask Claude for the component you want.',
+    author: 'David Haz',
+    source: { label: 'github.com/DavidHDev/react-bits', url: 'https://github.com/DavidHDev/react-bits' },
+    license: 'MIT + Commons Clause',
+    tags: ['react', 'animation', 'components'],
+    status: 'verified',
+    install: [
+      { label: 'Connect the shadcn MCP server', command: 'npx shadcn@latest mcp init --client claude', where: 'terminal' },
+      { label: 'Or add one component directly', command: 'npx shadcn@latest add @react-bits/SplitText-TS-TW', where: 'terminal' },
+    ],
+  },
+
+  {
+    id: 'connector-designlang',
+    type: 'connector',
+    name: 'designlang MCP',
+    tagline: 'Pull colors, type and components from a live site as MCP tools.',
+    description:
+      'The MCP server inside the designlang CLI. Claude starts an extraction for a URL, then pulls its tokens, colors, typography and components through tool calls.',
+    author: 'Manav Arya Singh',
+    source: { label: 'github.com/Manavarya09/design-extract', url: 'https://github.com/Manavarya09/design-extract' },
+    license: 'MIT',
+    tags: ['design', 'tokens', 'local'],
+    status: 'verified',
+    install: [{ label: 'Add the server', command: 'claude mcp add designlang -- npx -y designlang mcp', where: 'terminal' }],
+  },
+
+  {
+    id: 'connector-rea',
+    type: 'connector',
+    name: 'REA: Reverse Engineer Anything',
+    tagline: 'Reverse engineer apps, websites and binaries with evidence.',
+    description:
+      'An MCP server and skill for working out how an app feature works without its source, across native binaries, JavaScript and Electron apps, .NET assemblies and websites. Setup registers the server and its instructions with Claude Code; native analysis can use Hopper, Ghidra or IDA.',
+    author: 'morluto',
+    source: { label: 'github.com/morluto/rea', url: 'https://github.com/morluto/rea' },
+    license: 'MIT',
+    tags: ['reverse engineering', 'binaries', 'local'],
+    status: 'verified',
+    install: [{ label: 'Run setup and pick Claude Code', command: 'npx rea-agents setup', where: 'terminal' }],
   },
 ]

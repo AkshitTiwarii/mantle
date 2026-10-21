@@ -5,7 +5,7 @@ import { api } from '../lib/api'
 import type { LocalConnector, LocalPlugin, LocalScan, LocalSkill } from '../lib/api'
 import { PALETTES } from '../lib/palettes.js'
 import { href } from '../lib/router'
-import { ApplyThemeButton, useCompanion } from '../components/ApplyTheme'
+import { ApplyThemeButton, HOSTED, useCompanion } from '../components/ApplyTheme'
 import { CopyField, TypeIcon } from '../components/ui'
 import type { ItemType } from '../lib/catalog'
 
@@ -62,6 +62,18 @@ export function MyClaude() {
 }
 
 function Offline({ onRetry }: { onRetry: () => void }) {
+  if (HOSTED) {
+    return (
+      <div className="panel offline">
+        <h2>My Claude runs on your computer</h2>
+        <p>
+          It reads your Claude folder to list what you have installed, so it can't run on this website. Run Mantle's site locally and open this page there; the companion listens on <code>127.0.0.1</code> only and reads your Claude folder read-only.
+        </p>
+        <CopyField step={{ label: 'Clone and start', command: 'git clone https://github.com/AkshitTiwarii/mantle && cd mantle/web && npm install && npm run dev', where: 'terminal' }} />
+        <p className="muted">Then open http://127.0.0.1:5173/#/me.</p>
+      </div>
+    )
+  }
   return (
     <div className="panel offline">
       <h2>The local companion isn't running</h2>
