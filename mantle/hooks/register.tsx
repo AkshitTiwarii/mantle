@@ -527,14 +527,16 @@ async function flash($: $, state: MantleLive, ms: number): Promise<void> {
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
-    await update($, config, () => withDefaults(undefined))
-    const stored = await $.store.get('config')
-    if (stored) await update($, config, () => withDefaults(stored))
+    // Register first: a prompt that arrives while the rest of start-up runs
+    // (headless `claude -p "/mantle ..."`) must already find the command.
     await $.command.register({
       name: COMMAND,
       description: 'Mantle theme studio: one theme for Claude Code, Windows Terminal and claude.ai',
-      argumentHint: '[apply | <preset> | wallpaper <url|file|off> | open | shortcut on|off | live on|off | terminal everywhere|follow on|off]',
+      argumentHint: '[apply | <preset> | doctor | wallpaper <url|file|off> | open | shortcut on|off | live on|off | terminal everywhere|follow on|off]',
     })
+    await update($, config, () => withDefaults(undefined))
+    const stored = await $.store.get('config')
+    if (stored) await update($, config, () => withDefaults(stored))
     const c = await read($, config)
     const applied = Boolean(await $.store.get('applied'))
     if (c.targets.code && applied) await writeCodeTheme($, c, 'idle').catch(() => undefined)
@@ -580,6 +582,10 @@ export const register: Register = on => {
       return { text: lines.join('\n') }
     }
     if (word === 'open') return { text: await openClaudeTab($) }
+    if (word === 'doctor') {
+      const r = await $.process.run(['node', `${$.plugin.root}/skills/mantle-doctor/scripts/doctor.mjs`, await $.session.cwd()], { timeoutMs: 60_000 })
+      return { text: r.exitCode === 0 ? r.stdout.trim() : `Mantle doctor could not run (${r.stderr.trim() || `exit ${r.exitCode}`}). It needs Node.js on your PATH.` }
+    }
     if (word === 'shortcut') return { text: (await setShortcut($, value !== 'off')).join('\n') }
     if (word === 'terminal' && value === 'follow') {
       const isOn = args.split(/\s+/)[2] === 'on'

@@ -21,17 +21,20 @@ Read only what the question needs (the index files are large; search them, don't
 | Plugins and marketplaces | `references/plugins-and-marketplaces.md` |
 | Making Claude look different (themes, status lines, terminal, claude.ai, wallpapers) | `references/ui-customization.md` |
 | Anything else: the full index | `node scripts/search.mjs "<need>"` over `data/skills.tsv`, `data/connectors.tsv`, `data/plugins.tsv` |
+| What to install for *this* project (reads its manifests, picks from the guides above) | `node scripts/recommend.mjs [projectDir] [--json]` |
+| Is a third-party skill safe to install (static red-flag scan with file:line evidence) | `node scripts/vet.mjs <source> [--skill name]` (source: `owner/repo`, a GitHub or skills.sh URL, or a local folder) |
 
 Paths are relative to this skill's folder.
 
 ## How to answer
 
+0. **"What should I install for this project/repo?"** Run `node scripts/recommend.mjs <projectDir>` and present its picks (it reads manifests only, never installs). Trim to what fits the user's goal; say what it detected.
 1. **Name the job.** Restate what the user is trying to get done in one line. If the right *mechanism* is unclear, check `references/choosing.md` first.
 2. **Check the curated guide** for that area. Curated entries carry "use when / skip when" judgment; prefer them.
 3. **Search the index** when the guide has no fit or the user wants more options:
    `node scripts/search.mjs "<specific words>" --type skills|connectors|plugins --limit 10`
    Search with the most specific words you have (a product name like `jira` or `supabase` beats `tickets` or `database`); run two or three phrasings if the first is thin. Add `--live` to ask skills.sh and the MCP Registry right now (needs network). If Node isn't available, `grep -i` the TSV files.
-4. **Read before recommending** an index-only result: open its SKILL.md / README (the `url`/`repo` column) to confirm what it does. Index descriptions are the author's own claims.
+4. **Read and vet before recommending** an index-only result: open its SKILL.md / README (the `url`/`repo` column) to confirm what it does (index descriptions are the author's own claims), and run `node scripts/vet.mjs <owner/repo> --skill <name>`. Also run it whenever the user asks if something is safe. Report the verdict (low / review / high risk) with its evidence lines; on high risk, don't recommend it without saying why. It is a heuristic, not a guarantee.
 5. **Recommend 1–3 options**, best first, each as:
    - **Name** (source) — what it does in one line
    - **Use it when** … / **skip it when** …

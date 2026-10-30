@@ -298,6 +298,9 @@ function Browse() {
             ]}
           />
         )}
+        <a className="atlas-entry" href={href({ page: 'explore', q: query })}>
+          Search all 47,000+ skills, connectors and plugins <ArrowRight size={14} aria-hidden />
+        </a>
         <span className="result-count" aria-live="polite">
           {items.length + walls.length} {items.length + walls.length === 1 ? 'result' : 'results'}
         </span>
@@ -306,9 +309,16 @@ function Browse() {
       {items.length + walls.length === 0 && (
         <div className="empty">
           <p>Nothing matches “{query}”.</p>
-          <button className="btn btn-ghost" onClick={() => { setQuery(''); setFilter('all'); setMode('any') }}>
-            Clear filters
-          </button>
+          <div className="row justify-center">
+            {q && (
+              <a className="btn btn-secondary" href={href({ page: 'explore', q: query })}>
+                Search the full index <ArrowRight size={16} aria-hidden />
+              </a>
+            )}
+            <button className="btn btn-ghost" onClick={() => { setQuery(''); setFilter('all'); setMode('any') }}>
+              Clear filters
+            </button>
+          </div>
         </div>
       )}
 

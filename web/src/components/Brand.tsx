@@ -4,7 +4,7 @@ import {
   siGsap, siLinear, siModelcontextprotocol, siNeon, siNotion, siPosthog, siPrisma, siSentry, siShadcnui, siStripe, siSupabase,
   siUpstash, siVercel, siZapier,
 } from 'simple-icons'
-import type { Item } from '../lib/catalog'
+import type { Item, ItemType } from '../lib/catalog'
 import { TypeIcon } from './ui'
 
 // The maker's own mark on every listing: a Simple Icons logo when the brand is
@@ -84,9 +84,7 @@ function ink(hex: string): string {
 }
 
 export function Brand({ item, size = 20 }: { item: Item; size?: number }) {
-  const [failed, setFailed] = useState(false)
   const icon = BY_ID[item.id]
-  const login = owner(item)
   if (icon) {
     return (
       <span className="brand-logo" title={icon.title}>
@@ -96,16 +94,23 @@ export function Brand({ item, size = 20 }: { item: Item; size?: number }) {
       </span>
     )
   }
+  return <OwnerMark login={owner(item)} type={item.type} size={size} />
+}
+
+// A GitHub account's avatar, or the type icon when there is no account or
+// the image fails to load.
+export function OwnerMark({ login, type, size = 20, px = 96 }: { login?: string; type: ItemType; size?: number; px?: number }) {
+  const [failed, setFailed] = useState(false)
   if (login && !failed) {
     return (
       <span className="brand-logo brand-avatar">
-        <img src={`https://github.com/${login}.png?size=96`} alt={`${login} on GitHub`} width={size + 8} height={size + 8} loading="lazy" decoding="async" onError={() => setFailed(true)} />
+        <img src={`https://github.com/${login}.png?size=${px}`} alt={`${login} on GitHub`} width={size + 8} height={size + 8} loading="lazy" decoding="async" onError={() => setFailed(true)} />
       </span>
     )
   }
   return (
-    <span className={`brand-logo icon-${item.type}`}>
-      <TypeIcon type={item.type} size={size} />
+    <span className={`brand-logo icon-${type}`}>
+      <TypeIcon type={type} size={size} />
     </span>
   )
 }

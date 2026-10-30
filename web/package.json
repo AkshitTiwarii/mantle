@@ -6,10 +6,11 @@
   "description": "Mantle: one place to browse, preview and install themes, skills, connectors and plugins for Claude.",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "dev:web": "vite",
+    "dev": "node scripts/build-index.mjs && node scripts/dev.mjs",
+    "dev:web": "node scripts/build-index.mjs && vite",
     "dev:companion": "node server/index.mjs",
-    "build": "tsc --noEmit && vite build",
+    "index": "node scripts/build-index.mjs",
+    "build": "node scripts/build-index.mjs && tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },

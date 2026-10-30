@@ -10,6 +10,7 @@ import { Hub } from './pages/Hub'
 import { Detail } from './pages/Detail'
 import { Maker } from './pages/Maker'
 import { MyClaude } from './pages/MyClaude'
+import { Explore } from './pages/Explore'
 
 export const REPO_URL = 'https://github.com/AkshitTiwarii/mantle'
 export const INSTALL_COMMAND = '/plugin install mantle --marketplace AkshitTiwarii/mantle'
@@ -21,6 +22,7 @@ export function App() {
   const companionTitle = companion === 'online' ? 'Local companion connected' : companion === 'offline' ? 'Local companion not running' : 'Checking…'
   const items = [
     { name: 'Gallery', link: href({ page: 'hub' }) },
+    { name: 'Explore', link: href({ page: 'explore' }) },
     { name: 'Make a theme', link: href({ page: 'make' }) },
     { name: 'My Claude', link: href({ page: 'me' }) },
   ]
@@ -73,6 +75,7 @@ export function App() {
             {route.page === 'item' && <Detail id={route.id} />}
             {route.page === 'make' && <Maker key={route.from ?? ''} from={route.from} share={route.share} />}
             {route.page === 'me' && <MyClaude />}
+            {route.page === 'explore' && <Explore route={route} />}
           </PageTransition>
         </MotionConfig>
       </main>
@@ -86,6 +89,7 @@ export function App() {
         </div>
         <nav aria-label="Footer">
           <a href={href({ page: 'hub' })}>Gallery</a>
+          <a href={href({ page: 'explore' })}>Explore</a>
           <a href={href({ page: 'make' })}>Make a theme</a>
           <a href={href({ page: 'me' })}>My Claude</a>
           <a href={REPO_URL} target="_blank" rel="noreferrer">

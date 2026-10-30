@@ -1,6 +1,53 @@
-# Mantle
+<div align="center">
 
-**Make Claude yours.** One theme across Claude Code, your terminal and claude.ai, with real 4K wallpapers, colors that react to what Claude is doing, and a built-in knowledge base of the whole Claude ecosystem.
+<a href="https://github.com/AkshitTiwarii/mantle"><img src="docs/images/banner.png" alt="Mantle: make Claude yours" width="100%"></a>
+
+<h1>Mantle</h1>
+
+<p><b>Make Claude yours, and find the right tool for every job.</b><br>
+Themes, 4K wallpapers and live colors for Claude Code, your terminal and claude.ai,<br>
+a knowledge base of 47,000+ skills, connectors and plugins, and a check-up for your setup.</p>
+
+<p>
+<a href="https://github.com/AkshitTiwarii/mantle/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/AkshitTiwarii/mantle?style=flat-square&color=15803d&label=release"></a>
+<a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/github/license/AkshitTiwarii/mantle?style=flat-square&color=0a0a0a"></a>
+<a href="https://github.com/AkshitTiwarii/mantle/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/AkshitTiwarii/mantle?style=flat-square&color=d97757"></a>
+<img alt="Claude Code plugin" src="https://img.shields.io/badge/Claude_Code-plugin-d97757?style=flat-square">
+<a href="https://www.skills.sh/akshittiwarii/mantle/mantle-atlas"><img alt="Agent skill on skills.sh" src="https://img.shields.io/badge/skills.sh-mantle--atlas-0a0a0a?style=flat-square"></a>
+<img alt="Windows and macOS" src="https://img.shields.io/badge/works_on-Windows_%7C_macOS-555?style=flat-square">
+</p>
+
+<p>
+<a href="#install"><b>Install</b></a> ·
+<a href="#mantle-atlas-the-knowledge-base"><b>Atlas</b></a> ·
+<a href="#mantle-doctor-a-check-up-for-your-setup"><b>Doctor</b></a> ·
+<a href="#one-theme-on-every-surface"><b>Themes</b></a> ·
+<a href="#the-website"><b>Website</b></a> ·
+<a href="CHANGELOG.md"><b>Changelog</b></a>
+</p>
+
+</div>
+
+```text
+/plugin install mantle --marketplace AkshitTiwarii/mantle
+```
+
+<p align="center"><img src="docs/images/atlas-in-terminal.png" alt="Claude Code in a Claude · Mantle tab with a Milky Way wallpaper, answering which connector to use for Jira with Mantle Atlas" width="88%"></p>
+<p align="center"><sub>A real Claude Code session in its Mantle tab: the wallpaper behind it, and Atlas picking the official Jira connector with its install command.</sub></p>
+
+## Why Mantle
+
+Developers keep hitting the same walls with AI coding agents. Mantle fixes the ones a plugin can:
+
+| The problem | What Mantle does |
+| --- | --- |
+| "There are thousands of skills and MCP servers; which one do I actually want?" | **Atlas** knows 30k skills, 17k connectors and 440 plugins, recommends 1–3 with when-to-use and the exact install command, and reads your project to suggest what fits **your** stack. |
+| "Is this third-party skill safe to install?" | **Atlas vet** scans a skill's files for network pipes, credential reads, prompt-injection text and obfuscation before you install it. |
+| "My context fills up before I've typed anything." | **Doctor** shows what loads into every session (skill descriptions, CLAUDE.md, MCP servers) and what to trim. |
+| "Claude ignores my CLAUDE.md." | **Doctor** flags long files, duplicate and vague rules, stale paths, and rules a hook should enforce instead. |
+| "My MCP server won't start on Windows." / "I pasted my API key into .mcp.json." | **Doctor** catches `npx` without `cmd /c`, and secrets written into MCP config (without printing them). |
+| "Permission prompts all day." | **Doctor** proposes a read-only starter allowlist from your project's own scripts, and flags rules that are too broad. |
+| "Every terminal looks the same." | One theme across Claude Code, Windows Terminal / iTerm2 and claude.ai, with 4K wallpapers and colors that react to what Claude is doing. |
 
 Mantle is an independent, MIT-licensed project. It is not affiliated with Anthropic.
 
@@ -10,9 +57,10 @@ Mantle is an independent, MIT-licensed project. It is not affiliated with Anthro
 
 | | What it does |
 | --- | --- |
-| **Mantle plugin** (`mantle/`) | A Claude Code plugin that themes Claude Code, Windows Terminal and claude.ai together, puts a wallpaper behind them, and recolors them live as Claude thinks, runs tools, plans, finishes or errors. |
-| **Mantle Atlas** (`mantle/skills/mantle-atlas/`) | A skill that turns Claude (or Cursor, Codex, Copilot, Gemini CLI…) into an expert on every skill, connector, plugin and Claude Code feature: what each is, when to use it, when not to, and the exact install command. |
-| **Mantle web** (`web/`) | A gallery of themes, wallpapers, skills, connectors and plugins with live previews and one-click install commands, a theme maker, and "My Claude", a local dashboard of what you have installed. |
+| **Mantle plugin** (`mantle/`) | A Claude Code plugin that themes Claude Code, your terminal and claude.ai together, puts a wallpaper behind Claude, and recolors it live as Claude thinks, runs tools, plans, finishes or errors. Adds `/mantle doctor`. |
+| **Mantle Atlas** (`mantle/skills/mantle-atlas/`) | A skill that turns Claude (or Cursor, Codex, Copilot, Gemini CLI…) into an expert on every skill, connector, plugin and Claude Code feature, with stack recommendations and a trust check. |
+| **Mantle Doctor** (`mantle/skills/mantle-doctor/`) | A read-only check-up of your setup: context cost, CLAUDE.md hygiene, MCP problems, leaked secrets, permissions. Claude applies the fixes you approve. |
+| **Mantle web** (`web/`) | Search the whole index, a gallery with live previews and one-click install commands, a theme maker, and "My Claude", a local dashboard of what you have installed. |
 
 ---
 
@@ -36,10 +84,11 @@ In the Claude desktop app's Code tab: click **+** next to the prompt box → **P
 
 Then run `/mantle` to open the studio, or `/mantle aurora` to apply a theme everywhere.
 
-### In any other agent (Atlas only)
+### In any other agent (Atlas and Doctor)
 
 ```bash
 npx skills add AkshitTiwarii/mantle --skill mantle-atlas
+npx skills add AkshitTiwarii/mantle --skill mantle-doctor
 ```
 
 Target a specific agent with `-a cursor`, `-a codex`, `-a github-copilot`, `-a gemini-cli`, `-a windsurf`, `-a cline`, or `-a '*'` for all of them.
@@ -60,7 +109,9 @@ The website's hero has the same prompts, one tab per agent, with a copy button.
 
 ## Everything Mantle does
 
-### 1. One theme on every surface
+### One theme on every surface
+
+<p align="center"><img src="docs/images/themes-preview.jpg" alt="The Aurora theme previewed on Claude Code, claude.ai and Windows Terminal over a 4K aurora wallpaper, with the live-state switcher" width="88%"></p>
 
 One apply recolors three places at once:
 
@@ -76,7 +127,7 @@ Each surface can also be customized separately in the studio: its own preset, ac
 
 
 
-### 2. Colors that react to Claude
+### Colors that react to Claude
 
 While you work, the Claude Code theme shifts with Claude's state:
 
@@ -91,13 +142,13 @@ While you work, the Claude Code theme shifts with Claude's state:
 
 On claude.ai a light sweeps across the page and the accent shifts while a reply streams. Turn reactions off with `/mantle live off`.
 
-### 3. Wallpapers
+### Wallpapers
 
 - `/mantle wallpaper <https URL | image file | off>` downloads an image and puts it behind your terminal and claude.ai in one step.
 - The website has **48 freely licensed 4K wallpapers** (flowers, nature, mountains, NASA/Webb space, ocean, city, minimal, abstract), each credited to its photographer with its license. Every theme preview on the site shows one behind it.
 - **Your own image** works everywhere: attach it on the website (it never leaves your browser tab), point `/mantle wallpaper` at the file, or pick it in the extension popup.
 
-### 4. The studio pane
+### The studio pane
 
 `/mantle` opens a pane beside the chat with:
 
@@ -108,11 +159,11 @@ On claude.ai a light sweeps across the page and the accent shifts while a reply 
 - a **claude.ai** tab: wallpaper, blur, dim, panel opacity, accent, the reply glow, and reinstalling the extension files;
 - **Apply everywhere**, with a short log of what changed.
 
-### 5. Ten presets
+### Ten presets
 
 Ember, Aurora, Synthwave, Tokyo Night, Catppuccin Mocha, Rosé Pine, Nord Night, Forest, Deep Ocean and Paper (light). They also appear on their own in Claude Code's `/theme` picker.
 
-### 6. Mantle Atlas, the knowledge base
+### Mantle Atlas, the knowledge base
 
 Ask Claude things like:
 
@@ -135,19 +186,47 @@ What it knows:
 | Choosing a mechanism | 28 goals mapped to the right tool (skill vs hook vs MCP vs plugin vs CLAUDE.md…) | — |
 | UI customization | themes, status lines, terminals, claude.ai, wallpapers, and what can't be themed | — |
 
+Ask **"what should I install for this project?"** and Atlas reads your project (package.json, pyproject, go.mod, Dockerfile, CI, deploy config) and picks from its curated guides for the stack it finds, skipping what you already have. Ask **"is this skill safe?"** and it vets the skill's files first.
+
 Tools that ship with it:
 
 ```bash
 node mantle/skills/mantle-atlas/scripts/search.mjs "jira" --type connectors
 node mantle/skills/mantle-atlas/scripts/search.mjs "pdf forms" --live   # also asks skills.sh and the MCP Registry now
+node mantle/skills/mantle-atlas/scripts/recommend.mjs .                 # picks for this project's stack
+node mantle/skills/mantle-atlas/scripts/vet.mjs owner/repo --skill name # trust check before installing
 node mantle/skills/mantle-atlas/scripts/refresh.mjs                     # rebuild the index from live sources (~10 min)
 ```
+
+`recommend.mjs` on this repo's website detects React, Tailwind, shadcn/ui, Motion and TypeScript and suggests the React and design skills, the TypeScript language server and Context7 for current docs. `vet.mjs` flags network pipes into a shell, credential reads, sending env vars to remote hosts, writes to shell profiles or Claude settings, permission bypasses, prompt-injection text, invisible Unicode and obfuscation, each with file:line. It is a heuristic, not a guarantee.
 
 Claude always knows Atlas exists; the guides and index load only when a question needs them, so your context isn't flooded. Atlas never edits your memory on its own. If you ask it to "always remember," it shows you a three-line note for `~/.claude/CLAUDE.md` and adds it only on your yes.
 
 Sources: skills.sh, each skill's SKILL.md on GitHub, the official MCP Registry, Anthropic's plugin marketplaces and the Claude Code docs.
 
-### 7. The website
+### Mantle Doctor, a check-up for your setup
+
+Run `/mantle doctor` in Claude Code, or ask Claude to "check my setup". It reads your config (never writes, never prints secret values) and reports:
+
+| Check | What it catches |
+| --- | --- |
+| Context cost | How many tokens load into every session from skill descriptions and CLAUDE.md files, and which skills are heaviest. Flags more than six MCP servers and points you at `/context`. |
+| CLAUDE.md | Files over 200 lines, duplicate rules, vague rules ("write clean code"), paths that no longer exist, missing `@imports`, and "never/always" rules a hook should enforce instead. |
+| MCP | `npx` servers on Windows without the `cmd /c` wrapper (they fail to start), and API keys written into `.mcp.json` or `~/.claude.json`. |
+| Skills | Duplicates installed in two places, missing descriptions, descriptions over the 1024-character limit. |
+| Permissions | `bypassPermissions`, allow rules as broad as `Bash(*)`, a readable `.env`, plus a read-only starter allowlist built from your project's own scripts. |
+
+```text
+## FIX · MCP server "github" runs npx directly on Windows
+-> Native Windows can't spawn npx without a shell. Re-add it as: claude mcp add github -- cmd /c npx -y @modelcontextprotocol/server-github
+## FIX · MCP server "github" has a secret written into its config
+-> .mcp.json is usually committed: move the value to an environment variable and reference it as ${VAR}, then rotate the key if it was pushed.
+## REVIEW · Broad allow rule: Bash(*)
+```
+
+Claude then offers each fix, applies only the ones you approve, and runs the check again. Works in any agent that reads skills: `npx skills add AkshitTiwarii/mantle --skill mantle-doctor`.
+
+### The website
 
 ```bash
 cd web
@@ -157,6 +236,9 @@ npm run dev
 
 Open http://127.0.0.1:5173.
 
+<p align="center"><img src="docs/images/explore.jpg" alt="The Explore page searching the full index for jira connectors, each with its install command and a Copy button" width="88%"></p>
+
+- **Explore:** search all 47,972 skills, connectors and plugins in the index, rank by name and installs, copy the install command, and share a search as a link (`#/explore?q=jira&t=connectors`). Press `/` to search.
 - **Gallery:** themes, wallpapers, skills, connectors and plugins in one place, each with its maker's logo. Theme cards preview live on hover, cycling through Claude's states over their wallpaper. Every listing links to its source and copies its install command in one click.
 - **Set up with your agent:** prompts for Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, Windsurf, Cline or any agent.
 - **Make a theme:** start from a preset, or build a theme straight from a wallpaper or your own photo (the colors are read in your browser; nothing is uploaded). Lock the colors you like and shuffle the rest with Space, undo with Ctrl+Z, check contrast on every color, and share the result as a link. Claude Code, claude.ai and the terminal update live over the wallpaper; export a Claude Code theme, a Windows Terminal scheme and a claude.ai payload.
@@ -170,6 +252,7 @@ Open http://127.0.0.1:5173.
 | --- | --- |
 | `/mantle` | Opens the studio pane |
 | `/mantle apply` | Applies the current settings to every surface that's switched on |
+| `/mantle doctor` | Runs the setup check-up for the current project |
 | `/mantle <preset>` | Switches preset and applies it, e.g. `/mantle synthwave` |
 | `/mantle wallpaper <url \| file \| off>` | Downloads an image and puts it behind your terminal and claude.ai |
 | `/mantle shortcut on \| off` | Windows: makes `claude` in PowerShell open in its own Claude · Mantle tab (adds or removes a marked block in your PowerShell profile) |
@@ -216,10 +299,13 @@ mantle/                    Claude Code plugin
     SKILL.md
     references/            curated guides
     data/                  full index (skills, connectors, plugins)
-    scripts/               search.mjs, refresh.mjs
+    scripts/               search, recommend, vet, refresh
+  skills/mantle-doctor/    the setup check-up skill (scripts/doctor.mjs)
   tests/                   plugin tests
 web/                       the website (Vite, React, Tailwind, motion)
   server/                  local companion for My Claude
+  scripts/build-index.mjs  turns the Atlas index into the Explore page's search data
+docs/images/               README screenshots
 PRODUCT.md, DESIGN.md      product and design records
 ```
 

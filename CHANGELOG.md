@@ -2,6 +2,17 @@
 
 All notable changes to Mantle. Versions follow [Semantic Versioning](https://semver.org); the plugin version lives in `mantle/.claude-plugin/plugin.json`. Run `claude plugin update mantle@mantle` to get the latest.
 
+## 0.3.0 — 2026-10-30
+
+Built around the problems developers report most with AI coding agents.
+
+- **Mantle Doctor** (new skill, `/mantle doctor`): a read-only check-up of your setup. It shows the context every session loads from skill descriptions and CLAUDE.md, lints CLAUDE.md (length, duplicate, vague and stale rules, rules a hook should enforce), catches MCP servers that fail on Windows without `cmd /c` and secrets written into MCP config, and flags risky or missing permission rules with a starter allowlist.
+- **Atlas recommend**: `recommend.mjs` reads your project's stack and picks the right skills, connectors and plugins from the curated guides, skipping what you already have.
+- **Atlas vet**: `vet.mjs` is a static trust check of a third-party skill before you install it (network pipes into a shell, credential reads, env exfiltration, prompt-injection text, invisible Unicode, obfuscation).
+- **Explore** on the website: search all 47,972 skills, connectors and plugins, copy install commands, share searches as links.
+- skills.sh now finds Atlas (`skills.sh.json`); the repo has tagged releases and topics.
+- README: new header, screenshots, and a problem-to-fix table.
+
 ## 0.2.4 — 2026-10-21
 
 - Claude gets its own **Claude · Mantle** tab in Windows Terminal; your other tabs stay plain.

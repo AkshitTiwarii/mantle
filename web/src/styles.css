@@ -2097,6 +2097,117 @@ kbd {
   background: var(--panel);
 }
 
+/* ---- explore ------------------------------------------------------------------------ */
+.atlas-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+}
+.atlas-entry:hover {
+  color: var(--green-900);
+  text-decoration: underline;
+}
+.explore-search kbd {
+  flex: none;
+}
+.atlas-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.atlas-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 14px 16px;
+  transition: border-color 0.2s var(--ease);
+}
+.atlas-row:hover {
+  border-color: var(--line-2);
+}
+.atlas-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.atlas-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+}
+.atlas-head h3 {
+  font-size: 15.5px;
+  overflow-wrap: anywhere;
+}
+.atlas-source {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.atlas-installs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.atlas-desc {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-2);
+  overflow-wrap: anywhere;
+}
+.atlas-desc.none {
+  color: var(--faint);
+}
+.atlas-cmd {
+  padding: 4px 4px 4px 10px;
+}
+.atlas-cmd code {
+  font-size: 12px;
+}
+.atlas-cmd .btn {
+  gap: 5px;
+  flex: none;
+}
+.atlas-where {
+  flex: none;
+  font-size: 11px;
+  color: var(--faint);
+}
+.atlas-link {
+  gap: 5px;
+  white-space: nowrap;
+}
+.atlas-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 26px;
+}
+.explore-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 /* ---- my claude ---------------------------------------------------------------------- */
 .me-head {
   display: flex;
@@ -2565,6 +2676,23 @@ code.block {
   .result-count {
     margin-left: 0;
   }
+  /* The name sits beside the avatar; description and commands take the full width. */
+  .atlas-row {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 8px 12px;
+    align-items: center;
+    padding: 12px 14px;
+  }
+  .atlas-main {
+    display: contents;
+  }
+  .atlas-main > :not(.atlas-head),
+  .atlas-link {
+    grid-column: 1 / -1;
+  }
+  .atlas-link {
+    justify-self: start;
+  }
   .color-field {
     grid-template-columns: 40px 1fr 84px 30px;
   }
@@ -2576,7 +2704,8 @@ code.block {
   }
 }
 @media (hover: none) {
-  .stage-state {
+  .stage-state,
+  .explore-search kbd {
     display: none;
   }
 }
