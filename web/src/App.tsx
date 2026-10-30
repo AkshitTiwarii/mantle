@@ -36,7 +36,8 @@ export function App() {
             <MantleMark />
             Mantle
           </a>
-          <NavItems items={items} className="text-[14px] [&_a]:!text-[var(--text-2)] [&_.bg-gray-100]:!bg-[var(--panel-3)]" />
+          {/* In the row, not absolutely centered, so the links can never slide under the buttons. */}
+          <NavItems items={items} className="!static !space-x-0 text-[14px] [&_a]:!text-[var(--text-2)] [&_.bg-gray-100]:!bg-[var(--panel-3)]" />
           <div className="relative z-20 flex items-center gap-2">
             {!HOSTED && <span className={`nav-dot ${companion}`} title={companionTitle} aria-label={companionTitle} />}
             <NavbarButton href={REPO_URL} target="_blank" rel="noreferrer" variant="secondary" className="!px-3 !font-semibold">

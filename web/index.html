@@ -5,22 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#fcfaf4" />
-    <title>Mantle: make Claude yours</title>
-    <meta name="description" content="One theme across Claude Code, your terminal and claude.ai, with 4K wallpapers, colors that react to Claude, and a knowledge base of every skill, connector and plugin." />
+    <title>Mantle: Claude Code themes, wallpapers and 47,000+ skills, MCP connectors and plugins</title>
+    <meta name="description" content="Mantle is a free, open-source Claude Code plugin: themes and 4K wallpapers for Claude Code, Windows Terminal, iTerm2 and claude.ai, a searchable knowledge base of 47,000+ agent skills, MCP servers and plugins, and a check-up for your Claude setup." />
+    <meta name="keywords" content="Claude Code, Claude Code plugin, Claude Code themes, agent skills, MCP servers, MCP connectors, Claude skills, CLAUDE.md, Windows Terminal theme, iTerm2 theme, claude.ai theme, AI coding tools" />
+    <meta name="author" content="Akshit Tiwari" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="%SITE_URL%" />
     <link rel="icon" type="image/svg+xml" href="/mantle.svg" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mantle" />
     <meta property="og:url" content="%SITE_URL%" />
     <meta property="og:title" content="Mantle: make Claude yours" />
     <meta property="og:description" content="Themes, 4K wallpapers and live colors for Claude Code, Windows Terminal and claude.ai, plus Atlas: 30k skills and 17k connectors your agent can search." />
     <meta property="og:image" content="/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mantle: a Claude Code terminal over a 4K nebula wallpaper" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Mantle: make Claude yours" />
+    <meta name="twitter:description" content="Themes, 4K wallpapers and live colors for Claude Code, plus a searchable index of 47,000+ skills, MCP connectors and plugins." />
     <meta name="twitter:image" content="/og.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "Mantle",
+            "description": "A Claude Code plugin with themes and 4K wallpapers for Claude Code, Windows Terminal, iTerm2 and claude.ai, a knowledge base of 47,000+ agent skills, MCP connectors and plugins, and a setup check-up.",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Windows, macOS",
+            "license": "https://opensource.org/licenses/MIT",
+            "isAccessibleForFree": true,
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "url": "%SITE_URL%",
+            "image": "%SITE_URL%og.png",
+            "downloadUrl": "https://github.com/AkshitTiwarii/mantle",
+            "softwareVersion": "%VERSION%",
+            "codeRepository": "https://github.com/AkshitTiwarii/mantle",
+            "author": { "@type": "Person", "name": "Akshit Tiwari", "url": "https://github.com/AkshitTiwarii" },
+            "sameAs": ["https://github.com/AkshitTiwarii/mantle", "https://www.skills.sh/akshittiwarii/mantle/mantle-atlas"]
+          },
+          { "@type": "WebSite", "name": "Mantle", "url": "%SITE_URL%" }
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- What crawlers that don't run JavaScript see; React replaces it on load. -->
+    <div id="root">
+      <main style="max-width: 720px; margin: 64px auto; padding: 0 16px; font-family: system-ui, sans-serif; line-height: 1.6; color: #121212">
+        <h1>Mantle: make Claude yours</h1>
+        <p>Mantle is a free, open-source Claude Code plugin. It puts one theme across Claude Code, Windows Terminal, iTerm2 and claude.ai, with 4K wallpapers and colors that react to what Claude is doing.</p>
+        <h2>Mantle Atlas</h2>
+        <p>A knowledge base of 30,000+ agent skills, 17,000+ MCP connectors and 440 plugins. Ask Claude "is there a skill for X" or "connect Claude to Jira" and it recommends the right tool with its install command, suggests tools for your project's stack, and checks third-party skills before you install them.</p>
+        <h2>Mantle Doctor</h2>
+        <p>A check-up for your Claude Code setup: context cost per session, CLAUDE.md rules that get ignored, MCP servers that fail on Windows, secrets in config, and permission rules.</p>
+        <h2>Install</h2>
+        <pre>/plugin install mantle --marketplace AkshitTiwarii/mantle</pre>
+        <p><a href="https://github.com/AkshitTiwarii/mantle">Mantle on GitHub</a> · <a href="#/explore">Search 47,000+ skills, connectors and plugins</a> · <a href="#/make">Make a theme</a></p>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
