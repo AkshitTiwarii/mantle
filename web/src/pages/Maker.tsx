@@ -173,7 +173,7 @@ export function Maker({ from, share }: { from?: string; share?: string }) {
     }
   }
 
-  const shareLink = () => copy(`${location.origin}${location.pathname}${href({ page: 'make', share: encodeShare(base) })}`, 'Share link copied')
+  const shareLink = () => copy(`${location.origin}${href({ page: 'make', share: encodeShare(base) })}`, 'Share link copied')
 
   const textContrast = contrast(base.text, base.bg)
   const accentContrast = contrast(base.accent, base.bg)

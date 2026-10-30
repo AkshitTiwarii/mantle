@@ -240,7 +240,7 @@ Open http://127.0.0.1:5173.
 
 <p align="center"><img src="docs/images/explore.jpg" alt="The Explore page searching the full index for jira connectors, each with its install command and a Copy button" width="88%"></p>
 
-- **Explore:** search all 47,972 skills, connectors and plugins in the index, rank by name and installs, copy the install command, and share a search as a link (`#/explore?q=jira&t=connectors`). Press `/` to search.
+- **Explore:** search all 47,972 skills, connectors and plugins in the index, rank by name and installs, copy the install command, and share a search as a link (`/explore?q=jira&t=connectors`). Press `/` to search.
 - **Gallery:** themes, wallpapers, skills, connectors and plugins in one place, each with its maker's logo. Theme cards preview live on hover, cycling through Claude's states over their wallpaper. Every listing links to its source and copies its install command in one click.
 - **Set up with your agent:** prompts for Claude Code, Cursor, Codex, GitHub Copilot, Gemini CLI, Windsurf, Cline or any agent.
 - **Make a theme:** start from a preset, or build a theme straight from a wallpaper or your own photo (the colors are read in your browser; nothing is uploaded). Lock the colors you like and shuffle the rest with Space, undo with Ctrl+Z, check contrast on every color, and share the result as a link. Claude Code, claude.ai and the terminal update live over the wallpaper; export a Claude Code theme, a Windows Terminal scheme and a claude.ai payload.
@@ -327,6 +327,10 @@ cd web && npm run build           # type-check and build the site
 - Agent logos from [Simple Icons](https://simpleicons.org) (CC0); trademarks belong to their owners.
 - UI components from [Aceternity UI](https://ui.aceternity.com); design process with [Impeccable](https://impeccable.style).
 - Skill and connector data from [skills.sh](https://www.skills.sh) and the [official MCP Registry](https://registry.modelcontextprotocol.io).
+
+## From the creator of ZeroCarbon
+
+Mantle is made by [Akshit Tiwari](https://github.com/AkshitTiwarii), who also builds [ZeroCarbon](https://zerocarbon.org.in).
 
 ## License
 

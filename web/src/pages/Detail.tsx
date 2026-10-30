@@ -17,7 +17,7 @@ export function Detail({ id }: { id: string }) {
   if (!item) {
     return (
       <div className="page narrow">
-        <a className="back" href="#/"><ArrowLeft size={15} /> Gallery</a>
+        <a className="back" href="/"><ArrowLeft size={15} /> Gallery</a>
         <h1>Not found</h1>
         <p>There's no listing called “{id}”.</p>
       </div>
@@ -26,7 +26,7 @@ export function Detail({ id }: { id: string }) {
   const related = CATALOG.filter(i => i.type === item.type && i.id !== item.id).slice(0, 3)
   return (
     <div className="page">
-      <a className="back" href="#/">
+      <a className="back" href="/">
         <ArrowLeft size={15} /> All {TYPE_PLURAL[item.type].toLowerCase()}
       </a>
       <header className="detail-head">

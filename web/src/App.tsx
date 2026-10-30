@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { itemById } from './lib/catalog'
 import { MotionConfig } from 'motion/react'
+import { Analytics } from '@vercel/analytics/react'
 import { PageTransition } from './components/Motion'
 import { IconBrandGithub as Github } from '@tabler/icons-react'
 import { href, useRoute } from './lib/router'
@@ -17,6 +19,17 @@ export const INSTALL_COMMAND = '/plugin install mantle --marketplace AkshitTiwar
 
 export function App() {
   const route = useRoute()
+  // Pages switch in place, so the tab title follows the route here (the built
+  // per-route pages carry the same titles for search engines).
+  useEffect(() => {
+    const item = route.page === 'item' ? itemById(route.id) : undefined
+    document.title =
+      route.page === 'explore' ? 'Explore 47,972 Claude skills, MCP connectors and plugins | Mantle'
+      : route.page === 'make' ? 'Make a Claude Code theme from a wallpaper | Mantle'
+      : route.page === 'me' ? 'My Claude | Mantle'
+      : item ? `${item.name}: ${item.tagline} | Mantle`
+      : 'Mantle: Claude Code themes, wallpapers and 47,000+ skills, MCP connectors and plugins'
+  }, [route])
   const [companion] = useCompanion()
   const [menuOpen, setMenuOpen] = useState(false)
   const companionTitle = companion === 'online' ? 'Local companion connected' : companion === 'offline' ? 'Local companion not running' : 'Checking…'
@@ -32,7 +45,7 @@ export function App() {
     <div className="sheet">
       <Navbar className="top-3 pt-3">
         <NavBody className="px-3">
-          <a className="brand" href="#/" aria-label="Mantle home">
+          <a className="brand" href="/" aria-label="Mantle home">
             <MantleMark />
             Mantle
           </a>
@@ -51,7 +64,7 @@ export function App() {
         </NavBody>
         <MobileNav>
           <MobileNavHeader className="px-1">
-            <a className="brand" href="#/" aria-label="Mantle home">
+            <a className="brand" href="/" aria-label="Mantle home">
               <MantleMark />
               Mantle
             </a>
@@ -83,10 +96,17 @@ export function App() {
       <div className="rule" />
       <footer className="footer">
         <div>
-          <a className="brand" href="#/">
+          <a className="brand" href="/">
             Mantle
           </a>
           <p>Themes, skills, connectors and plugins for Claude, in one place. An independent project, not affiliated with Anthropic.</p>
+          <p className="footer-credit">
+            From the creator of{' '}
+            <a href="https://zerocarbon.org.in" target="_blank" rel="noopener">
+              ZeroCarbon
+            </a>
+            .
+          </p>
         </div>
         <nav aria-label="Footer">
           <a href={href({ page: 'hub' })}>Gallery</a>
@@ -102,6 +122,8 @@ export function App() {
         </nav>
       </footer>
       <Toasts />
+      {/* Page views for the hosted site; the script only reports there, not on localhost. */}
+      <Analytics />
     </div>
   )
 }

@@ -53,9 +53,9 @@ export function WallpaperPicker({ more = true }: { more?: boolean }) {
         />
       </label>
       {more && (
-      <a className="wp-more" href="#wallpapers" onClick={e => { e.preventDefault(); document.getElementById('wallpapers')?.scrollIntoView({ behavior: 'smooth' }) }}>
+      <button type="button" className="wp-more" onClick={() => document.getElementById('wallpapers')?.scrollIntoView({ behavior: 'smooth' })}>
         All {WALLPAPERS.length} wallpapers
-      </a>
+      </button>
       )}
     </div>
   )

@@ -740,6 +740,12 @@ textarea:focus {
   margin-left: auto;
   font-size: 13px;
   color: var(--text-2);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .wp-more:hover {
   color: var(--green-700);
@@ -2229,6 +2235,9 @@ kbd {
   margin-bottom: 18px;
 }
 .tile {
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -2618,6 +2627,263 @@ code.block {
 }
 .footer nav a:hover {
   color: var(--green-700);
+}
+
+/* ---- new in 0.3 --------------------------------------------------------------- */
+.new-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.new-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.new-card:hover {
+  border-color: var(--line-2);
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+.new-wide {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas: 'head report' 'text report' '. report' 'cmd report';
+  gap: 12px 28px;
+  background: linear-gradient(120deg, var(--mint-2), var(--panel) 55%);
+  border-color: color-mix(in srgb, var(--green-700) 22%, var(--line));
+}
+.new-wide > .new-card-head {
+  grid-area: head;
+}
+.new-wide > p {
+  grid-area: text;
+}
+.new-wide > .new-report {
+  grid-area: report;
+}
+.new-wide > .new-command {
+  grid-area: cmd;
+}
+.new-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.new-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--green-700);
+  background: var(--mint);
+  border: 1px solid color-mix(in srgb, var(--green-700) 20%, transparent);
+}
+.new-card h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 25px;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+.new-wide h3 {
+  font-size: clamp(28px, 3vw, 36px);
+}
+.new-card p {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+.new-card p code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--panel-3);
+}
+.new-report {
+  margin: 0;
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #0d1117;
+  color: #d8dee9;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.new-wide .new-report {
+  font-size: 13.5px;
+  padding: 18px 20px;
+}
+.new-report .r-high {
+  color: #ff8a7a;
+  font-weight: 600;
+}
+.new-report .r-review {
+  color: #f2c86b;
+}
+.new-report .r-ok {
+  color: #7ee2a8;
+}
+.new-report .r-dim {
+  color: #8b949e;
+}
+.new-command {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel-2);
+  color: var(--text-2);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.new-command code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.new-command:hover {
+  border-color: var(--green-700);
+  color: var(--green-700);
+}
+.new-search {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+.new-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  border-radius: 9px;
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--green-700) 40%, var(--line));
+  color: var(--text);
+  font-size: 13.5px;
+}
+.new-search-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.new-search-row:last-child {
+  border-bottom: 0;
+}
+.new-search-row b {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+.new-search-row span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.new-search-row em {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--t-connector);
+}
+.new-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--green-700);
+}
+.hero-new {
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--green-700) 25%, var(--line));
+  background: var(--mint-2);
+  color: var(--green-900);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.hero-new:hover {
+  border-color: var(--green-700);
+  background: var(--mint);
+}
+.footer-credit {
+  margin-top: 10px !important;
+  color: var(--text-2) !important;
+}
+.footer-credit a {
+  color: var(--green-700);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--green-700) 35%, transparent);
+}
+.footer-credit a:hover {
+  border-bottom-color: var(--green-700);
+}
+@media (max-width: 1060px) {
+  .new-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .new-explore {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 860px) {
+  .new-wide {
+    display: flex;
+  }
+}
+@media (max-width: 720px) {
+  .new-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* ---- responsive ---------------------------------------------------------------------------- */

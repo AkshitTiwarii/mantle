@@ -3,7 +3,7 @@ import { ArrowUpRight, Copy, Download, Search } from 'lucide-react'
 import { ATLAS_KINDS, formatInstalls, loadMeta, loadShard, search } from '../lib/atlas'
 import type { AtlasEntry, AtlasKind, AtlasMeta } from '../lib/atlas'
 import type { ItemType } from '../lib/catalog'
-import { href, parse } from '../lib/router'
+import { href, current, parse } from '../lib/router'
 import { OwnerMark } from '../components/Brand'
 import { Segmented, TypeIcon, copy } from '../components/ui'
 
@@ -32,7 +32,7 @@ export function Explore({ route }: { route: { q?: string; t?: AtlasKind } }) {
   const input = useRef<HTMLInputElement>(null)
 
   // A real navigation (a shared link, back, the nav) resets the search;
-  // typing only rewrites the hash, which fires no hashchange.
+  // typing only replaces the URL, which fires no popstate.
   useEffect(() => {
     setText(route.q ?? '')
     setQuery(route.q ?? '')
@@ -46,7 +46,7 @@ export function Explore({ route }: { route: { q?: string; t?: AtlasKind } }) {
 
   useEffect(() => {
     const next = href({ page: 'explore', q: query, t: kind })
-    if (parse(location.hash).page === 'explore' && location.hash !== next) history.replaceState(null, '', next)
+    if (parse(current()).page === 'explore' && current() !== next) history.replaceState(null, '', next)
     setLimit(PAGE)
   }, [query, kind])
 

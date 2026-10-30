@@ -47,7 +47,7 @@ function entry(kind: AtlasKind, [name, source, installs, description, install, u
 
 async function fetchJson<T>(path: string): Promise<T> {
   // Relative to the page, so the site works from a subpath too.
-  const res = await fetch(`index/${path}`)
+  const res = await fetch(`/index/${path}`)
   if (!res.ok) throw new Error(`index/${path} answered ${res.status}`)
   return res.json()
 }

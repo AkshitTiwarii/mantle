@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { ArrowRight, Plus, Search } from 'lucide-react'
+import { ArrowRight, Plus, Search, ShieldCheck } from 'lucide-react'
 import { IconBrandGithub as Github } from '@tabler/icons-react'
 import { CATALOG, TYPE_PLURAL } from '../lib/catalog'
 import type { ItemType } from '../lib/catalog'
@@ -13,6 +13,7 @@ import type { WallpaperCategory } from '../lib/wallpapers'
 import { useWall } from '../lib/wallpaper'
 import { WallpaperPicker } from '../components/WallpaperPicker'
 import { AgentConnect } from '../components/AgentConnect'
+import { WhatsNew } from '../components/WhatsNew'
 import { ChatPreview, TerminalPreview, TerminalSwatch } from '../components/Previews'
 import { Segmented, TypeIcon, copy } from '../components/ui'
 import { BentoGrid } from '../components/ui/bento-grid'
@@ -35,6 +36,8 @@ export function Hub() {
   return (
     <>
       <Hero />
+      <div className="rule" />
+      <WhatsNew />
       <div className="rule" />
       <HowItWorks />
       <div className="rule" />
@@ -68,9 +71,9 @@ function Hero() {
         Themes, skills, connectors and plugins, gathered from the people who make them. Preview every theme on Claude Code, your terminal and claude.ai, then install with one paste.
       </p>
       <div className="hero-actions">
-        <a className="btn btn-primary btn-lg" href="#browse" onClick={e => { e.preventDefault(); document.getElementById('browse')?.scrollIntoView({ behavior: 'smooth' }) }}>
+        <button type="button" className="btn btn-primary btn-lg" onClick={() => document.getElementById('browse')?.scrollIntoView({ behavior: 'smooth' })}>
           Browse the gallery <ArrowRight size={16} />
-        </a>
+        </button>
         <a className="btn btn-secondary btn-lg" href={href({ page: 'make' })}>
           Make a theme
         </a>
@@ -79,6 +82,9 @@ function Hero() {
         <span className="prompt">&gt;</span>
         <code>{INSTALL_COMMAND}</code>
         <span className="btn btn-ghost btn-sm">Copy</span>
+      </button>
+      <button type="button" className="hero-new" onClick={() => document.getElementById('new')?.scrollIntoView({ behavior: 'smooth' })}>
+        <ShieldCheck size={15} aria-hidden /> New in 0.3: vet skills before you install, and a setup doctor <ArrowRight size={14} aria-hidden />
       </button>
 
       <AgentConnect />

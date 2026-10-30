@@ -41,7 +41,7 @@ export function ApplyThemeButton({ target, name, className = 'btn btn-secondary'
   const [open, setOpen] = useState(false)
   if (companion !== 'online') {
     return (
-      <a className={className} href="#/me" title="Start the local companion (npm run dev) to apply themes on this computer">
+      <a className={className} href="/me" title="Start the local companion (npm run dev) to apply themes on this computer">
         Apply on this computer…
       </a>
     )

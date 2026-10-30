@@ -111,12 +111,12 @@ function Dashboard({ scan, query, setQuery }: { scan: LocalScan; query: string; 
     <>
       <div className="tiles">
         {tiles.map(t => (
-          <a key={t.id} className="tile" href={`#/me`} onClick={e => { e.preventDefault(); document.getElementById(`me-${t.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}>
+          <button key={t.id} type="button" className="tile" onClick={() => document.getElementById(`me-${t.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
             <span className="tile-n">{t.n}</span>
             <span className="tile-label">
               {t.type && <TypeIcon type={t.type} size={14} />} {t.label}
             </span>
-          </a>
+          </button>
         ))}
       </div>
 
@@ -145,7 +145,7 @@ function Dashboard({ scan, query, setQuery }: { scan: LocalScan; query: string; 
       <Group id="themes" title="Themes" type="theme" count={themes.length} note="Custom Claude Code themes in ~/.claude/themes.">
         {themes.length === 0 ? (
           <Empty>
-            No custom themes yet. <a href="#/">Pick one from the gallery</a> or <a href={href({ page: 'make' })}>make your own</a>.
+            No custom themes yet. <a href="/">Pick one from the gallery</a> or <a href={href({ page: 'make' })}>make your own</a>.
           </Empty>
         ) : (
           <div className="rows">
