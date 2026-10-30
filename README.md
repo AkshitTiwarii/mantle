@@ -18,11 +18,11 @@ a knowledge base of 47,000+ skills, connectors and plugins, and a check-up for y
 </p>
 
 <p>
+<a href="https://mantle.akshittiwari.me"><b>Website</b></a> ·
 <a href="#install"><b>Install</b></a> ·
 <a href="#mantle-atlas-the-knowledge-base"><b>Atlas</b></a> ·
 <a href="#mantle-doctor-a-check-up-for-your-setup"><b>Doctor</b></a> ·
 <a href="#one-theme-on-every-surface"><b>Themes</b></a> ·
-<a href="#the-website"><b>Website</b></a> ·
 <a href="CHANGELOG.md"><b>Changelog</b></a>
 </p>
 
@@ -227,6 +227,8 @@ Run `/mantle doctor` in Claude Code, or ask Claude to "check my setup". It reads
 Claude then offers each fix, applies only the ones you approve, and runs the check again. Works in any agent that reads skills: `npx skills add AkshitTiwarii/mantle --skill mantle-doctor`.
 
 ### The website
+
+Live at **[mantle.akshittiwari.me](https://mantle.akshittiwari.me)**. To run it yourself (My Claude needs this, since it reads your local setup):
 
 ```bash
 cd web

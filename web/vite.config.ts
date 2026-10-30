@@ -9,9 +9,9 @@ import { fileURLToPath, URL } from 'node:url'
 // browser only ever talks to one localhost origin.
 const COMPANION_PORT = Number(process.env.MANTLE_COMPANION_PORT ?? 5178)
 
-// Link previews (LinkedIn, X, Slack) and search engines need absolute URLs:
-// set SITE_URL to the site's origin at build time (e.g. https://mantle.example.com).
-const SITE_URL = (process.env.SITE_URL ?? '').replace(/\/+$/, '')
+// Link previews (LinkedIn, X, Slack) and search engines need absolute URLs.
+// SITE_URL overrides the public site, e.g. for a fork deployed elsewhere.
+const SITE_URL = (process.env.SITE_URL ?? 'https://mantle.akshittiwari.me').replace(/\/+$/, '')
 const VERSION = JSON.parse(readFileSync(fileURLToPath(new URL('../mantle/.claude-plugin/plugin.json', import.meta.url)), 'utf8')).version as string
 const REPO = 'https://github.com/AkshitTiwarii/mantle'
 
